@@ -11,13 +11,31 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
+
+    public function food()
+    {
+        return $this->hasMany('App\Food');
+    }
+    public function reviews()
+    {
+        return $this->hasMany('App\Reviews');
+    }
+    public function vendor()
+    {
+        return $this->hasOne('App\Vendor');
+    }
+
+    public function order()
+    {
+        return $this->hasMany('App\Order');
+    }
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'image'
     ];
 
     /**

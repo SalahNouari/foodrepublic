@@ -15,9 +15,9 @@ class Ingredientable extends Migration
     {
         Schema::create('ingredientables', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('ingredient_id');
-            $table->integer('ingredientable_id');
+            $table->unsignedBigInteger('ingredient_id');
             $table->string('ingredientable_type');
+            $table->integer('ingredientable_id');
             $table->timestamps();
         });
     }

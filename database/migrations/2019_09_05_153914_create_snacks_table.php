@@ -15,6 +15,11 @@ class CreateSnacksTable extends Migration
     {
         Schema::create('snacks', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('desc');
+            $table->string('image');
+            $table->string('name');
+            $table->string('snackable_type');
+            $table->unsignedInteger('snackable_id');
             $table->timestamps();
         });
     }

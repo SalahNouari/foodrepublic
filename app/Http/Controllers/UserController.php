@@ -23,8 +23,8 @@ public $successStatus = 200;
     public function register(Request $request) 
     { 
         $validator = Validator::make($request->all(), [ 
-            'name' => 'required', 
-            'email' => 'required|email', 
+            'name' => 'required',
+            'email' => 'required|string|email| max:191|unique:users',
             'password' => 'required', 
             'c_password' => 'required|same:password', 
         ]);

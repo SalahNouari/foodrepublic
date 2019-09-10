@@ -15,6 +15,13 @@ class CreateCakesTable extends Migration
     {
         Schema::create('cakes', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('desc');
+            $table->string('category');
+            $table->string('image');
+            $table->string('cakable_type');
+            $table->integer('cakable_id');
+           
             $table->timestamps();
         });
     }

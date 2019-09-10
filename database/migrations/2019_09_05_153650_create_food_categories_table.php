@@ -19,8 +19,6 @@ class CreateFoodCategoriesTable extends Migration
             $table->string('name');
             $table->string('desc');
             $table->string('image');
-            $table->integer('food_cat_id');
-            $table->string('food_cat_type');
         });
     }
 

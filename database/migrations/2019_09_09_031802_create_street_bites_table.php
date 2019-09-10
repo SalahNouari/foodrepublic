@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLunchesTable extends Migration
+class CreateStreetBitesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,16 @@ class CreateLunchesTable extends Migration
      */
     public function up()
     {
-        Schema::create('lunches', function (Blueprint $table) {
+        Schema::create('street_bites', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('desc');
+            $table->string('category');
             $table->string('image');
+            $table->string('generic');
+            $table->string('streetable_type');
+            $table->unsignedInteger('streetable_id');
+            
             $table->timestamps();
         });
     }
@@ -29,6 +34,6 @@ class CreateLunchesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lunches');
+        Schema::dropIfExists('street_bites');
     }
 }

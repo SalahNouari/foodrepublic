@@ -15,10 +15,10 @@ class CreateLocationsTable extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('landmarks');
-            $table->geometry('latitude', 255);
-            $table->geometry('landmark', 255);
+            $table->string('locatable_type');
+            $table->unsignedInteger('locatable_id');
+            $table->decimal('latitude', 8, 2);
+            $table->decimal('landmark', 8, 2);
             $table->ipAddress('ip');
             $table->timestamps();
         });

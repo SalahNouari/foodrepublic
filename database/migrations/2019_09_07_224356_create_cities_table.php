@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDinnersTable extends Migration
+class CreateCitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateDinnersTable extends Migration
      */
     public function up()
     {
-        Schema::create('dinners', function (Blueprint $table) {
+        Schema::create('cities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('desc');
-            $table->string('image');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateDinnersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dinners');
+        Schema::dropIfExists('cities');
     }
 }

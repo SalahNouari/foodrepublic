@@ -16,11 +16,16 @@ class CreateChefsTable extends Migration
         Schema::create('chefs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('bio');
-            $table->string('facebook');
-            $table->string('instagram');
-            $table->string('twitter');
-            $table->string('image');
+            $table->boolean('verified')->default(false);
+            $table->string('bio')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('branch')->nullable();
+            $table->string('image')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->timestamps();
         });

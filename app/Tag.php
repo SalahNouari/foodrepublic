@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Breakfast extends Model
+class Tag extends Model
 {
     //
 }

@@ -4,30 +4,38 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Chef extends Model
+class Vendor extends Model
 {
     public function reviews()
     {
         return $this->hasMany('App\Reviews');
     }
+    public function food()
+    {
+        return $this->hasMany('App\Food');
+    }
     public function user()
     {
         return $this->belongsTo('App\Reviews');
     }
+    public function specialty()
+    {
+        return $this->hasMany('App\Specialty');
+    }
     public function bread()
     {
-        return $this->morphMany('App\Bread', 'breadable');
+        return $this->hasMany('App\Bread');
     }
     public function drinks()
     {
-        return $this->morphMany('App\Drinks', 'drinkable');
+        return $this->hasMany('App\Drinks');
     }
     public function snacks()
     {
-        return $this->morphMany('App\Snacks', 'snackable');
+        return $this->hasMany('App\Snacks');
     }
     public function streetbite()
     {
-        return $this->morphMany('App\Streetbite', 'streetable');
+        return $this->hasMany('App\Streetbite');
     }
 }

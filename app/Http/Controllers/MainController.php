@@ -22,31 +22,26 @@ use App\User;
 
 class MainController extends Controller
 {
-    // To get all chefs
-    public function chefs()
-    {
-       
-        $chefs = Chef::all();
-                     
-       
-     $response = [
-            'chefs' => $chefs,
-        ];
-      return response()->json($response);
-  
-  }
+
     // To get one chef
     public function chef(Request $request)
     {
        
         $chef = Chef::where('id', $request['id'] )
                       ->first();
-                     
+       $user= User::where('id', $request['user_id']);
+       $user->address();
        
      $response = [
             'chef' => $chef,
+            'address' => $chef->address,
+            'location' => $chef->location,
+            'reviews' => $chef->reviews,
+            'sales' => $chef->orders,
+
         ];
       return $chef;
   
   }
+  
 }

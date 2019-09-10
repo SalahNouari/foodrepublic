@@ -15,6 +15,11 @@ class CreateBreadsTable extends Migration
     {
         Schema::create('breads', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('desc');
+            $table->string('image');
+            $table->string('category');
+            $table->string('breadable_type');
+            $table->integer('breadable_id');
             $table->timestamps();
         });
     }

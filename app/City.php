@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Drinks extends Model
+class City extends Model
 {
-    public function drinkable()
+    public function chef()
     {
         return $this->morphTo();
     }

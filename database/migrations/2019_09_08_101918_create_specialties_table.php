@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Breakfastable extends Migration
+class CreateSpecialtiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class Breakfastable extends Migration
      */
     public function up()
     {
-        Schema::create('breakfastables', function (Blueprint $table) {
+        Schema::create('specialties', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('breakfast_id');
-            $table->integer('breakfastable_id');
-            $table->string('breakfastable_type');
+            $table->string('name');
             $table->timestamps();
+            $table->unsignedBigInteger('vendor_id');
+            $table->foreign('vendor_id')->references('id')->on('vendors');
+            
         });
     }
 
@@ -29,6 +30,6 @@ class Breakfastable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('specialties');
     }
 }

@@ -23,7 +23,8 @@ class CreateFoodsTable extends Migration
             $table->unsignedBigInteger('vendor_id');
             $table->unsignedBigInteger('reviews_count')->default(0);
             $table->unsignedBigInteger('avg_rating')->default(0);
-            $table->unsignedInteger('order_qty')->default(0);
+            $table->unsignedInteger('total_qty')->default(0);
+            $table->boolean('available')->default(false);
             $table->unsignedInteger('available_qty')->default(0);
             $table->unsignedInteger('price')->default(0);
             $table->foreign('vendor_id')->references('id')->on('vendors');

@@ -74,11 +74,44 @@ class FoodController extends Controller
     }
     public function all(Request $request)
     {
-        $food = Food::all();
+        $food = Food::all()->paginate(10);
    
         return response([
             'status' => 'success',
             'data' => $food
         ], 200);
+    }
+    public function find_by_category(Request $request)
+    {
+        $food = Food::where('category', $request->catgeory)
+                ->where('available', 1)
+                ->paginate(10);
+   
+        return response([
+            'status' => 'success',
+            'data' => $food
+        ], 200);
+    }
+    public function add_food_to_menu(Request $request)
+    {
+        //Authenticate is the looged in user is a vendor
+        $user_is_logged_in = Auth::user();
+        $user_is_vendor = Vendor::where('verified', true)->where('user_id', $user_is_logged_in->id)->where('id', $request->vendor_id)->exists();
+        if($user_is_logged_in && $user_is_vendor){
+       
+        $food = Food::where('vendor_id', $request->vendor_id)
+                ->where('food_id',  $request->food_id)
+                ->update(['available' => $request->available, 'quantity' => $request->quantity]);
+   
+        return response([
+            'status' => 'success',
+            'data' => $food
+        ], 200);
+    }else{
+            return response([
+                'status' => 'success',
+                'error' => 'You have to be logged in with a vendor account to do that'
+            ], 200);
+    }
     }
 }

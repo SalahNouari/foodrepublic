@@ -36,7 +36,7 @@ Route::prefix('vendor')->group(function () {
 });
 Route::prefix('review')->group(function () {
    Route::post('save', 'ReviewsController@save')->middleware('auth:api');
-   Route::post('update', 'ReviewsController@update');
+   Route::post('update', 'ReviewsController@update')->middleware('auth:api');
    Route::post('find', 'ReviewsController@find');
    Route::post('delete', 'ReviewsController@delete');
    Route::post('all', 'ReviewsController@all');

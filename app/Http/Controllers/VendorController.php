@@ -16,7 +16,7 @@ class VendorController extends Controller
     public function vendors()
     {
 
-        $vendors = Vendor::all();
+        $vendors = Vendor::where('verified', 1)->paginate(10);
 
 
         $response = [

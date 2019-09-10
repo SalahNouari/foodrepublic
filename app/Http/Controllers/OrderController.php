@@ -26,7 +26,7 @@ class OrderController extends Controller
 {
 
     // To get all categpries
-    public function pics()
+    public function paid()
     {
        
         $pics = FoodCategory::latest()

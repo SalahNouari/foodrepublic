@@ -60,14 +60,15 @@ class ReviewsController extends Controller
     {
 
 //get user
-       
+       $user = Auth::user();
             //check if user has reviewed product before
-   $reviews = Reviews::where('food_id', $request->food_id)
-          ->where('user_id', $request->user_id)
+        $reviews = Reviews::where('food_id', $request->food_id)
+          ->where('user_id', $user->id)
           ->exists();
 
-        if (!$reviews) {
-       $user = Auth::user();
+        if ($reviews) {
+            $reviews = Reviews::where('food_id', $request->food_id)
+                             ->where('user_id', $user->id)->first();
             # code...
       //if user has not reviewed product
     

@@ -5,43 +5,297 @@ use App\Http\Controllers\Controller;
 use App\User; 
 use Illuminate\Support\Facades\Auth; 
 use Validator;
+use JD\Cloudder\Facades\Cloudder;
+use AfricasTalking\SDK\AfricasTalking;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
+
 class UserController extends Controller 
 {
 public $successStatus = 200;
 
+    public function resetpassword(Request $request){
+        $user = User::where($request->type, $request->data)->first();
+        if ($request->type === 'phone') {    
+    $validator = Validator::make($request->all(), [
+        'data' => 'required',
+        'password' => 'required|string|min:6|confirmed',
+        ]);
+        
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
+        } else{
+            $user = User::where('phone', $request->data)->first();
+            $user->password = Hash::make($request->password);
+            $user->save();
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            $success['user'] =  $user;
+            return response()->json(['success' => $success], $this->successStatus);  
+        }
+    } 
+      else if ($request->type === 'email') {    
+    $validator = Validator::make($request->all(), [
+        'data' => 'required',
+        'password' => 'required|string|min:6|confirmed',
+        ]);
+        
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
+        } else{
+            $user = User::where('email', $request->data)->first();
+            $user->password = Hash::make($request->password);
+            $user->save();
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            $success['user'] =  $user;
+            return response()->json(['success' => $success], $this->successStatus);  
+        }
+    } else {
+            return response()->json(['error' => 'Invalid request.'], 401);
+        } 
+    }
+    public function setpassword(Request $request){ 
+        
+    $validator = Validator::make($request->all(), [
+        'phone' => 'required',
+        'password' => 'required|string|min:6|confirmed',
+        ]);
+        
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
+        } else{
+            $user = User::where('phone', $request->phone)->first();
+            $user->password = Hash::make($request->password);
+            $user->save();
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            $success['user'] =  $user;
+            return response()->json(['success' => $success], $this->successStatus);  
+        }
+    }
     public function login(){ 
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
+        if(Auth::attempt(['phone' => request('phone'), 'password' => request('password')])){ 
             $user = Auth::user(); 
             $success['token'] =  $user->createToken('MyApp')-> accessToken; 
+            $success['user'] =  $user; 
             return response()->json(['success' => $success], $this-> successStatus); 
-        } 
-        else{ 
-            return response()->json(['error'=>'Unauthorised'], 401); 
-        } 
-    }
-
-    public function register(Request $request) 
-    { 
-        $validator = Validator::make($request->all(), [ 
-            'name' => 'required',
-            'email' => 'required|string|email| max:191|unique:users',
-            'password' => 'required', 
-            'c_password' => 'required|same:password', 
-        ]);
-if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors()], 401);            
         }
-$input = $request->all(); 
-        $input['password'] = bcrypt($input['password']); 
-        $user = User::create($input); 
-        $success['token'] =  $user->createToken('MyApp')-> accessToken; 
-        $success['name'] =  $user->name;
-return response()->json(['success'=>$success], $this-> successStatus); 
+        else{
+            return response()->json(['error'=>'Invalid phone number or password.'], 401); 
+        } 
     }
 
+    public function register(Request $request){
+        $digits = 5;
+        $rand_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
+        $user =  new User;
+        $user->verification_code = $rand_code;
+        $choice = $request->choice;
+        if ($choice === 'true') {
+            $validator = Validator::make($request->all(), [
+                'email' => ['required', 'email', 'unique:users'],
+            ]);
+            if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 422);            
+            } else {
+                $to_name = 'No reply';
+                $to_email = $request->email;
+                $data = array('pin' => $rand_code);
+                $result = Mail::send('emails.mail', $data, function ($message) use ($to_name, $to_email) {
+                    $message->to($to_email, $to_name)->subject('Verify your Email');
+                    $message->from('admin@greatdixers.xyz', 'Food Republic');
+                });
+                $user->email = $request->email;
+                $user->verification_type = 'email';
+                $user->save();
+                $success['user'] = ['email' => $user->email, 'type' => 'email'];
+                $success['result'] =  $result;
+                return response()->json(['success' => $success], $this->successStatus); 
+            }
+        } else if ($choice === 'false') {
+            $validator = Validator::make($request->all(), [
+                'phone' => ['required', 'string', 'unique:users'],
+                ]);
+            if ($validator->fails()) {
+                return response()->json(['error'=>$validator->errors()], 422);            
+            } else {
+                $phone = '+234'.substr($request->phone, 1); 
+                $username = 'bona23'; // use 'sandbox' for development in the test environment
+                $apiKey   = 'b8c7ca472a111134fd505c6745ff8eb022f106a693f5062a3f97cbbd67327c1a'; // use your sandbox app API key for development in the test environment
+                $AT       = new AfricasTalking($username, $apiKey);
+                // Get one of the services
+                $sms      = $AT->sms();
+                // Use the service
+                $result = $sms->send([
+                    'to'      => [$phone],
+                    // 'from'      => 'emekasulk',
+                    'message' => "Your Food Repulic Passcode is {$rand_code}"
+                ]);
+                $user->phone = $request->phone;
+                $user->verification_type = 'phone';
+                $user->save();
+                $success['user'] = ['phone' => $user->phone, 'type' => 'phone'];
+                $success['result'] =  $result;
+                return response()->json(['success'=>$success], $this-> successStatus); 
+            }
+        } else {
+            return 'an error occured';
+        }
+}
+    public function reset(Request $request){
+        $digits = 5;
+        $rand_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
+        $user = User::where($request->type, $request->data)->first();
+        $user->verification_code = $rand_code;
+        if ($request->type === 'email') {
+            $validator = Validator::make($request->all(), [
+                'email' => ['required', 'email'],
+            ]);
+            if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 422);            
+            } else {
+                $to_name = 'No reply';
+                $to_email = $request->email;
+                $data = array('pin' => $rand_code);
+                $result = Mail::send('emails.mail', $data, function ($message) use ($to_name, $to_email) {
+                    $message->to($to_email, $to_name)->subject('Verify your Email');
+                    $message->from('admin@greatdixers.xyz', 'Food Republic');
+                });
+                $user->email = $request->email;
+                $user->verification_type = 'email';
+                $user->save();
+                $success['user'] = ['email' => $user->email, 'type' => 'email'];
+                $success['result'] =  $result;
+                return response()->json(['success' => $success], $this->successStatus); 
+            }
+        } else if ($request->type === 'phone') {
+            $validator = Validator::make($request->all(), [
+                'phone' => ['required', 'string'],
+                ]);
+            if ($validator->fails()) {
+                return response()->json(['error'=>$validator->errors()], 422);            
+            } else {
+                $phone = '+234'.substr($request->phone, 1); 
+                $username = 'bona23'; // use 'sandbox' for development in the test environment
+                $apiKey   = 'b8c7ca472a111134fd505c6745ff8eb022f106a693f5062a3f97cbbd67327c1a'; // use your sandbox app API key for development in the test environment
+                $AT       = new AfricasTalking($username, $apiKey);
+                // Get one of the services
+                $sms      = $AT->sms();
+                // Use the service
+                $result = $sms->send([
+                    'to'      => [$phone],
+                    // 'from'      => 'emekasulk',
+                    'message' => "Your Food Repulic Passcode is {$rand_code}"
+                ]);
+                $user->phone = $request->phone;
+                $user->verification_type = 'phone';
+                $user->save();
+                $success['user'] = ['phone' => $user->phone, 'type' => 'phone'];
+                $success['result'] =  $result;
+                return response()->json(['success'=>$success], $this-> successStatus); 
+            }
+        } else {
+            return 'an error occured';
+        }
+   }
+
+
+    public function registerdata(Request $request){
+        $validator = Validator::make($request->all(), [
+            'phone' => 'required|string',
+            'first_name' => 'required|string',
+            'surname' => 'required|string',
+            'email' => 'required|email',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        } else {
+        $user = User::where($request->type, $request->data)->first();
+        $user->first_name = $request->first_name;
+        $user->middle_name = $request->middle_name;
+        $user->surname = $request->surname;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->save();
+        $success['user'] = $user;
+        return response()->json(['success' => $success], $this->successStatus); 
+        }   
+    }
+    public function passcode(Request $request){
+        $validator = Validator::make($request->all(), [
+            'passcode' => ['required'],
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        } else{
+            $user = User::where($request->type, $request->data)->first();
+            $d = $user->verification_code;
+            $user->password = null;
+            if ($d === $request->passcode) {
+                $user->verification_code = null;
+                $user->save();
+                $success['user'] = $user;
+                return response()->json(['success' => $success], $this->successStatus); 
+            } else {
+                $success['error'] = 'The entered passcode does not match';
+                return response()->json(['success' => $success], $this->successStatus); 
+            }
+        }
+    }
+    public function upload(Request $request)
+    {
+        $files = $request->file('files');
+        request()->validate([
+            'files' => 'required',
+            'files.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+   
+            $user = Auth::user();
+            foreach ($files as $file) {
+            $image_name = $file->getRealPath();
+            Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto", "gravity" => "face:auto", "radius" => "max"));
+            $image_url = Cloudder::show(Cloudder::getPublicId());
+            $user->image = $image_url;
+            $user->save();
+            // $file->storeAs('uploads', $file->getClientOriginalName());
+        }
+        $success['user'] = $user;
+        return response()->json(['success' => $success], $this->successStatus); 
+    }
     public function details() 
     { 
         $user = Auth::user(); 
         return response()->json(['success' => $user], $this-> successStatus); 
     } 
+    public function edituser(Request $request) 
+    {
+        $validator = Validator::make($request->all(), [
+            'phone' => 'required',
+            'first_name' => 'required',
+            'surname' => 'required',
+            'email' => 'required|email',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        } else {
+        $user = Auth::user(); 
+        if ($user) {
+            # code...
+            $user->first_name = $request->first_name;
+            $user->middle_name = $request->middle_name;
+            $user->surname = $request->surname;
+            $user->phone = $request->phone;
+            $user->email = $request->email;
+            $success['user'] = $user;
+            return response()->json(['success' => $success], $this->successStatus); 
+            
+        } else {
+                $success['error'] = 'an error occured';
+                return response()->json(['success' => $success], $this->successStatus);
+            }
+    }
+    } 
+    public function logout(){
+        $user = Auth::user()->token();
+        $user->revoke();
+        return response()->json(['message' => 'successfully logged out'], $this->successStatus); 
+    }
 }

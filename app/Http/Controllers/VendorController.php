@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Vendor; 
+use App\Vendor;
 use App\Menu;
+use App\Tag;
 use App\Reviews;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Filesystem\Filesystem;
+use AfricasTalking\SDK\AfricasTalking;
 
 use App\Http\Controllers\Controller;
 
@@ -17,23 +20,21 @@ class VendorController extends Controller
     {
 
         $vendors = Vendor::where('verified', 1)->paginate(10);
-
-
+     
         $response = [
             'vendors' => $vendors,
         ];
         return response()->json($response);
     }
-    // To get one vendor
-    public function vendor(Request $request)
+    public function find(Request $request)
     {
 
-        $vendor = Vendor::where('id', $request['id'])
+        $vendor = Vendor::where('user_id', $request->user_id)
             ->first();
-        $rating_avg = Reviews::where('vedor_id', $request->id)->avg('rating');
+        // $rating_avg = Reviews::where('vendor_id', $request->id)->avg('rating');
         $response = [
             'vendor' => $vendor,
-            'rating' =>$rating_avg
+            // 'rating' => $rating_avg
 
         ];
         return response()->json($response);
@@ -84,11 +85,10 @@ class VendorController extends Controller
 
     public function save(Request $request)
     {
-       
+
         $validator = $request->validate([
             'name' => 'required|string|max:255|unique:vendors',
-            'name' => 'required|string|max:255|unique:vendors',
-            'user_id' => 'required|string|max:255|unique:vendors',
+            'user_id' => 'required'
         ]);
         if (!$validator) {
             return response(['errors' => $validator->errors()->all()], 422);
@@ -96,61 +96,63 @@ class VendorController extends Controller
         $user = Auth::user();
         $user->role = $request->category;
         $user->save();
-
-        $vendor= new Vendor;
-        $vendor->name = $request->name;
+        $vendor = new Vendor;
+        $vendor->name =  $request->name;
         $vendor->phone = $request->phone;
-        $vendor->image = $request->image;
         $vendor->bio = $request->bio;
+        $vendor->address = $request->address;
+        $vendor->lat = $request->lat;
+        $vendor->lng = $request->lng;
+      
+        $vendor->place_id = $request->place_id;
         $user->vendor()->save($vendor);
+        foreach ($request->tags as $tag) {
+            $newtag = new Tag;
+            $newtag->tag = $tag;
+            $vendor->tags()->save($newtag);
+                }
+                
 
         $response = [
-            'user' => $user,
             'vendor' => $vendor,
-
+            'tags' => $vendor->tags,
+            'message' => 'Registeration successful'
         ];
         return response()->json($response);
-        }
+    }
 
 
 
     public function update(Request $request)
     {
-        if(Auth::user()){
-        $vendor = Vendor::find($request->id);
-        $vendor->name = $request->name;
-        $vendor->bio = $request->bio;
-        $vendor->instagram = $request->instagram;
-        $vendor->facebook = $request->facebook;
-        $vendor->twitter = $request->twitter;
-        $vendor->image = $request->image;
-        $vendor->phone = $request->phone;
-        $vendor->save();
-        return response([
-            'status' => 'success',
-            'data' => $vendor
-        ], 200);
-    }else{
+        if (Auth::user()) {
+            $vendor = Vendor::find($request->id);
+            $vendor->name = $request->name;
+            $vendor->bio = $request->bio;
+            $vendor->instagram = $request->instagram;
+            $vendor->facebook = $request->facebook;
+            $vendor->twitter = $request->twitter;
+            $vendor->image = $request->image;
+            $vendor->phone = $request->phone;
+            $vendor->save();
+            return response([
+                'status' => 'success',
+                'data' => $vendor
+            ], 200);
+        } else {
             return response([
                 'status' => 'failed',
                 'data' => 'you have to be logged in to do that'
-            ], 200); 
+            ], 200);
+        }
     }
-    }
-    public function find(Request $request)
-    {
-        $vendor = Vendor::find($request->user_id);
 
-        return response([
-            'status' => 'success',
-            'data' => $vendor
-        ], 200);
-    }
     public function delete(Request $request)
     {
-        $vendor = Vendor::find($request->user_id);
-        $vendor->delete();
-
+        if (Auth::user()->role === 'admin') {
+            $vendor = Vendor::find($request->vendor_id);
+            $vendor->delete();
+        }
         return response([
             'status' => 'deleted',
             'data' => $vendor
@@ -158,11 +160,11 @@ class VendorController extends Controller
     }
     public function all()
     {
-        $vendor = Vendor::all();
+        $vendor = Vendor::all()->paginate(10);
 
         return response([
             'status' => 'success',
             'data' => $vendor
         ], 200);
-    }   
+    }
 }

@@ -18,10 +18,10 @@ class CreateReviewsTable extends Migration
             $table->string('content');
             $table->unsignedInteger('rating');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('vendor_id');
-            $table->unsignedBigInteger('food_id');
+            $table->unsignedBigInteger('item_id');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             
         });
     }

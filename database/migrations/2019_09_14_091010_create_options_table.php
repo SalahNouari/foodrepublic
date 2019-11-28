@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTagsTable extends Migration
+class CreateOptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,18 @@ class CreateTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('options', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('tag');
+            $table->string('name');
+            $table->string('category')->nullable();
+            $table->string('image')->nullable();
+            $table->unsignedInteger('total_qty')->default(0);
+            $table->boolean('available')->default(false);
+            $table->unsignedInteger('available_qty')->default(0);
+            $table->unsignedInteger('price')->default(0)->nullable();
             $table->unsignedBigInteger('vendor_id');
-            $table->timestamps();
             $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade')->onUpdate('cascade');
-
+            $table->timestamps();
         });
     }
 
@@ -30,6 +35,6 @@ class CreateTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('options');
     }
 }

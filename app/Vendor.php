@@ -6,36 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vendor extends Model
 {
+  
     public function reviews()
     {
         return $this->hasMany('App\Reviews');
     }
-    public function food()
-    {
-        return $this->hasMany('App\Food');
-    }
     public function user()
     {
-        return $this->belongsTo('App\Reviews');
+        return $this->belongsTo('App\User');
     }
-    public function specialty()
+    public function menu()
     {
-        return $this->hasMany('App\Specialty');
+        return $this->belongsTo('App\Vendor');
     }
-    public function bread()
+    public function tags()
     {
-        return $this->hasMany('App\Bread');
+        return $this->hasMany('App\Tag');
     }
-    public function drinks()
+    public function categories()
     {
-        return $this->hasMany('App\Drinks');
+        return $this->hasMany('App\Category');
     }
-    public function snacks()
+    public function option()
     {
-        return $this->hasMany('App\Snacks');
+        return $this->hasMany('App\Option');
     }
-    public function streetbite()
-    {
-        return $this->hasMany('App\Streetbite');
-    }
+ 
 }

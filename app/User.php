@@ -11,7 +11,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
-
     public function food()
     {
         return $this->hasMany('App\Food');
@@ -24,7 +23,7 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Vendor');
     }
-
+ 
     public function order()
     {
         return $this->hasMany('App\Order');
@@ -35,7 +34,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'image'
+        'name', 'verification_code', 'email', 'phone', 'password', 'image'
     ];
 
     /**
@@ -53,6 +52,17 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'phone_verified_at' => 'datetime',
     ];
+    public function hasVerifiedPhone()
+    {
+        return !is_null($this->phone_verified_at);
+    }
+
+    public function markPhoneAsVerified()
+    {
+        return $this->forceFill([
+            'phone_verified_at' => $this->freshTimestamp(),
+        ])->save();
+    }
 }

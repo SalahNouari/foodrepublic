@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Vendor; 
-use App\Food; 
+use App\Vendor;
+use App\Food;
+use App\FoodCategory;
+
 class HomeController extends Controller
 {
     public function home()
@@ -29,6 +31,21 @@ class HomeController extends Controller
             'food' => $food,
             'chefs' => $chefs,
             'restaurants' => $restaurants,
+
+        ];
+        return response()->json($response);
+    }
+    public function nav()
+    {
+        $nav = FoodCategory::where('approved', true)
+            ->get();
+        $ads = Vendor::where('approved', true)
+            ->select('name', 'id')
+            // ->select('ad', 'true') when they start paying for ads
+            ->get();
+        $response = [
+            'nav' => $nav,
+            'ads' => $ads
 
         ];
         return response()->json($response);

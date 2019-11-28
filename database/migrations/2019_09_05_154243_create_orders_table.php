@@ -15,9 +15,13 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('food_id');
-            $table->integer('user_id');
-            $table->integer('qty');
+            $table->unsignedBigInteger('tracking_id');
+            $table->integer('vendor_id');
+            $table->integer('total')->default(0);
+            $table->boolean('paid')->defualt(false);
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+
             $table->timestamps();
         });
     }

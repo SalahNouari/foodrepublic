@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRestaurantsTable extends Migration
+class CreateVendorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,23 @@ class CreateRestaurantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('restaurants', function (Blueprint $table) {
+        Schema::create('vendors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('bio');
             $table->boolean('verified')->default(false);
+            $table->longText('bio')->nullable();
             $table->string('facebook')->nullable();
+            $table->string('address');
             $table->string('instagram')->nullable();
             $table->string('twitter')->nullable();
-            $table->string('phone')->nullable();
+            $table->string('phone');
             $table->string('branch')->nullable();
+            $table->string('lat');
+            $table->string('lng');
+            $table->string('place_id')->nullable();
             $table->string('image')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -37,6 +41,6 @@ class CreateRestaurantsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('restaurants');
+        Schema::dropIfExists('vendors');
     }
 }

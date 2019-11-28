@@ -6,25 +6,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;  
 use Illuminate\Support\Facades\Response;
 use App\FoodCategory; 
-use App\Restaurant; 
-use App\Chef; 
-use App\Bread; 
-use App\Cake; 
-use App\Breakfast; 
-use App\Drinks; 
-use App\Dinner; 
-use App\Lunch; 
-use App\Menu; 
+use App\Address;
 use App\Order; 
 use App\Location; 
-use App\Ingredient; 
 use App\Snacks; 
 use App\User; 
 
 
 class OrderController extends Controller
 {
+//     var myarray = [];
 
+// myarray.push({
+//     "Name": 'Adam',
+//     "Age": 33
+// });
+
+// myarray.push({
+//     "Name": 'Emily',
+//     "Age": 32
+// });
+
+// myarray[0]["Address"] = "123 Some St.";
+
+// console.log( JSON.stringify( myarray, null, 2 ) );
+// myarray[0].address = { presentAddress: "my present address..." };
+// and can get the value as: myarray[0].address.presentAddress;
     // To get all categpries
     public function paid()
     {
@@ -45,5 +52,13 @@ class OrderController extends Controller
       return response()->json($response);
   
   }
+  public function save_order(Request $request)
+{
+  
+    $orders = $request->json()->all(); 
+    foreach ($orders as $order) {
+        Order::create($order);
+    }
+}
 }
 

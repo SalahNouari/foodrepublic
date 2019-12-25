@@ -16,6 +16,7 @@ class ItemOption extends Migration
         Schema::create('item_option', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('item_id');
+            $table->string('type');
             $table->unsignedBigInteger('option_id');
             $table->timestamps();
         });

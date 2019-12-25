@@ -71,6 +71,11 @@ public $successStatus = 200;
             return response()->json(['success' => $success], $this->successStatus);  
         }
     }
+    public function load(){
+        $user = Auth::user();
+        $success['user'] =  $user;
+        return response()->json(['success' => $success], $this->successStatus);
+    }
     public function login(){ 
         if(Auth::attempt(['phone' => request('phone'), 'password' => request('password')])){ 
             $user = Auth::user(); 
@@ -251,8 +256,8 @@ public $successStatus = 200;
             $user = Auth::user();
             foreach ($files as $file) {
             $image_name = $file->getRealPath();
-            Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto", "gravity" => "face:auto", "radius" => "max"));
-            $image_url = Cloudder::show(Cloudder::getPublicId());
+            Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto", "radius" => "max"));
+            $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 400, "height" => 400]);
             $user->image = $image_url;
             $user->save();
             // $file->storeAs('uploads', $file->getClientOriginalName());
@@ -298,4 +303,44 @@ public $successStatus = 200;
         $user->revoke();
         return response()->json(['message' => 'successfully logged out'], $this->successStatus); 
     }
+
+    public function orderall(Request $request)
+    {
+        $order = Auth::user()->orders()->latest()->paginate(12);
+        $response = [
+            'orders' => $order
+        ];
+        return response()->json($response);
+    }
+    public function orderpaid(Request $request)
+    {
+        $order = Auth::user()->orders()->find($request->id);
+        $order->paid = true;
+        $order->save();
+        $response = [
+            'message' => 'marked paid successful'
+        ];
+        return response()->json($response);
+    }
+    public function orderfind(Request $request)
+    {
+        $order = Auth::user()->orders()->with(['user', 'items', 'options', 'address'])->find($request->id);
+
+        $response = [
+            'order' => $order
+        ];
+        return response()->json($response);
+    }
+    public function orderread(Request $request)
+    {
+        $order = Auth::user()->orders()->find($request->id);
+        $order->user_status = 1;
+        $order->save();
+        $response = [
+            'message' => 'read successful'
+        ];
+        return response()->json($response);
+    }
+
+
 }

@@ -20,10 +20,10 @@ class ItemController extends Controller
     public function all(Request $request)
     {
         $vendor = Auth::user()->vendor;
-        $menu = $vendor->categories()->with('items')->paginate(8);
+        $categories = $vendor->categories()->with('items')->find($request->id);
 
         $response = [
-            'items' => $menu
+            'items' => $categories
         ];
         return response()->json($response);
     }
@@ -66,21 +66,21 @@ class ItemController extends Controller
                     foreach ($files as $file) {
                         $image_name = $file->getRealPath();
                         Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto"));
-                        $image_url = Cloudder::show(Cloudder::getPublicId());
+                        $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 400, "height" => 400]);
                         $item->image = $image_url;
                     }
                 }
                 $category->items()->save($item);
                 if ($comp) {
                     foreach ($comp as $compa) {
-                        $item->option()->attach($compa, ['type' => 'compulsory']);
+                        $item->main_option()->attach($compa, ['type' => 'compulsory']);
                     }
                     # code...
                 }
                 if ($opt) {
                     foreach ($opt as $opta) {
                         # code...
-                        $item->option()->attach($opta, ['type' => 'optional']);
+                        $item->main_option()->attach($opta, ['type' => 'optional']);
                     }
                 }
         }
@@ -88,7 +88,6 @@ class ItemController extends Controller
             'message' => 'item added successfully',
         ];
         return response()->json($response);
-        // return response()->json((is_array($comp)));
     }
 
     /**
@@ -97,10 +96,6 @@ class ItemController extends Controller
      * @param  \App\item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(item $item)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -119,7 +114,7 @@ class ItemController extends Controller
     {
         $vendor = Auth::user()->vendor;
         $item = $vendor->categories->find($request->cat_id)->items()->find($request->item_id);
-        $item->option()->detach();
+        $item->main_option()->detach();
         $item->name = $request->name;
         $item->price = $request->price;
         $item->description = $request->description;
@@ -127,14 +122,14 @@ class ItemController extends Controller
         $opt = json_decode($request->optional);
         if ($comp) {
             foreach ($comp as $compa) {
-                $item->option()->attach($compa, ['type' => 'compulsory']);
+                $item->main_option()->attach($compa, ['type' => 'compulsory']);
             }
             # code...
         }
         if ($opt) {
             foreach ($opt as $opta) {
                 # code...
-                $item->option()->attach($opta, ['type' => 'optional']);
+                $item->main_option()->attach($opta, ['type' => 'optional']);
             }
         }
         $item->save();
@@ -168,7 +163,7 @@ class ItemController extends Controller
             foreach ($files as $file) {
                 $image_name = $file->getRealPath();
                 Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto"));
-                $image_url = Cloudder::show(Cloudder::getPublicId());
+                $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 400, "height" => 400]);
                 $item->image = $image_url;
                 $item->save();
             }
@@ -178,12 +173,31 @@ class ItemController extends Controller
         ];
         return response()->json($response);
     }
+    
+    public function available(Request $request)
+    {
+        $vendor = Auth::user()->vendor;
+        $category = $vendor->categories->find($request->cat_id);
+        $item = $category->items->find($request->item_id);
+        $item->available= $request->availability;
+        $item->save();
+        if ($item->available) {
+            $d = 'on';
+        } else {
+           $d = 'off';
+        }
+        
+        $response = [
+            'message' => $item->name. ' has been turned '. $d,
+        ];
+        return response()->json($response);
+    }
     public function delete(Request $request)
     {
         $vendor = Auth::user()->vendor;
         $category = $vendor->categories->find($request->cat_id);
         $item = $category->items->find($request->item_id);
-        $item->option()->detach();
+        $item->main_option()->detach();
         $item->delete();
         $response = [
             'message' => 'Successfully deleted',

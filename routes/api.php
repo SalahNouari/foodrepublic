@@ -12,13 +12,13 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::get('/', function () {
-   return 'success'; 
+   return 'success';
 });
 // Route::get('/', 'VendorController@hn');
 Route::post('login', 'UserController@login');
 Route::get('logout', 'UserController@logout')->middleware('auth:api');
+Route::get('load', 'UserController@load')->middleware('auth:api');
 Route::post('registerdata', 'UserController@registerdata');
 Route::post('setpassword', 'UserController@setpassword');
 Route::post('register', 'UserController@register');
@@ -29,13 +29,77 @@ Route::post('edituser', 'UserController@edituser')->middleware('auth:api');
 Route::post('resetpassword', 'UserController@resetpassword');
 Route::post('passcode', 'UserController@passcode');
 Route::get('home', 'MainController@home');
+Route::get('page', 'MainController@page');
+Route::get('vendorpage', 'MainController@vendorpage');
+Route::get('vendoritems', 'MainController@vendoritems');
+Route::get('vendoritem', 'MainController@vendoritem');
 
+Route::prefix('address')->group(function () {
+   Route::post('save', 'AddressController@save')->middleware('auth:api');
+   Route::get('all', 'AddressController@all')->middleware('auth:api');
+   Route::get('delete', 'AddressController@delete')->middleware('auth:api');
+});
+Route::prefix('reply')->group(function () {
+   Route::post('save', 'ReplyController@save')->middleware('auth:api');
+   Route::post('edit', 'ReplyController@edit')->middleware('auth:api');
+   Route::get('all', 'ReplyController@all')->middleware('auth:api');
+   Route::get('delete', 'ReplyController@delete')->middleware('auth:api');
+});
+Route::prefix('order')->group(function () {
+   Route::post('save', 'OrderController@save')->middleware('auth:api');
+   Route::get('all', 'OrderController@all')->middleware('auth:api');
+   Route::get('alldelivery', 'OrderController@alldelivery')->middleware('auth:api');
+   Route::get('delete', 'OrderController@delete')->middleware('auth:api');
+   Route::get('paid', 'OrderController@paid')->middleware('auth:api');
+   Route::get('find', 'OrderController@find')->middleware('auth:api');
+   Route::get('served', 'OrderController@served')->middleware('auth:api');
+   Route::get('read', 'OrderController@read')->middleware('auth:api');
+   Route::get('delivery_read', 'OrderController@delivery_read')->middleware('auth:api');
+   Route::get('transit', 'OrderController@transit')->middleware('auth:api');
+   Route::get('delivered', 'OrderController@delivered')->middleware('auth:api');
+   Route::get('rejected', 'OrderController@rejected')->middleware('auth:api');
+});
+Route::prefix('userorder')->group(function () {
+   Route::get('all', 'UserController@orderall')->middleware('auth:api');
+   Route::get('paid', 'UserController@orderpaid')->middleware('auth:api');
+   Route::get('find', 'UserController@orderfind')->middleware('auth:api');
+   Route::get('read', 'UserController@orderread')->middleware('auth:api');
+   Route::get('rejected', 'UserController@orderrejected')->middleware('auth:api');
+});
+Route::prefix('city')->group(function () {
+   Route::post('save', 'AreasController@save');
+   Route::post('savearea', 'AreasController@savearea');
+   Route::get('all', 'AreasController@all');
+   Route::get('cities', 'AreasController@cities');
+   Route::get('vendorarea', 'AreasController@vendorarea');
+   Route::get('delivery', 'AreasController@delivery');
+   Route::get('areas', 'AreasController@areas');
+});
 Route::prefix('vendor')->group(function () {
+   Route::post('upload', 'VendorController@upload')->middleware('auth:api');
+   Route::get('load', 'VendorController@load')->middleware('auth:api');
    Route::post('save', 'VendorController@save')->middleware('auth:api');
    Route::post('update', 'VendorController@update')->middleware('auth:api');
    Route::get('find', 'VendorController@find');
+   Route::post('setfee', 'VendorController@setfee')->middleware('auth:api');
+   Route::post('payset', 'VendorController@payset')->middleware('auth:api');
+   Route::get('tags', 'VendorController@tags');
    Route::post('delete', 'VendorController@delete')->middleware('auth:api');
    Route::get('all', 'VendorController@all');
+});
+Route::prefix('delivery')->group(function () {
+   Route::post('upload', 'DeliveryController@upload')->middleware('auth:api');
+   Route::get('load', 'DeliveryController@load')->middleware('auth:api');
+   Route::get('agents', 'DeliveryController@agents')->middleware('auth:api');
+   Route::get('allvendors', 'DeliveryController@allvendors')->middleware('auth:api');
+   Route::post('save', 'DeliveryController@save')->middleware('auth:api');
+   Route::post('update', 'DeliveryController@update')->middleware('auth:api');
+   Route::get('find', 'DeliveryController@find');
+   Route::post('setfee', 'DeliveryController@setfee')->middleware('auth:api');
+   Route::post('payset', 'DeliveryController@payset')->middleware('auth:api');
+   Route::get('tags', 'DeliveryController@tags');
+   Route::post('delete', 'DeliveryController@delete')->middleware('auth:api');
+   Route::get('all', 'DeliveryController@all');
 });
 
 Route::prefix('review')->group(function () {
@@ -50,6 +114,7 @@ Route::prefix('item')->group(function () {
    Route::post('save', 'ItemController@save')->middleware('auth:api');
    Route::post('update', 'ItemController@update')->middleware('auth:api');
    Route::get('find', 'ItemController@find');
+   Route::post('available', 'ItemController@available')->middleware('auth:api');
    Route::post('delete', 'ItemController@delete')->middleware('auth:api');
    Route::post('image', 'ItemController@image')->middleware('auth:api');
    Route::get('all', 'ItemController@all')->middleware('auth:api');
@@ -57,14 +122,22 @@ Route::prefix('item')->group(function () {
 
    //  })->middleware('auth:api');
 });
+Route::prefix('main_option')->group(function () {
+   Route::post('save', 'MainOptionController@save')->middleware('auth:api');
+   Route::post('update', 'MainOptionController@update')->middleware('auth:api');
+   Route::get('find', 'MainOptionController@find');
+   Route::post('available', 'MainOptionController@available')->middleware('auth:api');
+   Route::post('delete', 'MainOptionController@delete')->middleware('auth:api');
+   Route::get('all', 'MainOptionController@all')->middleware('auth:api');
+});
 Route::prefix('options')->group(function () {
    Route::post('save', 'OptionController@save')->middleware('auth:api');
    Route::post('update', 'OptionController@update')->middleware('auth:api');
+   Route::post('available', 'OptionController@available')->middleware('auth:api');
    Route::get('find', 'OptionController@find');
    Route::post('delete', 'OptionController@delete')->middleware('auth:api');
    Route::post('image', 'OptionController@image')->middleware('auth:api');
    Route::get('all', 'OptionController@all')->middleware('auth:api');
- 
 });
 Route::prefix('category')->group(function () {
    Route::post('save', 'CategoryController@save')->middleware('auth:api');
@@ -74,7 +147,6 @@ Route::prefix('category')->group(function () {
    Route::get('all', 'CategoryController@all')->middleware('auth:api');
 });
 Route::post('order', 'MainController@order');
-Route::group(['middleware' => 'auth:api'], function()
-{
+Route::group(['middleware' => 'auth:api'], function () {
    Route::get('details', 'UserController@details');
 });

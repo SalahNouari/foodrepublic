@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVendorsTable extends Migration
+class CreateDeliveriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,23 +13,17 @@ class CreateVendorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('vendors', function (Blueprint $table) {
+        Schema::create('deliveries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->boolean('verified')->default(false);
-            $table->boolean('card_on_delivery')->default(false);
-            $table->boolean('cash_on_delivery')->default(false);
             $table->longText('bio')->nullable();
-
             $table->string('account_name')->nullable();
             $table->string('account_number')->nullable();
             $table->string('bank_name')->nullable();
             $table->string('address');
-            $table->string('instagram')->nullable();
-            $table->string('twitter')->nullable();
-            $table->integer('minimum_order')->default(1000);
+            $table->integer('current_area_id')->nullable();;
             $table->string('phone');
-            $table->string('branch')->nullable();
             $table->string('lat');
             $table->string('city');
             $table->string('lng');
@@ -48,6 +42,6 @@ class CreateVendorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vendors');
+        Schema::dropIfExists('deliveries');
     }
 }

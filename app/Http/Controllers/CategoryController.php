@@ -16,17 +16,13 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function all(Request $request)
+    public function all()
     {
-    $menu = Category::where('vendor_name', $request->vendor_name)
-            ->with('items')
-            ->latest()
-            ->get();
-        $response = [
-            'menu' => $menu
-        ];
-        return response()->json($response);
-  
+        $vendor = Auth::user()->vendor->categories;
+        return response([
+            'status' => 'success',
+            'menu' => $vendor
+        ], 200);
     }
 
     /**

@@ -18,13 +18,12 @@ class OptionController extends Controller
             'option' => $option,
         ];
         return response()->json($response);
-
     }
     public function all(Request $request)
     {
         $vendor = Auth::user()->vendor;
         $response = [
-            'options' => $vendor->option()->select('id', 'name', 'price', 'image')->get(),
+            'options' => $vendor->option()->select('id', 'name', 'price', 'image', 'status', 'available')->get(),
             'list' => $vendor->option->pluck('name')
         ];
         return response()->json($response);
@@ -40,16 +39,35 @@ class OptionController extends Controller
         if (!$validator) {
             return response(['errors' => $validator->errors()->all()], 422);
         } else {
-        $option = $vendor->option->find($request->id);
-        $option->name = $request->name;
-        $option->price = $request->price;
-        $option->save();
+            $option = $vendor->option->find($request->id);
+            $option->name = $request->name;
+            $option->price = $request->price;
+            $option->save();
         }
         $response = [
             'message' => 'Item edited successfully',
         ];
         return response()->json($response);
     }
+
+    public function available(Request $request)
+    {
+        $vendor = Auth::user()->vendor;
+        $option = $vendor->option->find($request->id);
+        $option->available = $request->availability;
+        $option->save();
+        if ($option->available) {
+            $d = 'on';
+        } else {
+            $d = 'off';
+        }
+
+        $response = [
+            'message' => $option->name . ' has been turned ' . $d,
+        ];
+        return response()->json($response);
+    }
+
     public function save(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -71,11 +89,10 @@ class OptionController extends Controller
             foreach ($files as $file) {
                 $image_name = $file->getRealPath();
                 Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto"));
-                $image_url = Cloudder::show(Cloudder::getPublicId());
+                $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 400, "height" => 400]);
                 $option->image = $image_url;
                 $vendor->option()->save($option);
             }
-        
         }
         $response = [
             'extras' => $vendor->option,
@@ -99,7 +116,7 @@ class OptionController extends Controller
             foreach ($files as $file) {
                 $image_name = $file->getRealPath();
                 Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto"));
-                $image_url = Cloudder::show(Cloudder::getPublicId());
+                $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 400, "height" => 400]);
                 $option->image = $image_url;
                 $option->save();
             }

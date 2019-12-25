@@ -15,6 +15,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Food');
     }
+    public function address()
+    {
+        return $this->hasMany('App\Address');
+    }
     public function reviews()
     {
         return $this->hasMany('App\Reviews');
@@ -23,10 +27,17 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Vendor');
     }
- 
-    public function order()
+    public function delivery_agent()
+    {
+        return $this->hasOne('App\Delivery');
+    }
+    public function orders()
     {
         return $this->hasMany('App\Order');
+    }
+    public function favourites()
+    {
+        return $this->hasOne('App\Favourites');
     }
     /**
      * The attributes that are mass assignable.

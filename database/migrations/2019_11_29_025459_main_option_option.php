@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTagsTable extends Migration
+class MainOptionOption extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('main_option_option', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('tag');
+            $table->unsignedBigInteger('option_id');
+            $table->unsignedBigInteger('main_option_id');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tags');
+        //
     }
 }

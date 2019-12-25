@@ -10,8 +10,12 @@ class Item extends Model
     {
         return $this->belongsTo('App\Category');
     }
-    protected $with = ['option'];
-    
+    protected $with = ['main_option'];
+
+    public function order()
+    {
+        return $this->belongsToMany('App\Order')->withPivot('qty', 'tracking_id');
+    }
     public function option()
     {
         return $this->belongsToMany('App\Option')->withPivot('type');
@@ -20,5 +24,10 @@ class Item extends Model
     {
         return $this->hasMany('App\Images');
     }
+    public function main_option()
+    {
+        return $this->belongsToMany('App\MainOption')->withPivot('type');
+    }
+    
 
 }

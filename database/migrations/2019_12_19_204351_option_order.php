@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTagsTable extends Migration
+class OptionOrder extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class CreateTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('option_order', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('tag');
+            $table->unsignedBigInteger('option_id');
+            $table->string('qty');
+            $table->string('type');
+            $table->integer('tracking_id');
+            $table->unsignedBigInteger('order_id');
             $table->timestamps();
         });
     }
@@ -27,6 +31,6 @@ class CreateTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tags');
+        //
     }
 }

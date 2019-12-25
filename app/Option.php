@@ -14,4 +14,12 @@ class Option extends Model
     {
         return $this->belongsToMany('App\Item');
     }
+    public function main_option()
+    {
+        return $this->belongsToMany('App\MainOption');
+    }
+    public function order()
+    {
+        return $this->belongsToMany('App\Order')->withPivot('type', 'qty', 'tracking_id');
+    }
 }

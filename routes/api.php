@@ -19,6 +19,9 @@ Route::get('/', function () {
 Route::post('login', 'UserController@login');
 Route::get('logout', 'UserController@logout')->middleware('auth:api');
 Route::get('load', 'UserController@load')->middleware('auth:api');
+Route::get('load_favourites', 'UserController@load_favourites')->middleware('auth:api');
+Route::get('favourite', 'UserController@favourite')->middleware('auth:api');
+Route::get('remove_favourite', 'UserController@remove_favourite')->middleware('auth:api');
 Route::post('registerdata', 'UserController@registerdata');
 Route::post('setpassword', 'UserController@setpassword');
 Route::post('register', 'UserController@register');

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use JD\Cloudder\Facades\Cloudder;
 use AfricasTalking\SDK\AfricasTalking;
+use App\Favourites;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 
@@ -201,8 +202,48 @@ public $successStatus = 200;
             return 'an error occured';
         }
    }
+   
+   public function load_favourites(){
+        $user = Auth::user();
+        $success['favourites'] = $user->favourites;
+        return response()->json(['success' => $success], $this->successStatus);
+     
+   }
+   public function favourite(Request $request){
+      
+    $user = Auth::user();
+        $validator = Validator::make($request->all(), [
+            'id' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        } else {
+     if ($user->favourites) {
+            $favourites = $user->favourites;
+            $favourites->vendors()->toggle($request->id);
+            $success['message'] = 'successfully added to favourites';
+            return response()->json(['success' => $success], $this->successStatus);
+       }else{
 
+    $favourites = new Favourites;
+    $user->favourites()->save($favourites);
+    $favourites->vendors()->toggle($request->id);
+    $success['message'] = 'successfully added to favourites';
+    return response()->json(['success' => $success], $this->successStatus);
+       }
 
+    }
+    }
+   public function remove_favourite(Request $request){
+      
+    $user = Auth::user();
+     if ($user->favourites) {
+            $user->favourites->vendors()->detach($request->id);
+       }
+        $success['message'] = 'successfully removed from favourites';
+        return response()->json(['success' => $success], $this->successStatus);
+    
+    }
     public function registerdata(Request $request){
         $validator = Validator::make($request->all(), [
             'phone' => 'required|string',

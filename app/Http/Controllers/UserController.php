@@ -174,7 +174,7 @@ public $successStatus = 200;
             }
         } else if ($request->type === 'phone') {
             $validator = Validator::make($request->all(), [
-                'phone' => ['required', 'string'],
+                'phone' => ['required', 'string', 'min:11', 'max:11'],
                 ]);
             if ($validator->fails()) {
                 return response()->json(['error'=>$validator->errors()], 422);            
@@ -245,12 +245,23 @@ public $successStatus = 200;
     
     }
     public function registerdata(Request $request){
-        $validator = Validator::make($request->all(), [
-            'phone' => 'required|string',
+        $validator= '';
+        if ($request->type === 'email') {
+            $validator = Validator::make($request->all(), [
+            'phone' => 'required|string|unique:users|min:11|max:11',
             'first_name' => 'required|string',
             'surname' => 'required|string',
             'email' => 'required|email',
         ]);
+        }else{
+            $validator = Validator::make($request->all(), [
+                'phone' => 'required|string|min:11|max:11',
+                'first_name' => 'required|string',
+                'surname' => 'required|string',
+                'email' => 'required|email|unique:users',
+            ]);
+        }
+ 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         } else {
@@ -314,9 +325,9 @@ public $successStatus = 200;
     public function edituser(Request $request) 
     {
         $validator = Validator::make($request->all(), [
-            'phone' => 'required',
-            'first_name' => 'required',
-            'surname' => 'required',
+            'phone' => 'required|min:11|max:11',
+            'first_name' => 'required|string',
+            'surname' => 'required|string',
             'email' => 'required|email',
         ]);
         if ($validator->fails()) {

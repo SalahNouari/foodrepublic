@@ -25,6 +25,7 @@ class CreateItemsTable extends Migration
             $table->unsignedInteger('sold')->default(0);
             $table->unsignedInteger('promo')->default(0);
             $table->unsignedInteger('price')->default(0);
+            $table->unsignedInteger('available_qty')->default(0);
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('vendor_id');
             $table->string('vendor_name');

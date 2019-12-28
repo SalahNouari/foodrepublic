@@ -17,7 +17,6 @@ class CreateOrdersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('tracking_id');
             $table->unsignedBigInteger('vendor_id');
-            $table->integer('total')->default(0);
             $table->integer('duration')->default(0);
             $table->integer('distance')->default(0);
             $table->integer('delivery_fee')->default(0);

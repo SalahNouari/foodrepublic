@@ -32,7 +32,6 @@ class CreateOrdersTable extends Migration
             $table->boolean('read')->default(false);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('vendor_id');
             $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('address_id');
             $table->foreign('address_id')->references('id')->on('adresses')->onDelete('cascade')->onUpdate('cascade');

@@ -64,7 +64,7 @@ class DeliveryController extends Controller
         $files = $request->file('files');
         request()->validate([
             'files' => 'required',
-            'files.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'files.*' => 'image|mimes:jpeg,JPG,png,jpg,gif,svg|max:2048'
         ]);
         $delivery_agent = Auth::user()->delivery_agent;
         foreach ($files as $file) {

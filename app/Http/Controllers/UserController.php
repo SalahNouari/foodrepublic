@@ -302,7 +302,7 @@ public $successStatus = 200;
         $files = $request->file('files');
         request()->validate([
             'files' => 'required',
-            'files.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'files.*' => 'image|mimes:jpeg,JPG,png,jpg,gif,svg|max:2048'
         ]);
    
             $user = Auth::user();

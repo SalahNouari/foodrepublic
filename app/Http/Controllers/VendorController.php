@@ -55,7 +55,7 @@ class VendorController extends Controller
         $files = $request->file('files');
         request()->validate([
             'files' => 'required',
-            'files.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'files.*' => 'image|mimes:jpeg,png,JPG,jpg,gif,svg|max:2048'
         ]);
         $vendor = Auth::user()->vendor;
         foreach ($files as $file) {

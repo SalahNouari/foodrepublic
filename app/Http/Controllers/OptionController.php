@@ -83,7 +83,7 @@ class OptionController extends Controller
             $files = $request->file('files');
             request()->validate([
                 'files' => 'required',
-                'files.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                'files.*' => 'image|mimes:jpeg,JPG,png,jpg,gif,svg|max:2048'
             ]);
 
             foreach ($files as $file) {
@@ -111,7 +111,7 @@ class OptionController extends Controller
             $files = $request->file('files');
             request()->validate([
                 'files' => 'required',
-                'files.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                'files.*' => 'image|mimes:jpeg,JPG,png,jpg,gif,svg|max:2048'
             ]);
             foreach ($files as $file) {
                 $image_name = $file->getRealPath();

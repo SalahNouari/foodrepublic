@@ -18,6 +18,7 @@ Route::get('/', function () {
 // Route::get('/', 'VendorController@hn');
 Route::post('login', 'UserController@login');
 Route::get('logout', 'UserController@logout')->middleware('auth:api');
+Route::get('settings', 'MainController@settings')->middleware('auth:api');
 Route::get('load', 'UserController@load')->middleware('auth:api');
 Route::get('load_favourites', 'UserController@load_favourites')->middleware('auth:api');
 Route::get('favourite', 'UserController@favourite')->middleware('auth:api');

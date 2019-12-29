@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\Response;
 
 class MainController extends Controller
 {
+    public function settings(Request $request)
+    {
+
+        $setting = DB::select('select * from settings where name = :name', ['name' => $request->name]);
+        $response = [
+            'settings' => $setting
+        ];
+        return response()->json($response);
+    }
     public function page(Request $request)
     {
 

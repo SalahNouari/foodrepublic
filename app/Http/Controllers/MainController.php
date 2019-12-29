@@ -16,7 +16,7 @@ class MainController extends Controller
     public function settings(Request $request)
     {
 
-        $setting = DB::select('select * from settings where name = :name', ['name' => $request->name]);
+        $setting = DB::select('select * from settings where type = :name', ['name' => $request->name]);
         $response = [
             'settings' => $setting
         ];

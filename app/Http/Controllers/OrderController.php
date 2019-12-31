@@ -189,8 +189,11 @@ class OrderController extends Controller
         $order->status = 5;
         $order->user_status = 0;
         $order->delivery_status = 0;
-
         $order->reject_reason = $request->reason;
+        if($request->delivery_agent_id != null){
+            $agent = Delivery::find($request->delivery_agent_id);
+            $order->delivery()->dissociate($agent);
+        }
         $order->save();
         $response = [
             'message' => 'order reject successful'

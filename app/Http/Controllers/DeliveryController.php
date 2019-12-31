@@ -106,6 +106,7 @@ class DeliveryController extends Controller
 
         $validator = $request->validate([
             'name' => 'required|string|max:255|unique:deliveries',
+            'phone' => 'required|string|max:255|unique:deliveries',
         ]);
         if (!$validator) {
             return response(['errors' => $validator->errors()->all()], 422);

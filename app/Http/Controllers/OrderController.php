@@ -113,6 +113,15 @@ class OrderController extends Controller
         ];
         return response()->json($response);
     }
+    public function delivery_find(Request $request)
+    {
+        $order = Auth::user()->delivery_agent->orders()->with(['user', 'items', 'options', 'address', 'delivery'])->find($request->id);
+      
+        $response = [
+            'order' => $order
+        ];
+        return response()->json($response);
+    }
     public function find(Request $request)
     {
         $order = Auth::user()->vendor->orders()->with(['user', 'items', 'options', 'address', 'delivery'])->find($request->id);

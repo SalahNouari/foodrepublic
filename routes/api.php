@@ -56,6 +56,7 @@ Route::prefix('order')->group(function () {
    Route::get('delete', 'OrderController@delete')->middleware('auth:api');
    Route::get('paid', 'OrderController@paid')->middleware('auth:api');
    Route::get('find', 'OrderController@find')->middleware('auth:api');
+   Route::get('delivery_find', 'OrderController@delivery_find')->middleware('auth:api');
    Route::get('served', 'OrderController@served')->middleware('auth:api');
    Route::get('read', 'OrderController@read')->middleware('auth:api');
    Route::get('delivery_read', 'OrderController@delivery_read')->middleware('auth:api');

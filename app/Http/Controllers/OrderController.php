@@ -30,7 +30,7 @@ class OrderController extends Controller
 
     public function alldelivery()
     {
-        $order = Auth::user()->delivery_agent()->orders()->get();
+        $order = Auth::user()->delivery_agent->with('orders')->get();
         $response = [
             'orders' => $order
         ];

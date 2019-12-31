@@ -40,11 +40,11 @@ class OrderController extends Controller
     public function save(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'total' => 'required',
-            'items' => 'required',
-            'address' => 'required',
-            'grand_total' => 'required',
-            'vendor_id' => 'required',
+        'total' => 'required',
+        'items' => 'required',
+        'address' => 'required',
+        'grand_total' => 'required',
+        'vendor_id' => 'required',
         ]);
         if (!$validator) {
             return response(['errors' => $validator->errors()->all()], 422);

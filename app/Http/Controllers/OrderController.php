@@ -136,7 +136,7 @@ class OrderController extends Controller
     }
     public function delivery_read(Request $request)
     {
-        $order = Auth::user()->vendor->orders()->find($request->id);
+        $order = Auth::user()->delivery_agent->orders()->find($request->id);
         $order->delivery_status = 1;
         $order->save();
         $response = [

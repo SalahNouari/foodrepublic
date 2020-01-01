@@ -30,7 +30,7 @@ class VendorController extends Controller
         $vendor = Auth::user()->vendor()->with(['tags',  'area'])->withCount(['orders' => function ($query) {
                     $query->where('paid', false);
             }])->get();
-        $wallet = Auth::user()->orders->where('status', 4)->sum('grand_total');
+        $wallet = Auth::user()->orders()->where('status', 4)->sum('grand_total');
         $response = [
             'vendor' => $vendor,
             'wallet' => $wallet

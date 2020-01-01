@@ -190,10 +190,14 @@ class VendorController extends Controller
             $vendor->bio = $request->bio;
             $vendor->phone = $request->phone;
             $vendor->save();
-            $tags = $request->tags;
-            $areas = $request->areas;
-            $vendor->area()->sync($areas);
-            $vendor->tags()->sync($tags);
+            if($request->areas){
+                $areas = $request->areas;
+                $vendor->area()->sync($areas);
+            }
+            if($request->tags){
+                $tags = $request->tags;
+                $vendor->tags()->sync($tags);
+            }
             $duration = $request->duration;
             $distance = $request->distance;
 

@@ -123,6 +123,7 @@ Route::prefix('item')->group(function () {
    Route::post('delete', 'ItemController@delete')->middleware('auth:api');
    Route::post('image', 'ItemController@image')->middleware('auth:api');
    Route::get('all', 'ItemController@all')->middleware('auth:api');
+   Route::get('count_orders', 'ItemController@count_orders')->middleware('auth:api');
    // Route::get('status', function (Request $request) {
 
    //  })->middleware('auth:api');

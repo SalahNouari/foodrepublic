@@ -27,6 +27,16 @@ class ItemController extends Controller
         ];
         return response()->json($response);
     }
+    public function count_orders(Request $request)
+    {
+        $vendor = Auth::user()->vendor;
+        $count = $vendor->categories->items()->find($request->id);
+
+        $response = [
+            'count' => $count
+        ];
+        return response()->json($response);
+    }
     /**
      * Store a newly created resource in storage.
      *

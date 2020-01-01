@@ -30,10 +30,10 @@ class ItemController extends Controller
     public function count_orders(Request $request)
     {
         $vendor = Auth::user()->vendor;
-        $count = $vendor->orders()->where('status', 4)->items()->find($request->id)->count();
+        $count = $vendor->categories->find($request->cat_id)->items()->find($request->id)->order()->where('status', 4)->countBy();
 
         $response = [
-            'count' => $count
+            'count' => $count->all()
         ];
         return response()->json($response);
     }

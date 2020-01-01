@@ -50,8 +50,8 @@ class DeliveryController extends Controller
         $delivery_agent = Auth::user()->delivery_agent()->with(['vendors',  'areas'])->withCount(['orders' => function ($query) {
             $query->where('status', 4);
         }])->get();
-        // $rating_avg = Reviews::where('vendor_id', $request->id)->avg('rating');
-        $response = [
+        $wallet = Auth::user()->delivery_agent->orders()->where('status', 4)->sum('total');
+        $delivery_agent[0]['wallet'] = $wallet;        $response = [
             'delivery_agent' => $delivery_agent,
             // 'rating' => $rating_avg
         ];

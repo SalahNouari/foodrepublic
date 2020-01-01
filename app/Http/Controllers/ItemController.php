@@ -9,7 +9,6 @@ use JD\Cloudder\Facades\Cloudder;
 use Validator;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
@@ -30,10 +29,10 @@ class ItemController extends Controller
     }
     public function count_orders(Request $request)
     {
-        if (Auth::user()->vendor) {
-           $count =  DB::table('item_order')->where('item_id', $request->id)->sum('qty');
-        }
-         $response = [
+        $vendor = Auth::user()->vendor;
+        $count = $vendor->categories->find($request->cat_id)->items()->find($request->id)->order()->where('status', 4)->count();
+
+        $response = [
             'count' => $count
         ];
         return response()->json($response);

@@ -31,9 +31,9 @@ class VendorController extends Controller
                     $query->where('paid', false);
             }])->get();
         $wallet = Auth::user()->orders()->where('status', 4)->sum('grand_total');
+        $vendor['wallet'] = $wallet;
         $response = [
-            'vendor' => $vendor,
-            'wallet' => $wallet
+            'vendor' => $vendor
         ];
         return response()->json($response);
     }

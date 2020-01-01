@@ -30,10 +30,10 @@ class VendorController extends Controller
         $vendor = Auth::user()->vendor()->with(['tags',  'area'])->withCount(['orders' => function ($query) {
                     $query->where('paid', false);
             }])->get();
-        // $rating_avg = Reviews::where('vendor_id', $request->id)->avg('rating');
+        $wallet = Auth::user()->orders->where('status', 4)->sum('grand_total');
         $response = [
             'vendor' => $vendor,
-            // 'rating' => $rating_avg
+            'wallet' => $wallet
         ];
         return response()->json($response);
     }

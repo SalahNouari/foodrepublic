@@ -33,7 +33,7 @@ class ItemController extends Controller
         $count = $vendor->categories->find($request->cat_id)->items()->find($request->id)->order()->count();
 
         $response = [
-            'count' => $count->order_count
+            'count' => $count
         ];
         return response()->json($response);
     }

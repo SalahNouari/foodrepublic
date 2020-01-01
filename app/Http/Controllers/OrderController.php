@@ -50,7 +50,6 @@ class OrderController extends Controller
             return response(['errors' => $validator->errors()->all()], 422);
         } else {
             $user = Auth::user();
-            $address = Address::find($request->address_id);
             $vendor = Vendor::find($request->vendor_id);
             $items = $request->items;
             $digits = 6;
@@ -68,8 +67,10 @@ class OrderController extends Controller
             $order->payment_method = $request->payment_method;
             $order->total = $request->total;
            
-
-            $order->address()->associate($address);
+            if($request->address_id){
+                $address = Address::find($request->address_id);
+                $order->address()->associate($address);
+            }
             $order->vendor()->associate($vendor);
             $order->user()->associate($user);
 

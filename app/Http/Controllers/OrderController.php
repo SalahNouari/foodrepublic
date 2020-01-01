@@ -169,6 +169,7 @@ class OrderController extends Controller
         $order = Auth::user()->vendor->orders()->find($request->id);
         $order->status = 3;
         $order->user_status = 0;
+        $order->reject_reason = '';
         $order->delivery_status = 0;
 
         $agent = Delivery::find($request->delivery_agent_id);
@@ -181,7 +182,14 @@ class OrderController extends Controller
     }
     public function delivered(Request $request)
     {
-        $order = Auth::user()->vendor->orders()->find($request->id);
+        $order = '';
+
+        if(Auth::user()->vendor){
+
+            $order = Auth::user()->vendor->orders()->find($request->id);
+        } else {
+            $order = Auth::user()->delivery_agent->orders()->find($request->id);
+        }
         $order->status = 4;
         $order->user_status = 0;
         $order->delivery_status = 0;

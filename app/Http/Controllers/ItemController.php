@@ -78,7 +78,7 @@ class ItemController extends Controller
             $files = $request->file('files');
             request()->validate([
                 'files' => 'required',
-                'files.*' => 'image|mimes:jpeg,JPG,png,jpg,gif,svg|max:2048'
+                'files.*' => 'image|mimes:jpeg,JPG,png,jpg,gif,svg|max:4048'
                 ]);
                 if ($files) {
                     foreach ($files as $file) {
@@ -176,7 +176,7 @@ class ItemController extends Controller
             $files = $request->file('files');
             request()->validate([
                 'files' => 'required',
-                'files.*' => 'image|mimes:jpeg,JPG,png,jpg,gif,svg|max:2048'
+                'files.*' => 'image|mimes:jpeg,JPG,png,jpg,gif,svg|max:4048'
             ]);
             foreach ($files as $file) {
                 $image_name = $file->getRealPath();

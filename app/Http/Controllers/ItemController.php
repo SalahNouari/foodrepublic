@@ -36,7 +36,9 @@ class ItemController extends Controller
 
         $n = 0;
         foreach ($count as $value) {
-          $n +=  $value['items']->where('id', $request->id)->sum('qty');
+          $n +=  $value['items']->where('id', $request->id)->sum(function ($product) {
+                return $product['pivot']['qty'];
+            });
         }
         $response = [
             'count' => $n

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\item;
+use App\Item;
 use App\Vendor;
 use Illuminate\Support\Facades\Auth;
 use JD\Cloudder\Facades\Cloudder;

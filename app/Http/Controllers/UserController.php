@@ -141,6 +141,7 @@ public $successStatus = 200;
                     $user->verification_type = 'phone';
                     $user->save();
                     $success['user'] = ['phone' => $user->phone, 'type' => 'phone'];
+                    return response()->json(['success'=>$success], $this-> successStatus); 
                 } else {
                     $success['error'] =  $result['data']->SMSMessageData->Recipients[0]->status;
                     return response()->json(['success'=>$success], $this-> successStatus); 

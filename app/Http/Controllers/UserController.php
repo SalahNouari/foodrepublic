@@ -136,16 +136,16 @@ public $successStatus = 200;
                     // 'from'      => 'emekasulk',
                     'message' => "Your Food Repulic Passcode is {$rand_code}"
                 ]);
-                if ($result['data']['SMSMessageData']['Recipients'][0]['statusCode'] === 101) {
-                    $user->phone = $request->phone;
-                    $user->verification_type = 'phone';
-                    $user->save();
-                    $success['user'] = ['phone' => $user->phone, 'type' => 'phone'];
-                } else {
-                    $success['error'] =  'there is a problem with your phone number';
+                // if ($result[0]['data']['SMSMessageData']['Recipients'][0]['statusCode'] === 101) {
+                //     $user->phone = $request->phone;
+                //     $user->verification_type = 'phone';
+                //     $user->save();
+                //     $success['user'] = ['phone' => $user->phone, 'type' => 'phone'];
+                // } else {
+                    $success['error'] =  $result[0];
                     return response()->json(['success'=>$success], $this-> successStatus); 
                      
-                 }
+                //  }
             }
         } else {
             return 'an error occured';

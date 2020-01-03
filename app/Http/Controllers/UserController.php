@@ -142,7 +142,7 @@ public $successStatus = 200;
                 //     $user->save();
                 //     $success['user'] = ['phone' => $user->phone, 'type' => 'phone'];
                 // } else {
-                    $success['error'] =  $result[0];
+                    $success['error'] =  $result;
                     return response()->json(['success'=>$success], $this-> successStatus); 
                      
                 //  }

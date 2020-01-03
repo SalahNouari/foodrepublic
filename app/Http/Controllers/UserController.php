@@ -136,7 +136,7 @@ public $successStatus = 200;
                     // 'from'      => 'emekasulk',
                     'message' => "Your Food Repulic Passcode is {$rand_code}"
                 ]);
-                if ($result['data']['SMSMessageData']['Recipients'][0]['statusCode'] === 101) {
+                if ($result->data->SMSMessageData->Recipients[0]->statusCode === 101) {
                     $user->phone = $request->phone;
                     $user->verification_type = 'phone';
                     $user->save();

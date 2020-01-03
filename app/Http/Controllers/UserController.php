@@ -109,6 +109,7 @@ public $successStatus = 200;
                     $message->to($to_email, $to_name)->subject('Verify your Email');
                     $message->from('admin@greatdixers.xyz', 'Food Republic');
                 });
+              
                 $user->email = $request->email;
                 $user->verification_type = 'email';
                 $user->save();
@@ -135,12 +136,16 @@ public $successStatus = 200;
                     // 'from'      => 'emekasulk',
                     'message' => "Your Food Repulic Passcode is {$rand_code}"
                 ]);
-                $user->phone = $request->phone;
-                $user->verification_type = 'phone';
-                $user->save();
-                $success['user'] = ['phone' => $user->phone, 'type' => 'phone'];
-                $success['result'] =  $result;
-                return response()->json(['success'=>$success], $this-> successStatus); 
+                if ($result['data']['SMSMessageData']['Recipients'][0]['statusCode'] === 101) {
+                    $user->phone = $request->phone;
+                    $user->verification_type = 'phone';
+                    $user->save();
+                    $success['user'] = ['phone' => $user->phone, 'type' => 'phone'];
+                } else {
+                    $success['error'] =  $result['data']['SMSMessageData']['Recipients'][0]['status'];
+                    return response()->json(['success'=>$success], $this-> successStatus); 
+                     
+                 }
             }
         } else {
             return 'an error occured';

@@ -142,7 +142,7 @@ public $successStatus = 200;
                 //     $user->save();
                 //     $success['user'] = ['phone' => $user->phone, 'type' => 'phone'];
                 // } else {
-                    $success['error'] =  $result['data']->SMSMessageData;
+                    $success['error'] =  $result['data']->SMSMessageData->Recipients[0];
                     return response()->json(['success'=>$success], $this-> successStatus); 
                      
                 //  }

@@ -169,18 +169,19 @@ class VendorController extends Controller
         $vendor->lat = $request->lat;
         $vendor->lng = $request->lng;
         $vendor->place_id = $request->place_id;
-
+        $user->vendor()->save($vendor);
+        $vendor->save();
         $tags = $request->tags;
         $areas = $request->areas;
-
-        $user->vendor()->save($vendor);
+        if ($areas) {
+            $vendor->area()->sync($areas);
+        }
         $vendor->tags()->attach($tags);
         $duration = $request->duration;
         $distance = $request->distance;
 
         foreach ($areas as $i => $area) {
-
-            $vendor->area()->attach($area, ['distance' => $distance[$i], 'duration' => $duration[$i]]);
+            $vendor->area()->updateExistingPivot($area, ['distance' => $distance[$i], 'duration' => $duration[$i]]);
         }
         $response = [
             'message' => 'Registeration successful'

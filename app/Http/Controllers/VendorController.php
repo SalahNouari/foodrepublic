@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Vendor;
 use App\Menu;
 use App\Tag;
+use App\Area;
 use App\Reviews;
 use JD\Cloudder\Facades\Cloudder;
 use Illuminate\Support\Facades\Auth;
@@ -178,7 +179,8 @@ class VendorController extends Controller
         $distance = $request->distance;
 
         foreach ($areas as $i => $area) {
-            $vendor->area()->save($area, ['distance' => $distance[$i], 'duration' => $duration[$i]]);
+
+            $vendor->area()->attach($area, ['distance' => $distance[$i], 'duration' => $duration[$i]]);
         }
         $response = [
             'message' => 'Registeration successful'

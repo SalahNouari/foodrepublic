@@ -62,8 +62,7 @@ class MainOptionController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'title' => 'required',
-            'max' => 'required',
+            'title' => 'required'
         ]);
         if (!$validator) {
             return response(['errors' => $validator->errors()->all()], 422);

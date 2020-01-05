@@ -124,6 +124,7 @@ class VendorController extends Controller
         $vendor->cash_on_delivery = $request->cash;
         $vendor->card_on_delivery = $request->card;
         $vendor->minimum_order = $request->minimum;
+        $vendor->pos_charge = $request->pos_charge;
         $vendor->account_name = $request->account_name;
         $vendor->account_number = $request->account_number;
         $vendor->bank_name = $request->bank_name;

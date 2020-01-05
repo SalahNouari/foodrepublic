@@ -173,10 +173,13 @@ class VendorController extends Controller
         $areas = $request->areas;
 
         $user->vendor()->save($vendor);
-
-        $vendor->area()->attach($areas);
         $vendor->tags()->attach($tags);
+        $duration = $request->duration;
+        $distance = $request->distance;
 
+        foreach ($areas as $i => $area) {
+            $vendor->area()->save($area, ['distance' => $distance[$i], 'duration' => $duration[$i]]);
+        }
         $response = [
             'message' => 'Registeration successful'
         ];

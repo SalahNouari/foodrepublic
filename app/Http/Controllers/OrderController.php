@@ -66,7 +66,11 @@ class OrderController extends Controller
             $order->delivery_fee = $request->delivery_fee;
             $order->payment_method = $request->payment_method;
             $order->total = $request->total;
-            if($request->payment_method != 4){
+            $payM = $request->payment_method;
+            if(($payM === 4) || ($payM === 5)){
+                $order->table_no = $request->table_no;
+            }
+            if($payM != 4){
                 $address = Address::find($request->address_id);
                 $order->address()->associate($address);
             }

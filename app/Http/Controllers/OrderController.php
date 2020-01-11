@@ -161,6 +161,9 @@ class OrderController extends Controller
     {
         $order = Auth::user()->vendor->orders()->find($request->id);
         $order->status = 2;
+        $order->user()->increment('orders');
+        $order->user()->increment('points', 10);
+        
         $order->user_status = 0;
         $order->save();
         $response = [
@@ -194,6 +197,8 @@ class OrderController extends Controller
         } else {
             $order = Auth::user()->delivery_agent->orders()->find($request->id);
         }
+        $order->user()->increment('orders');
+        $order->user()->increment('points', 10);
         $order->status = 4;
         $order->user_status = 0;
         $order->delivery_status = 0;

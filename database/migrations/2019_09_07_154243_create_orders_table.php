@@ -25,6 +25,7 @@ class CreateOrdersTable extends Migration
             $table->integer('grand_total')->default(0);
             $table->integer('service_charge')->default(0);
             $table->integer('change_amount')->default(0);
+            $table->integer('pos_charge')->default(0);
             $table->integer('payment_method')->default(0);
             $table->integer('status')->default(0);
             $table->integer('user_status')->default(0);

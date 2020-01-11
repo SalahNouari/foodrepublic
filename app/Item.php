@@ -10,7 +10,7 @@ class Item extends Model
     {
         return $this->belongsTo('App\Category');
     }
-    // protected $with = ['main_option'];
+    protected $withCount = ['main_option'];
 
     public function order()
     {

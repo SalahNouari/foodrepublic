@@ -20,7 +20,7 @@ class ItemController extends Controller
     public function all(Request $request)
     {
         $vendor = Auth::user()->vendor;
-        $categories = $vendor->categories()->with('items')->find($request->id);
+        $categories = $vendor->categories()->with('items.main_option')->find($request->id);
 
         $response = [
             'items' => $categories

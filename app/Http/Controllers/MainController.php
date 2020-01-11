@@ -44,7 +44,7 @@ class MainController extends Controller
     }
     public function vendoritems(Request $request)
     {
-        $items = Vendor::where('name', $request->name)->first()->categories()->where('id', $request->cat_id)->first();
+        $items = Vendor::where('name', $request->name)->first()->categories()->where('id', $request->cat_id)->with('items')->get();
         $response = [
             'items' => $items,
         ];

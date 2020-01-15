@@ -21,7 +21,7 @@ class AddressController extends Controller
     }
     public function all(Request $request)
     {
-        $address = Auth::user()->address()->where('area', $request->area_id)->get();
+        $address = Auth::user()->address()->where('area_id', $request->area_id)->get();
         $response = [
             'address' => $address
         ];

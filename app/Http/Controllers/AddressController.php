@@ -13,7 +13,7 @@ class AddressController extends Controller
 {
     public function all(Request $request)
     {
-        $address = Auth::user()->address()->with('area')->get();
+        $address = Auth::user()->address()->where('area', $request->area_id)->get();
         $response = [
             'address' => $address
         ];
@@ -41,6 +41,29 @@ class AddressController extends Controller
             $address->place_id = $request->place_id;
             $address->user()->associate($user);
             $address->area()->associate($area);
+            $address->save();
+            $success['address'] = $address;
+            return response()->json(['success' => $success], 200);
+        }
+    }
+
+    public function edit(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        } else {
+            $address = Auth::user()->address()->find($request->id);
+            $address->name = $request->name;
+            $address->company = $request->company;
+            $address->name_2 = $request->name_2;
+            $address->instruction = $request->instruction;
+            $address->lat = $request->lat;
+            $address->lng = $request->lng;
+            $address->place_id = $request->place_id;
+           
             $address->save();
             $success['address'] = $address;
             return response()->json(['success' => $success], 200);

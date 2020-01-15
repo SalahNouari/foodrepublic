@@ -11,6 +11,14 @@ use Validator;
 
 class AddressController extends Controller
 {
+    public function find(Request $request)
+    {
+        $address = Auth::user()->address()->find($request->id)->get();
+        $response = [
+            'address' => $address
+        ];
+        return response()->json($response);
+    }
     public function all(Request $request)
     {
         $address = Auth::user()->address()->where('area', $request->area_id)->get();

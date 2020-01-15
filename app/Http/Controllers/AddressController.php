@@ -13,7 +13,7 @@ class AddressController extends Controller
 {
     public function find(Request $request)
     {
-        $address = Auth::user()->address()->find($request->id)->get();
+        $address = Auth::user()->address()->find($request->id);
         $response = [
             'address' => $address
         ];

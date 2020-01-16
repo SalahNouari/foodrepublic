@@ -45,7 +45,7 @@ class MainController extends Controller
             $d = Item::where('vendor_id', $vendor->id)
                     ->whereLike('name', $request->name)
                     ->get();
-                    if ($d[0]) {
+                    if (count($d) > 0) {
                         array_push($items, $d);
                     }
         }

@@ -45,7 +45,9 @@ class MainController extends Controller
             $d = Item::where('vendor_id', $vendor->id)
                     ->whereLike('name', $request->name)
                     ->get();
-            array_push($items, $d);
+                    if ($d[0]) {
+                        array_push($items, $d);
+                    }
         }
         
         $response = [

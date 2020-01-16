@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Areas;
+use App\Item;
 use App\Vendor;
 use App\Category;
 use Illuminate\Http\Request;
@@ -41,7 +42,7 @@ class MainController extends Controller
         $vendor = $d->vendor()->whereLike('name', $request->name)->get();
         $items = array();
         foreach ($d->vendor() as $key => $vendor) {
-            $d = Items::where('vendor_id', $vendor->id)
+            $d = Item::where('vendor_id', $vendor->id)
                     ->whereLike('name', $request->name)
                     ->get();
             array_push($items, $d);

@@ -34,6 +34,25 @@ class MainController extends Controller
         ];
         return response()->json($response);
     }
+    public function search(Request $request)
+    {
+
+        $d = Areas::find($request->id);
+        $vendor = $d->vendor()->whereLike('name', $request->name)->get();
+        $items = array();
+        foreach ($d->vendor() as $key => $vendor) {
+            $d = Items::where('vendor_id', $vendor->id)
+                    ->whereLike('name', $request->name)
+                    ->get();
+            array_push($items, $d);
+        }
+        
+        $response = [
+            'vendors' => $vendor,
+            'items' => $items
+        ];
+        return response()->json($response);
+    }
     public function vendorpage(Request $request)
     {
         $vendor = Vendor::where('name', $request->name)->with(['tags','categories', 'area'])->first();

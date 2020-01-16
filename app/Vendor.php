@@ -10,6 +10,15 @@ class Vendor extends Model
     {
         return $this->belongsToMany('App\Areas')->withPivot('fee', 'duration', 'distance');
     }
+    public function scopeWhereLike($query, $column, $value)
+    {
+        return $query->where($column, 'like', '%' . $value . '%');
+    }
+
+    public function scopeOrWhereLike($query, $column, $value)
+    {
+        return $query->orWhere($column, 'like', '%' . $value . '%');
+    }
     public function reviews()
     {
         return $this->hasMany('App\Reviews');

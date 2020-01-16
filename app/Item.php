@@ -11,7 +11,15 @@ class Item extends Model
         return $this->belongsTo('App\Category');
     }
     protected $withCount = ['main_option'];
+    public function scopeWhereLike($query, $column, $value)
+    {
+        return $query->where($column, 'like', '%' . $value . '%');
+    }
 
+    public function scopeOrWhereLike($query, $column, $value)
+    {
+        return $query->orWhere($column, 'like', '%' . $value . '%');
+    }
     public function order()
     {
         return $this->belongsToMany('App\Order')->withPivot('qty', 'tracking_id');

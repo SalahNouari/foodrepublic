@@ -16,4 +16,5 @@ class MainOption extends Model
     {
         return $this->belongsToMany('App\Item');
     }
+ 
 }

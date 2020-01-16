@@ -220,6 +220,11 @@ class OrderController extends Controller
             $agent = Delivery::find($request->delivery_agent_id);
             $order->delivery()->dissociate($agent);
         }
+        if($order->paid){
+            $user = $order->user;
+            $user->wallet += $order->grand_total;
+            $user->save();
+        }
         $order->save();
         $response = [
             'message' => 'order reject successful'

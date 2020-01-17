@@ -14,7 +14,6 @@ class Vendor extends Model
     {
         return $query->where($column, 'like', '%' . $value . '%');
     }
-
     public function scopeOrWhereLike($query, $column, $value)
     {
         return $query->orWhere($column, 'like', '%' . $value . '%');

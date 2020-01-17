@@ -39,7 +39,7 @@ class MainController extends Controller
     {
 
         $d = Areas::find($request->id);
-        $vendors = $d->vendor()->whereLike('name', $request->name)->get();
+        $vendors = $d->vendor()->where('name', 'like', '%' . $request->name . '%')->get();
         $items = array();
         foreach ($d->vendor()->get() as $key => $vendor) {
             $d = Item::where('vendor_id', $vendor->id)

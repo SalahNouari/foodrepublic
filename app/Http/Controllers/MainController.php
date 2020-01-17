@@ -38,11 +38,11 @@ class MainController extends Controller
     public function search(Request $request)
     {
 
-        $d = Areas::find($request->id)->vendor()->get();
+        $d = Areas::find($request->id);
         
-        $vendors = $d->where('name', 'like', '%' . $request->name . '%')->get();
+        $vendors = $d->vendor()->where('name', 'like', '%' . $request->name . '%')->get();
         $items = array();
-        foreach ( $d as $vendor) {
+        foreach ($d->vendor()->get() as $vendor) {
             $d = Item::where('vendor_id', $vendor->id)
                     ->whereLike('name', $request->name)
                     ->get();

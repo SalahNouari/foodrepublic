@@ -39,7 +39,7 @@ class MainController extends Controller
     {
 
         $d = Areas::find($request->id);
-        $vendor = $d->vendor()->whereLike('name', $request->name)->get();
+        $vendors = $d->vendor()->whereLike('name', $request->name)->get();
         $items = array();
         foreach ($d->vendor()->get() as $key => $vendor) {
             $d = Item::where('vendor_id', $vendor->id)
@@ -51,7 +51,7 @@ class MainController extends Controller
         }
         
         $response = [
-            'vendors' => $vendor,
+            'vendors' => $vendors,
             'items' => $items
         ];
         return response()->json($response);

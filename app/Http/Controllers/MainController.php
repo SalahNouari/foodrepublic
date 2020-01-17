@@ -43,6 +43,7 @@ class MainController extends Controller
         $items = array();
         foreach ($d->vendor()->get() as $key => $vendor) {
             $d = Item::where('vendor_id', $vendor->id)
+                    ->where('available', true)
                     ->whereLike('name', $request->name)
                     ->get();
                     if (count($d) > 0) {

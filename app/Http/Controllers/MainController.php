@@ -68,9 +68,7 @@ class MainController extends Controller
     {
         $items = Vendor::where('name', $request->name)->first()->categories()
         ->where('id', $request->cat_id)
-        ->with(['items' => function ($query) {
-    $query->where('available', true);
-}])->get();
+        ->with('items')->get();
         $response = [
             'items' => $items,
         ];

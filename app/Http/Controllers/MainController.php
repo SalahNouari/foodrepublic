@@ -28,11 +28,9 @@ class MainController extends Controller
 
         $d = Areas::find($request->id);
         $vendor = $d->vendor()->with( [
-        'tags'  => function ($query) {
-                $query->select('tag');
-            },
+        'tags',
          'area' => function ($query) use ($request) {
-            $query->where('areas_id', $request->id)->select('id');
+            $query->where('areas_id', $request->id);
         }])
         ->select('name', 'cash_on_delivery', 'lat', 'lng', 'card_on_delivery', 'id', 'image')
         ->get();

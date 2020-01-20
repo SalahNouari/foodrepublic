@@ -45,7 +45,7 @@ class MainController extends Controller
         foreach ($d->vendor()->get() as $vendor) {
             $d = Item::where('vendor_id', $vendor->id)
                     ->whereLike('name', $request->name)
-                    ->select('name', 'id', 'image', 'price', 'vendor_name', 'category_id')
+                    ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
                     ->get();
                     if (count($d) > 0) {
                         array_push($items, $d);

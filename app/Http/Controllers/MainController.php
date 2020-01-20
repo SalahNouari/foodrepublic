@@ -34,7 +34,6 @@ class MainController extends Controller
          'area' => function ($query) use ($request) {
             $query->where('areas_id', $request->id);
         }])
-        ->select('name', 'cash_on_delivery', 'lat', 'lng', 'card_on_delivery', 'id', 'image')
         ->get();
         $response = [
             'items' => $vendor

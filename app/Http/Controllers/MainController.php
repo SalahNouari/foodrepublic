@@ -32,7 +32,7 @@ class MainController extends Controller
                 $query->select('tag');
             },
          'area' => function ($query) use ($request) {
-            $query->where('areas_id', $request->id)->select('id');
+            $query->where('areas_id', $request->id);
         }])
         ->select('name', 'cash_on_delivery', 'lat', 'lng', 'card_on_delivery', 'vendor_id', 'image')
         ->get();

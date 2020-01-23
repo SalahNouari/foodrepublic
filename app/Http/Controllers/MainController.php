@@ -30,7 +30,7 @@ class MainController extends Controller
         $vendor = $d->vendor()
         ->select('name', 'cash_on_delivery', 'lat', 'lng', 'card_on_delivery', 'vendor_id', 'image')
         ->with( [
-        'tags','area' => function ($query) use ($request) {
+        'tags:tag','area' => function ($query) use ($request) {
             $query->where('areas_id', $request->id)->get();
         }])
         ->get();

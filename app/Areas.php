@@ -12,7 +12,7 @@ class Areas extends Model
     }
     public function vendor()
     {
-        return $this->belongsToMany('App\Vendor')->select('name', 'cash_on_delivery', 'lat', 'lng', 'card_on_delivery', 'id', 'image');
+        return $this->belongsToMany('App\Vendor');
     }
     public function delivery_agents()
     {

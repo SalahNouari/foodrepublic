@@ -31,7 +31,7 @@ class MainController extends Controller
         ->select('name', 'cash_on_delivery', 'lat', 'lng', 'card_on_delivery', 'vendor_id', 'image')
         ->with( [
         'tags','area' => function ($query) use ($request) {
-            $query->where('areas_id', $request->id);
+            $query->where('areas_id', $request->id)->get();
         }])
         ->get();
         $response = [

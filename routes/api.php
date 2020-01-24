@@ -74,6 +74,9 @@ Route::prefix('userorder')->group(function () {
    Route::get('read', 'UserController@orderread')->middleware('auth:api');
    Route::get('rejected', 'UserController@orderrejected')->middleware('auth:api');
 });
+Route::prefix('transaction')->group(function () {
+   Route::post('set', 'TranactionsController@paid')->middleware('auth:api');
+});
 Route::prefix('city')->group(function () {
    Route::post('save', 'AreasController@save');
    Route::post('savearea', 'AreasController@savearea');

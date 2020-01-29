@@ -32,7 +32,7 @@ class OrderController extends Controller
     {
         $order = Auth::user()->delivery_agent->orders()
         ->with(['address' => function ($query) {
-            $query->select('lat', 'lng');
+            $query->select('id', 'lat', 'lng');
         }])
         ->select('id', 'address_id', 'payment_method', 'delivery_status', 'tracking_id', 'created_at', 'status')
         ->latest()->paginate(12);
@@ -144,7 +144,7 @@ class OrderController extends Controller
     }
     public function find(Request $request)
     {
-        $order = Auth::user()->vendor->orders()->with(['user', 'items', 'options', 'address', 'delivery'])->find($request->id);
+        $order = Auth::user()->vendor->orders()->with(['user', 'area', 'items', 'options', 'address', 'delivery'])->find($request->id);
       
         $response = [
             'order' => $order

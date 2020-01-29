@@ -31,7 +31,7 @@ class OrderController extends Controller
     public function alldelivery()
     {
         $order = Auth::user()->delivery_agent->orders()->with(['address'])
-        // ->select('id', 'payment_method', 'delivery_status', 'tracking_id', 'created_at', 'status')
+        ->select('id', 'address_id', 'payment_method', 'delivery_status', 'tracking_id', 'created_at', 'status')
         ->latest()->paginate(12);
         $response = [
             'orders' => $order

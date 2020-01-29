@@ -13,7 +13,7 @@ class AddressController extends Controller
 {
     public function find(Request $request)
     {
-        $address = Auth::user()->address()->find($request->id);
+        $address = Auth::user()->address()->with('area')->find($request->id);
         $response = [
             'address' => $address
         ];
@@ -21,7 +21,7 @@ class AddressController extends Controller
     }
     public function all(Request $request)
     {
-        $address = Auth::user()->address()->where('area_id', $request->area_id)->get();
+        $address = Auth::user()->address()->with('area')->where('area_id', $request->area_id)->select('area_id', 'name', 'created_at', 'user_id', 'id')->get();
         $response = [
             'address' => $address
         ];

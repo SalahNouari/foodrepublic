@@ -10,7 +10,6 @@ class Address extends Model
     {
         return $this->belongsTo('App\User');
     }
-    protected $with = ['area'];
 
     public function order()
     {

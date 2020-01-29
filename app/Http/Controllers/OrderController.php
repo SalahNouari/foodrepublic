@@ -30,7 +30,7 @@ class OrderController extends Controller
 
     public function alldelivery()
     {
-        $order = Auth::user()->delivery_agent->orders()->latest()->paginate(12);
+        $order = Auth::user()->delivery_agent->orders()->select('id', 'payment_method', 'delivery_status', 'tracking_id', 'created_at', 'status')->with('address')->latest()->paginate(12);
         $response = [
             'orders' => $order
         ];
@@ -233,7 +233,7 @@ class OrderController extends Controller
         }
         if($order->paid){
             $user = $order->user;
-            $user->wallet += $order->grand_total;
+            $user->increment('wallet', $order->grand_total);
             $user->save();
         }
         $order->save();

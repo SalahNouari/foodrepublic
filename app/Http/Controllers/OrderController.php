@@ -40,10 +40,11 @@ class OrderController extends Controller
     public function save(Request $request)
     {
         $validator = Validator::make($request->all(), [
-        'total' => 'required',
+        'total' => 'required|integer',
         'items' => 'required',
-        'address' => 'required',
-        'grand_total' => 'required',
+        'address' => 'required|string',
+        'wallet' => 'required',
+        'grand_total' => 'required|integer',
         'vendor_id' => 'required',
         ]);
         if (!$validator) {
@@ -63,10 +64,20 @@ class OrderController extends Controller
             $order->change_amount = $request->change_amount;
             $order->service_charge = $request->service_charge;
             $order->paid = $request->paid;
+            $order->wallet = $request->wallet;
             $order->delivery_fee = $request->delivery_fee;
             $order->payment_method = $request->payment_method;
             $order->total = $request->total;
             $payM = $request->payment_method;
+            if(($order->wallet === true) && ($order->paid === true)){
+                if ($user->wallet >= $request->grand_total) {
+                $user->decrement('wallet', $request->grand_total);
+                $user->save();
+                } else{
+                    return response(['message' => 'Insufficient funds in wallet'], 422);
+                }
+                
+            }
             if(($payM === 4) || ($payM === 5)){
                 $order->table_no = $request->table_no;
             }

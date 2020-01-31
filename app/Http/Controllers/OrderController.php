@@ -36,6 +36,7 @@ class OrderController extends Controller
             $query->select('id', 'lat', 'lng', 'name');
         }])
         ->where('status', 3)
+        ->where('created_at', today())
         // where todays date
         ->latest()->paginate(12);
         $response = [

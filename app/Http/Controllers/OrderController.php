@@ -35,6 +35,8 @@ class OrderController extends Controller
         ->with(['address' => function ($query) {
             $query->select('id', 'lat', 'lng', 'name');
         }])
+        ->where('status', 3)
+        // where todays date
         ->latest()->paginate(12);
         $response = [
             'orders' => $order

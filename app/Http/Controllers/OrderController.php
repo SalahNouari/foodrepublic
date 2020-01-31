@@ -30,15 +30,16 @@ class OrderController extends Controller
 
     public function alldelivery()
     {
+        $today = today();
         $order = Auth::user()->delivery_agent->orders()
         ->select('id', 'address_id', 'payment_method', 'delivery_status', 'tracking_id', 'created_at', 'status')
         ->with(['address' => function ($query) {
             $query->select('id', 'lat', 'lng', 'name');
         }])
         ->where('status', 3)
-        ->where('created_at', today())
+        ->where('created_at', $today)
         // where todays date
-        ->latest()->paginate(12);
+        ->latest()->paginate(20);
         $response = [
             'orders' => $order
         ];

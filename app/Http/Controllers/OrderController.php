@@ -36,7 +36,7 @@ class OrderController extends Controller
         ->with(['address' => function ($query) {
             $query->select('id', 'lat', 'lng', 'name');
         }])
-        ->whereBetween('created_at', [Carbon::today(), Carbon::now()->subDays(2)])
+        ->where('created_at', '<=', Carbon::now()->subDays(2))
         // where todays date
         ->latest()->paginate(20);
         $response = [

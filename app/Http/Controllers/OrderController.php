@@ -16,6 +16,7 @@ use App\Location;
 use App\Snacks; 
 use App\User;
 use App\Vendor;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -37,7 +38,8 @@ class OrderController extends Controller
             $query->select('id', 'lat', 'lng', 'name');
         }])
         ->where('status', 3)
-        ->where('created_at', $today)
+        ->orWhere('status', 4)
+        ->whereBetween('created_at', [Carbon::today(), Carbon::yesterday()])
         // where todays date
         ->latest()->paginate(20);
         $response = [

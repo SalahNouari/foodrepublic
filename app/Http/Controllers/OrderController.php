@@ -31,15 +31,14 @@ class OrderController extends Controller
 
     public function alldelivery()
     {
-        $today = today();
         $order = Auth::user()->delivery_agent->orders()
-        ->select('id', 'address_id', 'payment_method', 'delivery_status', 'tracking_id', 'created_at', 'status')
+        ->select('id', 'address_id', 'payment_method', 'delivery_status', 'tracking_id', 'created_at', 'updated_at', 'status')
         ->with(['address' => function ($query) {
             $query->select('id', 'lat', 'lng', 'name');
         }])
         ->where('status', 3)
         ->orWhere('status', 4)
-        ->whereBetween('created_at', [Carbon::today(), Carbon::yesterday()])
+        ->whereBetween('updated_at', [Carbon::today(), Carbon::now()->subDays(2)])
         // where todays date
         ->latest()->paginate(20);
         $response = [

@@ -36,9 +36,9 @@ class OrderController extends Controller
         ->with(['address' => function ($query) {
             $query->select('id', 'lat', 'lng', 'name');
         }])
+        ->whereBetween('updated_at', [Carbon::today(), Carbon::now()->subDays(2)])
         ->where('status', 3)
         ->orWhere('status', 4)
-        ->whereBetween('updated_at', [Carbon::today(), Carbon::now()->subDays(2)])
         // where todays date
         ->latest()->paginate(20);
         $response = [

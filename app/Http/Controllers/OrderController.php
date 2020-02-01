@@ -220,6 +220,7 @@ class OrderController extends Controller
         $order->user()->increment('points', 10);
         $order->status = 4;
         $order->user_status = 0;
+        $order->paid = 1;
         $order->delivery_status = 0;
 
         $order->save();

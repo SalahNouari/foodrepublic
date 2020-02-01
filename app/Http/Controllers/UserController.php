@@ -382,7 +382,7 @@ public $successStatus = 200;
     }
     public function orderfind(Request $request)
     {
-        $order = Auth::user()->orders()->with(['user', 'items', 'options', 'address'])->find($request->id);
+        $order = Auth::user()->orders()->with(['user', 'items', 'options', 'address.area'])->find($request->id);
 
         $response = [
             'order' => $order

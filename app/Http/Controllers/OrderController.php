@@ -138,9 +138,7 @@ class OrderController extends Controller
     }
     public function delivery_find(Request $request)
     {
-        $order = Auth::user()->delivery_agent->orders()->with(['user', 'items', 'options', 'address' => function ($query) {
-            $query->with('area');
-        }, 'delivery'])->find($request->id);
+        $order = Auth::user()->delivery_agent->orders()->with(['user', 'items', 'options', 'address.area', 'delivery'])->find($request->id);
       
         $response = [
             'order' => $order

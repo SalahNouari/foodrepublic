@@ -163,6 +163,7 @@ class VendorController extends Controller
         $vendor = new Vendor;
         $vendor->name =  $request->name;
         $vendor->phone = $request->phone;
+        $vendor->type = $request->type;
         $vendor->bio = $request->bio;
         $vendor->address = $request->address;
         $vendor->city = $request->city;

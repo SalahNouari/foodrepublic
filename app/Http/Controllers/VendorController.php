@@ -43,7 +43,7 @@ class VendorController extends Controller
 
     public function tags(Request $request)
     {
-        $tags = Tag::select('tag as text', 'id as value')->get();
+        $tags = Tag::select('tag as text', 'id as value', 'type as type')->get();
         // $rating_avg = Reviews::where('vendor_id', $request->id)->avg('rating');
         $response = [
             'tags' => $tags,

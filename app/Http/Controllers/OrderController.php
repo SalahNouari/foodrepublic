@@ -51,7 +51,7 @@ class OrderController extends Controller
         'total' => 'required|integer',
         'items' => 'required',
         'address' => 'required|string',
-        'wallet' => 'required',
+        'wallet' => 'required|boolean',
         'grand_total' => 'required|integer',
         'vendor_id' => 'required',
         ]);
@@ -77,7 +77,7 @@ class OrderController extends Controller
             $order->payment_method = $request->payment_method;
             $order->total = $request->total;
             $payM = $request->payment_method;
-            if(($order->wallet === true) && ($order->paid === true)){
+            if(($payM != 4) && ($order->wallet === true) && ($order->paid === true)){
                 if ($user->wallet >= $request->grand_total) {
                 $user->decrement('wallet', $request->grand_total);
                 $user->save();

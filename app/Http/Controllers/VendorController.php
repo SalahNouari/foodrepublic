@@ -214,7 +214,7 @@ class VendorController extends Controller
             }
             return response([
                 'status' => 'success',
-            ], 200); 
+            ], 200);
     }
 
     public function delete(Request $request)

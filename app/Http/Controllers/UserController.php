@@ -364,7 +364,7 @@ public $successStatus = 200;
 
     public function orderall(Request $request)
     {
-        $order = Auth::user()->orders()->latest()->paginate(12);
+        $order = Auth::user()->orders()->select('id', 'tracking_id', 'grand_total', 'status', 'user_status')->latest()->paginate(12);
         $response = [
             'orders' => $order
         ];

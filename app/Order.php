@@ -19,6 +19,10 @@ class Order extends Model
     {
         return $this->belongsTo('App\Delivery');
     }
+    public function reviews()
+    {
+        return $this->hasOne('App\Reviews');
+    }
     public function vendor()
     {
         return $this->belongsTo('App\Vendor');

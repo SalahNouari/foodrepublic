@@ -116,7 +116,6 @@ Route::prefix('delivery')->group(function () {
 Route::prefix('review')->group(function () {
    Route::post('save', 'ReviewsController@save')->middleware('auth:api');
    Route::post('update', 'ReviewsController@update')->middleware('auth:api');
-   Route::get('find', 'ReviewsController@find');
    Route::post('delete', 'ReviewsController@delete')->middleware('auth:api');
    Route::get('all', 'ReviewsController@all');
 });

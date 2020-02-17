@@ -35,7 +35,7 @@ class ReviewsController extends Controller
         $review->rating = $request->rating;
         $user->reviews()->save($review);
         $vendor->reviews()->save($review);
-        $order->reviews()->save($review);
+        $review->order()->associate($order);
         $review->save();
      
         $response = [

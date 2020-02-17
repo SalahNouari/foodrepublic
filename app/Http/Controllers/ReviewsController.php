@@ -19,7 +19,7 @@ class ReviewsController extends Controller
             # code...
             $validator = $request->validate([
                 'rating' => 'required|integer|max:5',
-                'review' => 'string|max:100|',
+                'review' => 'string|max:100',
                 'order_id' => 'required|integer',
                 'vendor_id' => 'required|integer',
             ]);
@@ -33,10 +33,9 @@ class ReviewsController extends Controller
         $vendor = Vendor::find($request->vendor_id);
         $review->content = $request->review;
         $review->rating = $request->rating;
-        $review->vendor_id = $request->vendor_id;
         $user->reviews()->save($review);
         $vendor->reviews()->save($review);
-        // $order->reviews()->save($review);
+        $order->reviews()->save($review);
         $review->save();
      
         $response = [

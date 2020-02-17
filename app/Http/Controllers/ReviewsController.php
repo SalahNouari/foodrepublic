@@ -34,8 +34,8 @@ class ReviewsController extends Controller
         $review->content = $request->review;
         $review->rating = $request->rating;
         $review->vendor_id = $request->vendor_id;
-        $user->reviews()->associate($review);
-        $vendor->reviews()->associate($review);
+        $user->reviews()->attach($review);
+        $vendor->reviews()->attach($review);
         $order->reviews()->save($review);
         $review->save();
      

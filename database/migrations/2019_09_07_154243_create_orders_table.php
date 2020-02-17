@@ -39,7 +39,11 @@ class CreateOrdersTable extends Migration
             $table->foreign('address_id')->references('id')->on('adresses')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('delivery_id');
             $table->foreign('delivery_id')->references('id')->on('deliveries')->onDelete('cascade')->onUpdate('cascade');
-
+            $table->timestamp('recieved_time', 0)->nullable();
+            $table->timestamp('served_time', 0)->nullable();
+            $table->timestamp('transit_time', 0)->nullable();
+            $table->timestamp('delivered_time', 0)->nullable();
+            $table->timestamp('rejected_time', 0)->nullable();
             $table->timestamps();
         });
     }

@@ -182,6 +182,7 @@ class OrderController extends Controller
         $order->status = 2;
         $order->user()->increment('orders');
         $order->user()->increment('points', 10);
+        $order->served_time = Carbon::now();
         
         $order->user_status = 0;
         $order->save();
@@ -197,6 +198,7 @@ class OrderController extends Controller
         $order->user_status = 0;
         $order->reject_reason = '';
         $order->delivery_status = 0;
+        $order->transit_time = Carbon::now();
 
         $agent = Delivery::find($request->delivery_agent_id);
         $order->delivery()->associate($agent);
@@ -217,12 +219,14 @@ class OrderController extends Controller
             $order = Auth::user()->delivery_agent->orders()->find($request->id);
         }
         $order->user()->increment('orders');
+        $order->delivered_time = Carbon::now();
+        
         $order->user()->increment('points', 10);
         $order->status = 4;
         $order->user_status = 0;
         $order->paid = 1;
         $order->delivery_status = 0;
-
+        
         $order->save();
         $response = [
             'message' => 'delivered successfully'
@@ -234,6 +238,8 @@ class OrderController extends Controller
         $order = Auth::user()->vendor->orders()->find($request->id);
         $order->status = 5;
         $order->user_status = 0;
+        $order->rejected_time = Carbon::now();
+        
         $order->delivery_status = 0;
         $order->reject_reason = $request->reason;
         if($request->delivery_agent_id != null){

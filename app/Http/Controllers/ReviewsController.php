@@ -36,11 +36,11 @@ class ReviewsController extends Controller
         $review->vendor_id = $request->vendor_id;
         $user->reviews()->save($review);
         $vendor->reviews()->save($review);
-        $order->reviews()->save($review);
+        // $order->reviews()->save($review);
         $review->save();
      
         $response = [
-            'message' => 'review saved',
+            'message' => $order,
         ];
         return response()->json($response);
         }

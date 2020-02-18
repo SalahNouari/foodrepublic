@@ -28,13 +28,13 @@ class MainController extends Controller
 
         $d = Areas::find($request->id);
         $vendor = $d->vendor()
-        ->select(DB::raw('avg(reviews.rating) as average'))
         ->where('type', $request->type)
-        ->withCount('reviews')
         ->with( [
-        'tags', 'area' => function ($query) use ($request) {
-            $query->where('areas_id', $request->id);
-        }])
+            'tags', 'reviews', 'area' => function ($query) use ($request) {
+                $query->where('areas_id', $request->id);
+            }])
+        ->withCount('reviews')
+        ->select(DB::raw('avg(reviews.rating) as average'))
         ->get();
         $response = [
             'items' => $vendor

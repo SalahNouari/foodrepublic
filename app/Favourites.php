@@ -10,8 +10,6 @@ class Favourites extends Model
     {
         return $this->belongsTo('App\User');
     }
-    protected $with = ['vendors'];
-
       public function vendors()
     {
         return $this->belongsToMany('App\Vendor');

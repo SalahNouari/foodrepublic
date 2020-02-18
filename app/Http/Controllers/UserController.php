@@ -211,7 +211,10 @@ public $successStatus = 200;
    
    public function load_favourites(){
         $user = Auth::user();
-        $success['favourites'] = $user->favourites;
+        $success['favourites'] = $user->favourites()
+        ->with(['vendors' => function ($query) {
+            $query->select('id', 'image', 'name');
+        }]);
         return response()->json(['success' => $success], $this->successStatus);
      
    }

@@ -40,8 +40,8 @@ class MainController extends Controller
         ->withCount('reviews')
         ->get();
         $vendor->each(function ($i, $k){
-           $t = $i->reviews()->avg('rating');
-            data_fill($i, 'rate', $t);
+            $t = $i->reviews()->avg('rating');
+                data_fill($i, 'rate', $t);
 
         });
         $response = [

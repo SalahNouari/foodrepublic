@@ -33,9 +33,9 @@ class ReviewsController extends Controller
         $vendor = Vendor::find($request->vendor_id);
         $review->content = $request->review;
         $review->rating = $request->rating;
+        $review->order()->associate($order);
         $user->reviews()->save($review);
         $vendor->reviews()->save($review);
-        $review->order()->associate($order);
         $review->save();
      
         $response = [

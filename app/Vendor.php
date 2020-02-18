@@ -16,9 +16,8 @@ class Vendor extends Model
     }
     public function withAvgRating()
     {
-        return $this->hasMany('App\Reviews')->avg('rating');
+        return $this->avg('reviews.rating');
     }
-
     public function user()
     {
         return $this->belongsTo('App\User');

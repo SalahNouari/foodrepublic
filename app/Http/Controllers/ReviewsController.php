@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Food;
 use App\Order;
-use App\User;
 use App\Reviews;
 use App\Vendor;
 use Illuminate\Support\Facades\Auth;
@@ -34,8 +32,8 @@ class ReviewsController extends Controller
         $review->content = $request->review;
         $review->rating = $request->rating;
         $review->order()->associate($order);
-        $user->reviews()->save($review);
-        $vendor->reviews()->save($review);
+        $review->vendor()->associate($vendor);
+        $review->user()->associate($user);
         $review->save();
      
         $response = [

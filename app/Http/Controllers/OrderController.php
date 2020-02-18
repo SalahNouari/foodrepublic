@@ -147,7 +147,7 @@ class OrderController extends Controller
     }
     public function find(Request $request)
     {
-        $order = Auth::user()->vendor->orders()->with(['user', 'items', 'options', 'address.area', 'delivery'])->find($request->id);
+        $order = Auth::user()->vendor->orders()->with(['user', 'items', 'options', 'address.area', 'delivery', 'reviews'])->find($request->id);
       
         $response = [
             'order' => $order

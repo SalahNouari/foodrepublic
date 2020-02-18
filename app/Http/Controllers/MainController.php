@@ -37,7 +37,7 @@ class MainController extends Controller
                 $query->where('areas_id', $request->id);
             },
              'reviews' => function ($query){
-                $query->pluck('rating');
+                $query->select('rating');
             }
             ])
         ->withCount('reviews')

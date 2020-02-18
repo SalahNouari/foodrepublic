@@ -37,7 +37,7 @@ class MainController extends Controller
                 $query->where('areas_id', $request->id);
             },
              'reviews' => function ($query){
-                $query->select(DB::raw('sum(rating) as rate'));
+                $query->select('vendor_id', 'id', DB::raw('sum(rating) as rate'));
             }
             ])
         ->withCount('reviews')

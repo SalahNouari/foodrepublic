@@ -14,7 +14,7 @@ class Vendor extends Model
     {
         return $this->hasMany('App\Reviews');
     }
-    public function scopeWithAvgRating($query)
+    public function withAvgRating()
     {
         return $this->hasMany('App\Reviews')->avg('rating');
     }

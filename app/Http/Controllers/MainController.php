@@ -30,14 +30,14 @@ class MainController extends Controller
         $vendor = $d->vendor()
         ->where('type', $request->type)
         ->with([
-             'tags' => function ($query) use ($request) {
+             'tags' => function ($query){
                 $query->select('tag');
             },
              'area' => function ($query) use ($request) {
                 $query->where('areas_id', $request->id);
             },
-             'reviews' => function ($query) use ($request) {
-                $query->select(DB::raw('avg(rating) as rate'));
+             'reviews' => function ($query){
+                $query->pluck('rating');
             }
             ])
         ->withCount('reviews')

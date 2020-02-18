@@ -34,7 +34,7 @@ class MainController extends Controller
                 $query->where('areas_id', $request->id);
             }])
         ->withCount('reviews')
-        // ->select(DB::raw('avg(reviews.rating) as average'))
+        ->withAvgRating()
         ->get();
         $response = [
             'items' => $vendor

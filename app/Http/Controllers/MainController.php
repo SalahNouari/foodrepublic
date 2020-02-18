@@ -35,13 +35,15 @@ class MainController extends Controller
             },
              'area' => function ($query) use ($request) {
                 $query->where('areas_id', $request->id);
-            },
-             'reviews' => function ($query){
-                $query->select('vendor_id', 'id', DB::raw('SUM(rating) as rate'));
             }
             ])
         ->withCount('reviews')
         ->get();
+        $vendor->each(function ($i, $k){
+           $t = $i->reviews()->avg('rating');
+            data_fill($i, 'rate', $t);
+
+        });
         $response = [
             'items' => $vendor
         ];

@@ -29,10 +29,17 @@ class MainController extends Controller
         $d = Areas::find($request->id);
         $vendor = $d->vendor()
         ->where('type', $request->type)
-        ->with( [
-            'tags', 'withAvgRating', 'area' => function ($query) use ($request) {
+        ->with([
+             'tags' => function ($query) use ($request) {
+                $query->select('tag');
+            },
+             'area' => function ($query) use ($request) {
                 $query->where('areas_id', $request->id);
-            }])
+            },
+             'reviews' => function ($query) use ($request) {
+                $query->select(DB::raw('avg(rating) as rate'));
+            }
+            ])
         ->withCount('reviews')
         ->get();
         $response = [

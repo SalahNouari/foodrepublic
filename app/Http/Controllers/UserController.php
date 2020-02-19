@@ -109,10 +109,11 @@ public $successStatus = 200;
                     $message->to($to_email, $to_name)->subject('Verify your Email');
                     $message->from('admin@greatdixers.xyz', 'Food Republic');
                 });
-              
                 $user->email = $request->email;
                 $user->verification_type = 'email';
                 $user->save();
+                $favourites = new Favourites;
+                $user->favourites()->save($favourites);
                 $success['user'] = ['email' => $user->email, 'type' => 'email'];
                 $success['result'] =  $result;
                 return response()->json(['success' => $success], $this->successStatus); 
@@ -140,6 +141,8 @@ public $successStatus = 200;
                     $user->phone = $request->phone;
                     $user->verification_type = 'phone';
                     $user->save();
+                    $favourites = new Favourites;
+                    $user->favourites()->save($favourites);
                     $success['user'] = ['phone' => $user->phone, 'type' => 'phone'];
                     return response()->json(['success'=>$success], $this-> successStatus); 
                 } else {
@@ -227,20 +230,10 @@ public $successStatus = 200;
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         } else {
-     if ($user->favourites) {
             $favourites = $user->favourites;
             $favourites->vendors()->toggle($request->id);
             $success['message'] = 'successfully added to favourites';
             return response()->json(['success' => $success], $this->successStatus);
-       }else{
-
-    $favourites = new Favourites;
-    $user->favourites()->save($favourites);
-    $favourites->vendors()->toggle($request->id);
-    $success['message'] = 'successfully added to favourites';
-    return response()->json(['success' => $success], $this->successStatus);
-       }
-
     }
     }
    public function remove_favourite(Request $request){

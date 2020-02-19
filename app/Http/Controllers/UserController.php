@@ -213,7 +213,7 @@ public $successStatus = 200;
         $user = Auth::user();
         $success['favourites'] = $user->favourites()
         ->with(['vendors' => function ($query) {
-            $query->select('id', 'image', 'name');
+            $query->select('favourites_id', 'image', 'name');
         }])->get();
         return response()->json(['success' => $success], $this->successStatus);
      

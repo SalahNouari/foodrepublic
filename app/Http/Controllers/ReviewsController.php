@@ -17,7 +17,7 @@ class ReviewsController extends Controller
             # code...
             $validator = $request->validate([
                 'rating' => 'required|integer|max:5',
-                'review' => 'string|max:100',
+                'review' => 'nullable|string|max:100',
                 'order_id' => 'required|integer',
                 'vendor_id' => 'required|integer',
             ]);
@@ -46,7 +46,7 @@ class ReviewsController extends Controller
     {
         $validator = $request->validate([
             'rating' => 'required|integer|max:5',
-            'review' => 'required|string|max:100',
+            'review' => 'nullable|string|max:100',
             'review_id' => 'required|integer'
         ]);
         if (!$validator) {

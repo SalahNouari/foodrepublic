@@ -214,7 +214,7 @@ public $successStatus = 200;
         $success['favourites'] = $user->favourites()
         ->with(['vendors' => function ($query) {
             $query->select('id', 'image', 'name');
-        }]);
+        }])->get();
         return response()->json(['success' => $success], $this->successStatus);
      
    }

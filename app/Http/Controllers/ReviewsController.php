@@ -52,7 +52,10 @@ class ReviewsController extends Controller
         } else {
 
         //get user
-        $review = Auth::user()->vendor->reviews->get();
+        $review = Auth::user()->vendor->reviews()
+        ->with(['user' => function ($query){
+                $query->select('name', 'image');
+            }])->get();
 
         $response = [
             'reviews' => $review

@@ -54,7 +54,7 @@ class ReviewsController extends Controller
         //get user
         $review = Vendor::where('name', $request->name)->first()->reviews()
         ->with(['user' => function ($query){
-                $query->select('name', 'image');
+                $query->select('id', 'name', 'image');
             }])->get();
 
         $response = [

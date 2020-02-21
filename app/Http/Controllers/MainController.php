@@ -82,7 +82,7 @@ class MainController extends Controller
         ->withCount('reviews')
         ->first();
         $t = $vendor->reviews()->avg('rating');
-                data_fill($vendor, 'rate', $t);
+        data_fill($vendor, 'rate', $t);
 
         $response = [
             'vendor' => $vendor,

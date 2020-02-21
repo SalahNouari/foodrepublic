@@ -77,7 +77,13 @@ class MainController extends Controller
     }
     public function vendorpage(Request $request)
     {
-        $vendor = Vendor::where('name', $request->name)->with(['tags','categories', 'area'])->first();
+        $vendor = Vendor::where('name', $request->name)
+        ->with(['tags','categories', 'area'])
+        ->withCount('reviews')
+        ->first();
+        $t = $vendor->reviews()->avg('rating');
+                data_fill($vendor, 'rate', $t);
+
         $response = [
             'vendor' => $vendor,
         ];

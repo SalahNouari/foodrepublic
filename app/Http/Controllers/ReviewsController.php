@@ -50,8 +50,9 @@ class ReviewsController extends Controller
         if (!$validator) {
             return response(['errors' => $validator->errors()->all()], 422);
         } else {
-        //get reviews
-        $review = Vendor::where('name', $request->name)->first()->reviews()->get
+
+        //get user
+        $review = Vendor::where('name', $request->name)->first()->reviews()
         ->with(['user' => function ($query){
                 $query->select('name', 'image');
             }])->get();

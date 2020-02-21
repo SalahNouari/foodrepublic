@@ -45,7 +45,7 @@ class ReviewsController extends Controller
     public function all(Request $request)
     {
         $validator = $request->validate([
-            'id' => 'required|integer'
+            'name' => 'required|string'
         ]);
         if (!$validator) {
             return response(['errors' => $validator->errors()->all()], 422);

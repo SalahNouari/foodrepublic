@@ -42,6 +42,24 @@ class ReviewsController extends Controller
         return response()->json($response);
         }
 }
+    public function all(Request $request)
+    {
+        $validator = $request->validate([
+            'id' => 'required|integer'
+        ]);
+        if (!$validator) {
+            return response(['errors' => $validator->errors()->all()], 422);
+        } else {
+
+        //get user
+        $review = Auth::user()->vendor->reviews()->get();
+
+        $response = [
+            'reviews' => $review
+        ];
+        return response()->json($response);
+        }
+}
     public function update(Request $request)
     {
         $validator = $request->validate([

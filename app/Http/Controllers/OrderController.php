@@ -150,7 +150,7 @@ class OrderController extends Controller
         $order = Auth::user()->vendor->orders()->with(['user'=> function ($query) {
                 $query->select('id', 'first_name', 'middle_name', 'surname', 'image');
         }, 'items'=> function ($query) {
-                $query->select('id', 'name', 'image');
+                $query->select('item_id','order_id', 'name', 'image');
         }, 'options', 'address.area', 'delivery', 'reviews'])->find($request->id);
       
         $response = [

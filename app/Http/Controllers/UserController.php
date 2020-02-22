@@ -343,6 +343,7 @@ public $successStatus = 200;
             $user->surname = $request->surname;
             $user->phone = $request->phone;
             $user->email = $request->email;
+            $user->save();
             $success['user'] = $user;
             return response()->json(['success' => $success], $this->successStatus); 
             

@@ -380,7 +380,7 @@ public $successStatus = 200;
     public function orderfind(Request $request)
     {
         $order = Auth::user()->orders()->with(['user' => function ($query){
-            $query->select('id', 'first_name', 'middle_name', 'surname', 'image');
+            $query->select('id', 'first_name', 'phone', 'middle_name', 'surname', 'image');
         }, 'items' => function($query){
                 $query->select('item_id','order_id','vendor_name', 'price', 'name', 'image');
         }, 'options', 'delivery', 'address.area', 'reviews'])->find($request->id);

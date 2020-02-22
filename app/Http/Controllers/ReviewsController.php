@@ -60,7 +60,9 @@ class ReviewsController extends Controller
                 $query->select('id');
             }, 
             
-            ])->get();
+            ])
+            ->orderBy($request->filter, $request->direction)
+            ->paginate(15);
 
         $response = [
             'reviews' => $review

@@ -62,7 +62,7 @@ class ReviewsController extends Controller
             
             ])
             ->orderBy($request->filter, $request->direction)
-            ->paginate(15);
+            ->paginate(1);
 
         $response = [
             'reviews' => $review

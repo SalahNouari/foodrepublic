@@ -379,7 +379,11 @@ public $successStatus = 200;
     }
     public function orderfind(Request $request)
     {
-        $order = Auth::user()->orders()->with(['user', 'items', 'options', 'address.area', 'reviews'])->find($request->id);
+        $order = Auth::user()->orders()->with(['user' => function ($query){
+            $query->select('id', 'first_name', 'last_name', 'surname', 'image');
+        }, 'items' => function($query){
+                $query->select('item_id','order_id', 'price', 'name', 'image');
+        }, 'options', 'delivery', 'address.area', 'reviews'])->find($request->id);
 
         $response = [
             'order' => $order

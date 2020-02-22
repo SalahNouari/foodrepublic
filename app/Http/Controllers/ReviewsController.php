@@ -61,6 +61,7 @@ class ReviewsController extends Controller
             }, 
             
             ])
+            ->latest()
             ->orderBy($request->filter, $request->direction)
             ->paginate(6);
 

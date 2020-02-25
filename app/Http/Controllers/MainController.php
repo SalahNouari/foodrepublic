@@ -93,7 +93,7 @@ class MainController extends Controller
     {
         $items = Vendor::where('name', $request->name)->first()->categories()
         ->where('id', $request->cat_id)
-        ->with('items')->get();
+        ->with('items.main_option')->get();
         $response = [
             'items' => $items,
         ];

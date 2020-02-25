@@ -10,7 +10,7 @@ class MainOption extends Model
     {
         return $this->belongsToMany('App\Option');
     }
-    protected $with = ['option'];
+    // protected $with = ['option'];
 
         public function item()
     {

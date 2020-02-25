@@ -10,7 +10,6 @@ class Option extends Model
     {
         return $this->belongsTo('App\Vendor');
     }
-     protected $visible = ['id', 'name', 'image', 'vendor_id', 'price', 'available', 'status'];
     public function item()
     {
         return $this->belongsToMany('App\Item');

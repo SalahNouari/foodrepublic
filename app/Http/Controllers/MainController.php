@@ -94,9 +94,9 @@ class MainController extends Controller
         $items = Vendor::where('name', $request->name)->first()->categories()
         ->where('id', $request->cat_id)
         ->with(['items.main_option' => function($query){
-            $query->select('main_option_id', 'item_id', 'title');
+            $query->select('main_option_id','vendor_id', 'item_id', 'title');
             $query->with(['option'=>function($query){
-                $query->select(['main_option_id', 'vendor_id', 'option_id', 'item_id', 'name', 'price']);
+                $query->select(['main_option_id', 'vendor_id', 'option_id', 'name', 'price']);
             }]);
         }])->get();
         $response = [

@@ -97,6 +97,7 @@ Route::prefix('vendor')->group(function () {
    Route::get('tags', 'VendorController@tags');
    Route::post('delete', 'VendorController@delete')->middleware('auth:api');
    Route::get('all', 'VendorController@all');
+   Route::get('get_offline_data', 'VendorController@get_offline_data');
 });
 Route::prefix('delivery')->group(function () {
    Route::post('upload', 'DeliveryController@upload')->middleware('auth:api');

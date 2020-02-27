@@ -99,6 +99,7 @@ class MainController extends Controller
         ];
         return response()->json($response);
     }
+
     public function vendoritem(Request $request)
     {
         $item = Category::find($request->cat)->items()->where('name', $request->name)->with('main_option')->first();

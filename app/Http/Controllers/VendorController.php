@@ -26,6 +26,17 @@ class VendorController extends Controller
         ];
         return response()->json($response);
     }
+
+        public function get_offline_data(Request $request)
+    {
+        $items = Auth::user()->vendor()->categories()
+        ->with(['items.main_option'])->get();
+        $response = [
+            'items' => $items,
+        ];
+        return response()->json($response);
+    }
+    
     public function load(Request $request)
     {
         $vendor = Auth::user()->vendor()->with(['tags',  'area'])->withCount(['orders' => function ($query) {

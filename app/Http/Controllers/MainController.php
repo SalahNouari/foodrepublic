@@ -7,6 +7,7 @@ use App\Item;
 use App\Vendor;
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;  
 use Illuminate\Support\Facades\Response;
@@ -62,11 +63,12 @@ class MainController extends Controller
         foreach ($d->vendor()->get() as $vendor) {
             $d = Item::where('vendor_id', $vendor->id)
                     ->whereLike('name', $request->name)
-                    ->add(['vendor' => $vendor->name])
                     ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
                     ->get();
+                    Arr::add($d, 'vendor', $vendor->name);
                     if (count($d) > 0) {
                         array_push($items, $d);
+
                     }
         }
         

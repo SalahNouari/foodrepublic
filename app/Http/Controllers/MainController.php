@@ -65,8 +65,8 @@ class MainController extends Controller
                     ->whereLike('name', $request->name)
                     ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
                     ->get();
-                    Arr::add($d, 'vendor', $vendor->name);
                     if (count($d) > 0) {
+                        Arr::add($d, 'vendor', $vendor->name);
                         array_push($items, $d);
 
                     }

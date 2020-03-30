@@ -91,7 +91,7 @@ class MainController extends Controller
     }
     public function vendoritems(Request $request)
     {
-        $cat = Category::find($request->cat);
+        $cat = Category::find($request->cat_id);
 
         $items = $cat->items()->with(['main_option'])->get();
         $response = [

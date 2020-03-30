@@ -102,10 +102,11 @@ class MainController extends Controller
 
     public function vendoritem(Request $request)
     {
-        $item = Category::find($request->cat)->items()->where('name', $request->name)->with('main_option')->first();
+        $cat = Category::find($request->cat);
+        $item = $cat->items()->where('name', $request->name)->with('main_option')->first();
         $response = [
             'item' => $item,
-            'vendor' => $item->vendor()->name
+            'vendor' => $cat->vendor()->name
         ];
         return response()->json($response);
     }

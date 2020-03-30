@@ -93,7 +93,7 @@ class MainController extends Controller
     {
         $cat = Category::find($request->cat);
 
-        $items = $cat->with(['items.main_option'])->get();
+        $items = $cat->items()->with(['main_option'])->get();
         $response = [
             'items' => $items,
         ];

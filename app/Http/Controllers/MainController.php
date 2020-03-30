@@ -91,9 +91,9 @@ class MainController extends Controller
     }
     public function vendoritems(Request $request)
     {
-        $items = Vendor::where('name', $request->name)->first()->categories()
-        ->where('id', $request->cat_id)
-        ->with(['items.main_option'])->get();
+        $cat = Category::find($request->cat);
+
+        $items = $cat->with(['items.main_option'])->get();
         $response = [
             'items' => $items,
         ];

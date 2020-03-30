@@ -105,6 +105,7 @@ class MainController extends Controller
         $item = Category::find($request->cat)->items()->where('name', $request->name)->with('main_option')->first();
         $response = [
             'item' => $item,
+            'vendor' => $item->vendor->name
         ];
         return response()->json($response);
     }

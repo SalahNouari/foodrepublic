@@ -68,12 +68,9 @@ class MainController extends Controller
                     ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
                     ->get();
                     if (count($d) > 0) {
-                        $r = [
-                            'vendor' =>  $vendor->name,
-                            'status' => $vendor->status
-                        ];
-                        $g = Arr::collapse($d, $r);
-                        array_push($items, $g);
+                        Arr::add($d, 'vendor', $vendor->name);
+                        Arr::add($d, 'status', $vendor->status);
+                        array_push($items, $d);
 
                     }
         }

@@ -129,6 +129,17 @@ class VendorController extends Controller
             ];
         return response()->json($response);
     }
+    public function changeStatus(Request $request)
+    {
+        $user = Auth::user();
+        $vendor = $user->vendor;
+        $vendor->status = $request->status;
+        $vendor->save();
+        $response = [
+                'message' => 'successful'
+            ];
+        return response()->json($response);
+    }
     public function paySet(Request $request)
     {
         $user = Auth::user();
@@ -179,6 +190,7 @@ class VendorController extends Controller
         $vendor->address = $request->address;
         $vendor->city = $request->city;
         $vendor->lat = $request->lat;
+        $vendor->status = false;
         $vendor->lng = $request->lng;
         $vendor->place_id = $request->place_id;
         $user->vendor()->save($vendor);

@@ -94,6 +94,7 @@ Route::prefix('vendor')->group(function () {
    Route::get('find', 'VendorController@find');
    Route::post('setfee', 'VendorController@setfee')->middleware('auth:api');
    Route::post('payset', 'VendorController@payset')->middleware('auth:api');
+   Route::post('changeStatus', 'VendorController@changeStatus')->middleware('auth:api');
    Route::get('tags', 'VendorController@tags');
    Route::post('delete', 'VendorController@delete')->middleware('auth:api');
    Route::get('all', 'VendorController@all');

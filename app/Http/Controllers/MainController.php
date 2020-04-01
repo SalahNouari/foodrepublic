@@ -40,6 +40,7 @@ class MainController extends Controller
             ])
         ->withCount('reviews')
         ->get();
+        $vendor->makeHidden(['account_number', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio']);
         $vendor->each(function ($i, $k){
             $t = $i->reviews()->avg('rating');
                 data_fill($i, 'rate', $t);
@@ -48,7 +49,6 @@ class MainController extends Controller
         $response = [
             'items' => $vendor
         ];
-        $response->makeHidden(['account_number', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio']);
 
         return response()->json($response);
     }

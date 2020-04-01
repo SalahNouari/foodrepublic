@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vendor extends Model
 {
+    // protected $hidden = ['account_number', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio'];
+
     public function area()
     {
         return $this->belongsToMany('App\Areas')->withPivot('fee', 'duration', 'distance');

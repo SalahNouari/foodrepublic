@@ -24,7 +24,7 @@ class VendorController extends Controller
         $response = [
             'vendors' => $vendors,
         ];
-        $response->makeHidden(['account_number', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio']);
+        // $response->makeHidden(['account_number', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio']);
 
         return response()->json($response);
     }

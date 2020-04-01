@@ -72,8 +72,8 @@ class MainController extends Controller
                             'vendor' =>  $vendor->name,
                             'status' => $vendor->status
                         ];
-                        Arr::collapse($d, $r);
-                        array_push($items, $d);
+                        $g = Arr::collapse($d, $r);
+                        array_push($items, $g);
 
                     }
         }

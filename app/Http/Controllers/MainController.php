@@ -59,7 +59,7 @@ class MainController extends Controller
         
         $vendors = $d->vendor()
                     ->where('name', 'like', '%' . $request->name . '%')
-                    ->select('name', 'image')
+                    ->select('name', 'status', 'image')
                     ->get();
         $items = array();
         foreach ($d->vendor()->get() as $vendor) {
@@ -68,7 +68,11 @@ class MainController extends Controller
                     ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
                     ->get();
                     if (count($d) > 0) {
-                        Arr::add($d, 'vendor', $vendor->name);
+                        $r = [
+                            'vendor' =>  $vendor->name,
+                            'status' => $vendor->status
+                        ];
+                        Arr::collapse($d, $r);
                         array_push($items, $d);
 
                     }

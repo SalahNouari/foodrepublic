@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Areas extends Model
 {
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function state()
     {
         return $this->belongsTo('App\States');

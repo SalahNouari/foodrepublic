@@ -10,6 +10,8 @@ class MainOption extends Model
     {
         return $this->belongsToMany('App\Option');
     }
+    protected $hidden = ['created_at', 'updated_at'];
+
     protected $with = ['option'];
 
         public function item()

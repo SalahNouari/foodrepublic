@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vendor extends Model
 {
-    // protected $hidden = ['account_number', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio'];
+    // protected $hidden = ['created_at', 'updated_at', 'place_id', 'address', 'type', 'pos_charge', 'phone', 'branch', 'account_number', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio'];
 
     public function area()
     {

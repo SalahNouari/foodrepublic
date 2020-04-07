@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Areas extends Model
 {
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['place_id', 'created_at', 'updated_at'];
 
     public function state()
     {

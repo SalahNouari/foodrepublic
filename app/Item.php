@@ -10,7 +10,7 @@ class Item extends Model
     {
         return $this->belongsTo('App\Category');
     }
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['generic', 'created_at', 'updated_at'];
     protected $withCount = ['main_option'];
     public function scopeWhereLike($query, $column, $value)
     {

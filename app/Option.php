@@ -10,6 +10,8 @@ class Option extends Model
     {
         return $this->belongsTo('App\Vendor');
     }
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function item()
     {
         return $this->belongsToMany('App\Item');

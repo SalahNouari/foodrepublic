@@ -40,7 +40,7 @@ class MainController extends Controller
             ])
         ->withCount('reviews')
         ->get();
-        $vendor->makeHidden(['created_at', 'updated_at', 'place_id', 'account_number', 'address', 'phone', 'branch', 'type', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio']);
+        $vendor->makeHidden(['created_at', 'pos_charge', 'updated_at', 'place_id', 'account_number', 'address', 'phone', 'branch', 'type', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio', 'pos_charge']);
         $vendor->each(function ($i, $k){
             $t = $i->reviews()->avg('rating');
                 data_fill($i, 'rate', $t);

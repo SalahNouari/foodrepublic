@@ -79,7 +79,7 @@ public $successStatus = 200;
     }
     public function setfcm(Request $request){
         $user = Auth::user();
-        $user->token =  $request->token;
+        $user->token = $request->token;
         $user->save();
         return response()->json(['success' => $user], $this->successStatus);
     }

@@ -81,7 +81,7 @@ public $successStatus = 200;
         $user = Auth::user();
         $user->token = $request->token;
         $user->save();
-        return response()->json(['success' => $user], $this->successStatus);
+        return response()->json(['success' => 'success'], $this->successStatus);
     }
     public function login(){ 
         if(Auth::attempt(['phone' => request('phone'), 'password' => request('password')])){ 

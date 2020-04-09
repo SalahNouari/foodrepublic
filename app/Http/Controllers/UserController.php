@@ -77,6 +77,12 @@ public $successStatus = 200;
         $success['user'] =  $user;
         return response()->json(['success' => $success], $this->successStatus);
     }
+    public function setfcm(Request $request){
+        $user = Auth::user();
+        $user =  $request->token;
+        $user->save();
+        return response()->json(['success' => $user], $this->successStatus);
+    }
     public function login(){ 
         if(Auth::attempt(['phone' => request('phone'), 'password' => request('password')])){ 
             $user = Auth::user(); 

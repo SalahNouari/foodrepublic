@@ -16,7 +16,7 @@ Route::get('/', function () {
    return 'success';
 });
 // Route::get('/', 'VendorController@hn');
-Route::post('setfcm', 'UserController@setfcm');
+Route::post('setfcm', 'UserController@setfcm')->middleware('auth:api');
 Route::post('login', 'UserController@login');
 Route::get('logout', 'UserController@logout')->middleware('auth:api');
 Route::get('settings', 'MainController@settings')->middleware('auth:api');

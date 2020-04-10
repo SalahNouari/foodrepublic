@@ -80,11 +80,11 @@ class Firebase {
 				$fields
 			,
 			'headers' => [
-				'Authorization' => 'key=AAAAqCwOW50:APA91bHbGi0VMAbl4gjW4lB-79xPgHMdZ4A9KQSfFQrUcSualC1ySz_PtGmhWXlB_46oWgLdeBDk2sooukGMjHa6L1zwGWfl5YWkN1Z-GLrtwTjFRvrD3spLX4FsCQPX6EkMkYG1XFCf',
+				'Authorization' => 'key=' . env( 'FCM_LEGACY_KEY' ),
 				'Content-Type'  => 'application/json',
 			],
 		] );
-//  . env( 'FCM_LEGACY_KEY' )
+
 		return json_decode( $result->getBody(), true );
 
 	}

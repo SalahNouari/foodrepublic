@@ -185,9 +185,9 @@ class OrderController extends Controller
     {
         $order = Auth::user()->vendor->orders()->find($request->id);
         $order->status = 2;
-        $user = $order->user();
-        $user->increment('orders');
-        $user->increment('points', 10);
+        $user = $order->user;
+        $user()->increment('orders');
+        $user()->increment('points', 10);
         $order->served_time = Carbon::now();
         
         $order->user_status = 0;
@@ -205,7 +205,7 @@ class OrderController extends Controller
         $order->status = 3;
         $order->user_status = 0;
         $order->reject_reason = '';
-        $user = $order->user();
+        $user = $order->user;
         $order->delivery_status = 0;
         $order->transit_time = Carbon::now();
 
@@ -249,7 +249,7 @@ class OrderController extends Controller
         $order->status = 5;
         $order->user_status = 0;
         $order->rejected_time = Carbon::now();
-        $user = $order->user();
+        $user = $order->user;
         $order->delivery_status = 0;
         $order->reject_reason = $request->reason;
         if($request->delivery_agent_id != null){
@@ -257,7 +257,7 @@ class OrderController extends Controller
             $order->delivery()->dissociate($agent);
         }
         if($order->paid){
-            $user->increment('wallet', $order->grand_total);
+            $user()->increment('wallet', $order->grand_total);
             $user->save();
         }
         $order->save();

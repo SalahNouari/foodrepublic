@@ -75,3 +75,11 @@ class NotificationController extends Controller {
 // \"timestamp\":\"2020-04-10 13:46:14\"}",
 // "notification":"{\"title\":\"hello from postman\",
 // 	\"body\":\"hi its me post me.\"}"}}
+
+// Push received: {"id":"0:1586524409541792%23266720f9fd7ecd","data":
+// 	{"body":"hi its me post me.","data":"{\"payload\":{\"a\":\"b\",\"c\":\"d\",\"e\":\"f\"},
+// \"timestamp\":\"2020-04-10 
+
+// Msg: Push received: {"id":"0:1586524493857694%2326672023266720",
+// 	"data":{},"title":"Deals!!!",
+// "body":"Get hot meals from close vendors now!!"}

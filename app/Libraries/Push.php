@@ -33,7 +33,7 @@ class Push {
 	 * @return array
 	 */
 	public function getPush() {
-		$res                      = array();
+		$res = array();
 		$res['title'] = $this->title;
 		$res['body'] = $this->message;
 		$res['data']['payload']   = $this->data;

@@ -10,7 +10,8 @@ use App\Delivery;
 use App\Item;
 use Illuminate\Support\Facades\Auth;
 use Validator;
-
+use App\Libraries\Firebase;
+use App\Libraries\Push;
 use App\Order; 
 use App\Location; 
 use App\Snacks; 
@@ -20,6 +21,7 @@ use Carbon\Carbon;
 
 class OrderController extends Controller
 {
+
     public function all(Request $request)
     {
         $order = Auth::user()->vendor->orders()->latest()->paginate(12);
@@ -162,6 +164,8 @@ class OrderController extends Controller
     {
         $order = Auth::user()->vendor->orders()->find($request->id);
         $order->status = 1;
+        $user = $order->user();
+        $vendor = $order->vendor();
         $order->user_status = 0;
         $order->recieved_time = Carbon::now();
         $order->delivery_status = 0;
@@ -169,16 +173,65 @@ class OrderController extends Controller
         $response = [
             'message' => 'read successful'
         ];
+        $receiver               = $user->token;
+		$notification_payload   = array('url'=> '/cart');
+		$notification_title     = $vendor->name . ' has received your order.';
+		$notification_message   = $request->message;
+
+		// try {
+
+			$receiver_id = $receiver;
+
+			$firebase = new Firebase();
+			$push     = new Push();
+
+			// optional payload
+			$payload = $notification_payload;
+
+			$title = $notification_title ?? '';
+
+			// notification message
+			$message = $notification_message ?? '';
+
+
+			$push->setTitle( $title );
+			$push->setMessage( $message );
+			$push->setPayload( $payload );
+
+
+			$json     = '';
+			$response = '';
+
+
+				$json     = $push->getPush();
+				$regId    = $receiver_id ?? '';
+				$response2 = $firebase->send( $regId, $json );
+
         return response()->json($response);
     }
     public function delivery_read(Request $request)
     {
         $order = Auth::user()->delivery_agent->orders()->find($request->id);
+      
         $order->delivery_status = 1;
         $order->save();
         $response = [
             'message' => 'read successful'
         ];
+        
+
+				// return response()->json( [
+                //     'response' => $response,
+                //     'oda' => $json
+				// ] );
+			
+			
+		// } catch ( \Exception $ex ) {
+		// 	// return response()->json( [
+		// 	// 	'error'   => true,
+		// 	// 	'message' => $ex->getMessage()
+		// 	// ] );
+		// }
         return response()->json($response);
     }
     public function served(Request $request)

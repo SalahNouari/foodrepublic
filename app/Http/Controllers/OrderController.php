@@ -185,14 +185,17 @@ class OrderController extends Controller
     {
         $order = Auth::user()->vendor->orders()->find($request->id);
         $order->status = 2;
-        $order->user()->increment('orders');
-        $order->user()->increment('points', 10);
+        $user = $order->user();
+        $user->increment('orders');
+        $user->increment('points', 10);
         $order->served_time = Carbon::now();
         
         $order->user_status = 0;
         $order->save();
         $response = [
-            'message' => 'served successful'
+            'message' => 'Your order has been served',
+            'token' => $user->token,
+
         ];
         return response()->json($response);
     }
@@ -202,6 +205,7 @@ class OrderController extends Controller
         $order->status = 3;
         $order->user_status = 0;
         $order->reject_reason = '';
+        $user = $order->user();
         $order->delivery_status = 0;
         $order->transit_time = Carbon::now();
 
@@ -209,7 +213,8 @@ class OrderController extends Controller
         $order->delivery()->associate($agent);
         $order->save();
         $response = [
-            'message' => 'transit successful'
+            'message' => 'Your order is on the way',
+            'token' => $user->token,
         ];
         return response()->json($response);
     }
@@ -244,7 +249,7 @@ class OrderController extends Controller
         $order->status = 5;
         $order->user_status = 0;
         $order->rejected_time = Carbon::now();
-        
+        $user = $order->user();
         $order->delivery_status = 0;
         $order->reject_reason = $request->reason;
         if($request->delivery_agent_id != null){
@@ -252,13 +257,13 @@ class OrderController extends Controller
             $order->delivery()->dissociate($agent);
         }
         if($order->paid){
-            $user = $order->user;
             $user->increment('wallet', $order->grand_total);
             $user->save();
         }
         $order->save();
         $response = [
-            'message' => 'order reject successful'
+            'message' => 'Your order has been canceled',
+            'token' => $user->token
         ];
         return response()->json($response);
     }

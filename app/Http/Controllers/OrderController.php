@@ -258,7 +258,6 @@ class OrderController extends Controller
         }
         if($order->paid){
             $order->user()->increment('wallet', $order->grand_total);
-            $order->user()->save();
         }
         $order->save();
         $response = [

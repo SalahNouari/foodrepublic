@@ -18,12 +18,12 @@ class Firebase {
 	public function send( $to, $message ) {
 
 		$fields = array(
-			'to'   => $to,
-			'notification' => [
-				'title'=>$message->title,
-				'body'=>$message->body
-			],
-			'data' => $message->data
+			"to"   => $to,
+			"notification" =>array(
+				"title"=> $message["title"],
+				"body"=> $message["body"]
+			),
+			"data" => $message->data
 		);
 
 		return $this->sendPushNotification( $fields );

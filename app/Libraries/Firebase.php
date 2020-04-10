@@ -23,7 +23,7 @@ class Firebase {
 				"title"=> $message["title"],
 				"body"=> $message["body"]
 			),
-			"data" => $message->data
+			"data" => $message['data']
 		);
 
 		return $this->sendPushNotification( $fields );

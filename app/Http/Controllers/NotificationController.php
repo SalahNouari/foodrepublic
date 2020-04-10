@@ -8,16 +8,16 @@ use Illuminate\Http\Request;
 
 
 class NotificationController extends Controller {
-	public function notify(Request $data) {
+	public function notify(Request $request) {
 
-		$datas = json_decode( $data->payload );
+		$datas = json_decode( $request->payload );
 
-		$sender                 = $data->sender_user;
-		$receiver               = $data->receiver_user;
+		$sender                 = $request->sender_user;
+		$receiver               = $request->receiver_user;
 		$notification_payload   = $datas;
-		$notification_title     = $data->title;
-		$notification_message   = $data->message;
-		$notification_push_type = $data->push_type;
+		$notification_title     = $request->title;
+		$notification_message   = $request->message;
+		$notification_push_type = $request->push_type;
 
 		try {
 

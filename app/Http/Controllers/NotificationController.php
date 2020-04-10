@@ -69,3 +69,9 @@ class NotificationController extends Controller {
 
 	}
 }
+
+
+// {"data":"{\"payload\":{\"a\":\"b\",\"c\":\"d\",\"e\":\"f\"},
+// \"timestamp\":\"2020-04-10 13:46:14\"}",
+// "notification":"{\"title\":\"hello from postman\",
+// 	\"body\":\"hi its me post me.\"}"}}

@@ -34,8 +34,8 @@ class Push {
 	 */
 	public function getPush() {
 		$res                      = array();
-		$res['notification']['title'] = $this->title;
-		$res['notification']['body'] = $this->message;
+		$res['title'] = $this->title;
+		$res['body'] = $this->message;
 		$res['data']['payload']   = $this->data;
 		$res['data']['timestamp'] = date( 'Y-m-d G:i:s' );
 

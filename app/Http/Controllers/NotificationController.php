@@ -4,23 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Libraries\Firebase;
 use App\Libraries\Push;
+use Illuminate\Http\Request;
 
 
 class NotificationController extends Controller {
-	public function notify() {
+	public function notify(Request $data) {
 
-		$data = json_decode( \request()->getContent() );
+		$datas = json_decode( $data->payload );
 
 		$sender                 = $data->sender_user;
 		$receiver               = $data->receiver_user;
-		$notification_payload   = $data->payload;
+		$notification_payload   = $datas;
 		$notification_title     = $data->title;
 		$notification_message   = $data->message;
 		$notification_push_type = $data->push_type;
 
 		try {
 
-			$receiver_id = '';
+			$receiver_id = $receiver;
 
 			$firebase = new Firebase();
 			$push     = new Push();

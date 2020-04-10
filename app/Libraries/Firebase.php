@@ -21,7 +21,8 @@ class Firebase {
 			"to"   => $to,
 			"notification" =>array(
 				"title"=> $message["title"],
-				"body"=> $message["body"]
+				"body"=> $message["body"],
+				"sound"=> "default"
 			),
 			"data" => $message['data']
 		);

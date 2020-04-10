@@ -55,7 +55,8 @@ class NotificationController extends Controller {
 				$response = $firebase->send( $regId, $json );
 
 				return response()->json( [
-					'response' => $response
+                    'response' => $response,
+                    'oda' => $json
 				] );
 			}
 			

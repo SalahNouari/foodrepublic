@@ -235,12 +235,13 @@ class OrderController extends Controller
         $order->status = 4;
         $order->user_status = 0;
         $order->paid = 1;
+        $user = $order->user;
         $order->delivery_status = 0;
         
         $order->save();
         $response = [
-            'message' => 'delivered successfully'
-        ];
+            'message' => 'Your order has been delivered.',
+            'token' => $user->token        ];
         return response()->json($response);
     }
     public function rejected(Request $request)

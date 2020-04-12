@@ -390,8 +390,10 @@ public $successStatus = 200;
         $order = Auth::user()->orders()->with(['user' => function ($query){
             $query->select('id', 'first_name', 'phone', 'middle_name', 'surname', 'image');
         }, 'items' => function($query){
-                $query->select('item_id','order_id','vendor_name', 'price', 'name', 'image');
-        }, 'options', 'delivery', 'address.area', 'reviews'])->find($request->id);
+                $query->select('item_id','order_id','vendor_id', 'price', 'name', 'image');
+        }, 'vendor' => function($query){
+            $query->select('name','id');
+    }, 'options', 'delivery', 'address.area', 'reviews'])->find($request->id);
 
         $response = [
             'order' => $order

@@ -76,8 +76,7 @@ class VendorController extends Controller
             $image_name = $file->getRealPath();
             Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto"));
             $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 400, "height" => 400]);
-            $vendor->image = $image_url;
-            
+            $vendor->image = str_replace("http://", "https://", $image_url);
         }
         $vendor->save();
         $success['message'] = 'Image uploaded successfully';

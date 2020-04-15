@@ -71,7 +71,7 @@ class DeliveryController extends Controller
             $image_name = $file->getRealPath();
             Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto"));
             $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 400, "height" => 400]);
-            $delivery_agent->image = $image_url;
+            $delivery_agent->image = str_replace("http://", "https://", $image_url);
         }
         $delivery_agent->save();
         $success['message'] = 'Image uploaded successfully';

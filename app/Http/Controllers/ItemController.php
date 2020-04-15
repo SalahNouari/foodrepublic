@@ -6,7 +6,6 @@ use App\Item;
 use App\Vendor;
 use Illuminate\Support\Facades\Auth;
 use JD\Cloudder\Facades\Cloudder;
-use Illuminate\Support\Facades\Storage;
 use Validator;
 
 use Illuminate\Http\Request;
@@ -83,11 +82,10 @@ class ItemController extends Controller
                 ]);
                 if ($files) {
                     foreach ($files as $file) {
-                        
-                        $name = time() . $file->getClientOriginalName();
-                        $filePath = 'images/' . $name;
-                        Storage::disk('s3')->put($filePath, file_get_contents($file));
-                        $item->image = "https://edeybucket.s3.us-east-2.amazonaws.com/images/" . $name;
+                        $image_name = $file->getRealPath();
+                        Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto"));
+                        $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 400, "height" => 400]);
+                        $item->image = str_replace("http://", "https://", $image_url);
                     }
                 }
                 $category->items()->save($item);

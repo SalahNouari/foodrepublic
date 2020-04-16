@@ -23,7 +23,7 @@ class OptionController extends Controller
     {
         $vendor = Auth::user()->vendor;
         $response = [
-            'options' => $vendor->option()->select('id', 'name', 'cost_price', 'mark_up_price', 'image', 'status', 'available')->get(),
+            'options' => $vendor->option()->select('id', 'name', 'cost_price', 'price', 'mark_up_price', 'image', 'status', 'available')->get(),
             'list' => $vendor->option->pluck('name')
         ];
         return response()->json($response);

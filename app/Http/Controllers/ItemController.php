@@ -55,7 +55,7 @@ class ItemController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'price' => 'required',
+            'cost_price' => 'required',
             'category_name' => 'required',
             'description' => 'required',
         ]);
@@ -66,7 +66,9 @@ class ItemController extends Controller
             $category = $vendor->categories->find($request->category_id);
             $item = new Item;
             $item->name = $request->name;
-            $item->price = $request->price;
+            $item->cost_price = $request->cost_price;
+            $item->mark_up_price = $request->mark_up_price;
+            $item->price = $request->mark_up_price + $request->cost_price;
             $item->description = $request->description;
             $item->category_name = $request->category_name;
             $item->category_id = $request->category_id;
@@ -134,7 +136,9 @@ class ItemController extends Controller
         $item = $vendor->categories->find($request->cat_id)->items()->find($request->item_id);
         $item->main_option()->detach();
         $item->name = $request->name;
-        $item->price = $request->price;
+        $item->cost_price = $request->cost_price;
+        $item->mark_up_price = $request->mark_up_price;
+        $item->price = $request->mark_up_price + $request->cost_price;
         $item->description = $request->description;
         $comp = json_decode($request->compulsory);
         $opt = json_decode($request->optional);

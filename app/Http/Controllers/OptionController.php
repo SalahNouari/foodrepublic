@@ -23,7 +23,7 @@ class OptionController extends Controller
     {
         $vendor = Auth::user()->vendor;
         $response = [
-            'options' => $vendor->option()->select('id', 'name', 'price', 'image', 'status', 'available')->get(),
+            'options' => $vendor->option()->select('id', 'name', 'cost_price', 'mark_up_price', 'image', 'status', 'available')->get(),
             'list' => $vendor->option->pluck('name')
         ];
         return response()->json($response);
@@ -34,14 +34,16 @@ class OptionController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'id' => 'required',
-            'price' => 'required'
+            'cost_price' => 'required'
         ]);
         if (!$validator) {
             return response(['errors' => $validator->errors()->all()], 422);
         } else {
             $option = $vendor->option->find($request->id);
             $option->name = $request->name;
-            $option->price = $request->price;
+            $option->cost_price = $request->cost_price;
+            $option->mark_up_price = $request->mark_up_price;
+            $option->price = $request->mark_up_price + $request->cost_price;
             $option->save();
         }
         $response = [
@@ -79,7 +81,9 @@ class OptionController extends Controller
             $vendor = Auth::user()->vendor;
             $option = new Option();
             $option->name = $request->name;
-            $option->price = $request->price;
+            $option->cost_price = $request->cost_price;
+            $option->mark_up_price = $request->mark_up_price;
+            $option->price = $request->mark_up_price + $request->cost_price;
             $files = $request->file('files');
             request()->validate([
                 'files' => 'required',
@@ -90,7 +94,7 @@ class OptionController extends Controller
                 $image_name = $file->getRealPath();
                 Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto"));
                 $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 400, "height" => 400]);
-                $option->image = $image_url;
+                $option->image = str_replace("http://", "https://", $image_url);
                 $vendor->option()->save($option);
             }
         }

@@ -262,7 +262,7 @@ class VendorController extends Controller
     }
     public function ordered()
     {
-        $vendor1 = Auth::user()->vendor->orders->select('id', 'tracking_id')->where('status', 4)->withCount('items', 'options')->get();
+        $vendor1 = Auth::user()->vendor->orders()->pluck('id')->where('status', 4)->withCount('items', 'options')->get();
         // $vendor2 = Auth::user()->vendor->option_order;
         return response([
             'status' => 'success',

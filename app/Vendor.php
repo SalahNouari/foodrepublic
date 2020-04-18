@@ -55,11 +55,11 @@ class Vendor extends Model
     }
     public function item_order()
     {
-        return $this->hasMany('App\Order', 'item_order', 'vendor_id', 'item_id');
+        return $this->hasMany('App\Item', 'item_order', 'vendor_id', 'item_id');
     }
     public function option_order()
     {
-        return $this->hasMany('App\Order', 'option_order', 'vendor_id', 'option_id');
+        return $this->hasMany('App\Option', 'option_order', 'vendor_id', 'option_id');
     }
     public function option()
     {

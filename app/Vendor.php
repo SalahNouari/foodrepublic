@@ -53,6 +53,14 @@ class Vendor extends Model
     {
         return $this->hasMany('App\Reply');
     }
+    public function item_order()
+    {
+        return $this->hasMany('App\Order', 'item_order', 'vendor_id', 'item_id');
+    }
+    public function option_order()
+    {
+        return $this->hasMany('App\Order', 'option_order', 'vendor_id', 'option_id');
+    }
     public function option()
     {
         return $this->hasMany('App\Option');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Areas;
 use App\States;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 
@@ -50,8 +51,12 @@ class AreasController extends Controller
     }
     public function areas(Request $request)
     {
-      $areas = States::find($request->id)->areas()->orderBy('name')
+      $state = States::find($request->id);
+      $areas = $state->areas()->orderBy('name')
                        ->select('name as text', 'id as value')->get();
+        $user = Auth::user();
+        $user->state()->associate($state);
+        $user->save();
         $response = [
             'areas' => $areas
         ];

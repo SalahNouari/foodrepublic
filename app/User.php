@@ -35,6 +35,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Order');
     }
+    public function area()
+    {
+        return $this->belongsTo('App\Areas');
+    } 
+    public function state()
+    {
+        return $this->belongsTo('App\States');
+    }
     public function transactions()
     {
         return $this->hasMany('App\Transactions');

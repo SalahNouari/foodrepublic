@@ -35,7 +35,7 @@ Route::post('edituser', 'UserController@edituser')->middleware('auth:api');
 Route::post('resetpassword', 'UserController@resetpassword');
 Route::post('passcode', 'UserController@passcode');
 Route::get('home', 'MainController@home');
-Route::get('page', 'MainController@page');
+Route::get('page', 'MainController@page')->middleware('auth:api');
 Route::get('search', 'MainController@search');
 Route::get('vendorpage', 'MainController@vendorpage');
 Route::get('vendoritems', 'MainController@vendoritems');
@@ -86,7 +86,7 @@ Route::prefix('city')->group(function () {
    Route::get('cities', 'AreasController@cities');
    Route::get('vendorarea', 'AreasController@vendorarea');
    Route::get('delivery', 'AreasController@delivery');
-   Route::get('areas', 'AreasController@areas');
+   Route::get('areas', 'AreasController@areas')->middleware('auth:api');
 });
 Route::prefix('vendor')->group(function () {
    Route::post('upload', 'VendorController@upload')->middleware('auth:api');

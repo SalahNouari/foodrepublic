@@ -26,12 +26,20 @@ class CreateUsersTable extends Migration
             $table->bigInteger('wallet')->nullable()->default(0);
             $table->string('verification_code')->default(null)->nullable();
             $table->string('verification_type');
+            $table->integer('city');
+            $table->integer('area');
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('image')->default('https://ih0.redbubble.net/image.210602545.3386/flat,1000x1000,075,f.u1.jpg');
             $table->string('role')->default('user');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->unsignedBigInteger('state_id');
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('area_id');
+            $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade')->onUpdate('cascade');
+
         });
     }
 

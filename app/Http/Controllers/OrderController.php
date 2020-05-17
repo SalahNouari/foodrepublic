@@ -157,7 +157,7 @@ class OrderController extends Controller
             $order->served_time = $o->d;
             $order->delivered_time = $o->d;
             $order->vendor()->associate($vendor);
-            if ($o->u) {
+            if (isset($o->u)) {
                 $user = User::find($o->u);
                 $order->user()->associate($user);
             } else{

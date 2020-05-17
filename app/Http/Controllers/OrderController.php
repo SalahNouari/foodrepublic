@@ -149,7 +149,7 @@ class OrderController extends Controller
                 $order->payment_method = 6;
             }
             $order->paid = $o->p;
-            $order->total = $order->t;
+            $order->total = $o->t;
             $order->status = 4;
             $order->user_status = 0;
             $order->paid = 1;

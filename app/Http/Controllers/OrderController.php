@@ -175,15 +175,15 @@ class OrderController extends Controller
                 $opt = $item->options->optional;
                 $itm = $item;
 
-                $order->items()->attach($itm['id'], ['qty' => $itm['qty'], 'total' => ($item['qty'] * $item['price']), 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
+                $order->items()->attach($itm->id, ['qty' => $itm->qty, 'total' => ($item->qty * $item->price), 'tracking_id' => $random_code, 'vendor_id' => $vendor->id]);
   
                 foreach ($comp as $compa) {
-                    $order->options()->attach($compa['id'], ['type' => $compa['type'], 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
+                    $order->options()->attach($compa->id, ['type' => $compa->type, 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $vendor->id]);
                 }
             
                 foreach ($opt as $opta) {
                     # code...
-                    $order->options()->attach($opta['id'], ['type' =>  $opta['type'], 'qty' => $opta['qty'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
+                    $order->options()->attach($opta['id'], ['type' =>  $opta->type, 'qty' => $opta->qty, 'tracking_id' => $random_code, 'vendor_id' => $vendor->id]);
                 }
             }
             

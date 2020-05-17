@@ -137,13 +137,13 @@ class OrderController extends Controller
             $order = new Order;
             $order->tracking_id = $rand_code;
             $order->grand_total = $o->t;
-            if ($o->n) {
+            if (isset($o->n)) {
                 $order->table_no = $o->n;
             }
-            if ($o->c) {
+            if (isset($o->c)) {
                 $order->change_amount = $o->c;
             }
-            if ($o->m) {
+            if (isset($o->m)) {
                 $order->payment_method = 3;
             } else{
                 $order->payment_method = 6;

@@ -183,16 +183,16 @@ class OrderController extends Controller
             
                 foreach ($opt as $opta) {
                     # code...
-                    $order->options()->attach($opta['id'], ['type' =>  $opta->type, 'qty' => $opta->qty, 'tracking_id' => $random_code, 'vendor_id' => $vendor->id]);
+                    $order->options()->attach($opta->id, ['type' =>  $opta->type, 'qty' => $opta->qty, 'tracking_id' => $random_code, 'vendor_id' => $vendor->id]);
                 }
             }
             
+            
+        }
             $response = [
-                'order' => Order::where('id', $order['id'])->with(['items', 'options'])->get()
+                'message' => 'successful'
             ];
             return response()->json($response);
-            
-    }
 
     }
     public function paid(Request $request)

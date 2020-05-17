@@ -171,8 +171,8 @@ class OrderController extends Controller
                 $digits = 8;
                 $random_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
         
-                $comp = $item['options']['compulsory'];
-                $opt = $item['options']['optional'];
+                $comp = $item->options->compulsory;
+                $opt = $item->options->optional;
                 $itm = $item;
 
                 $order->items()->attach($itm['id'], ['qty' => $itm['qty'], 'total' => ($item['qty'] * $item['price']), 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);

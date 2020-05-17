@@ -55,6 +55,7 @@ Route::prefix('reply')->group(function () {
    Route::get('delete', 'ReplyController@delete')->middleware('auth:api');
 });
 Route::prefix('order')->group(function () {
+   Route::post('saveOffline', 'OrderController@saveOffline')->middleware('auth:api');
    Route::post('save', 'OrderController@save')->middleware('auth:api');
    Route::get('all', 'OrderController@all')->middleware('auth:api');
    Route::get('alldelivery', 'OrderController@alldelivery')->middleware('auth:api');

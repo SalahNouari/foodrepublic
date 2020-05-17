@@ -126,6 +126,74 @@ class OrderController extends Controller
         }
 
     }
+    public function saveOffline(Request $request)
+    {
+        foreach ($request->orders as $o) {
+            $vendor = Auth::user();
+            $items = $o->i;
+            $digits = 6;
+            $rand_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
+            $order = new Order;
+            $order->tracking_id = $rand_code;
+            $order->grand_total = $o->t;
+            if ($o->n) {
+                $order->table_no = $o->n;
+            }
+            if ($o->c) {
+                $order->change_amount = $o->c;
+            }
+            if ($o->m) {
+                $order->payment_method = 3;
+            } else{
+                $order->payment_method = 6;
+            }
+            $order->paid = $o->p;
+            $order->total = $order->t;
+            $order->status = 4;
+            $order->user_status = 0;
+            $order->paid = 1;
+            $order->recieved_time = $o->d;
+            $order->served_time = $o->d;
+            $order->delivered_time = $o->d;
+            $order->vendor()->associate($vendor);
+            if ($o->u) {
+                $user = User::find($o->u);
+                $order->user()->associate($user);
+            } else{
+                $order->user()->associate($vendor);
+
+            }
+
+            $order->save();
+        
+            foreach ($items as $item) {
+                $digits = 8;
+                $random_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
+        
+                $comp = $item['options']['compulsory'];
+                $opt = $item['options']['optional'];
+                $itm = $item;
+
+                $order->items()->attach($itm['id'], ['qty' => $itm['qty'], 'total' => ($item['qty'] * $item['price']), 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
+  
+                foreach ($comp as $compa) {
+                    $order->options()->attach($compa['id'], ['type' => $compa['type'], 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
+                }
+            
+                foreach ($opt as $opta) {
+                    # code...
+                    $order->options()->attach($opta['id'], ['type' =>  $opta['type'], 'qty' => $opta['qty'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
+                }
+            }
+            
+            $response = [
+                'order' => Order::where('id', $order['id'])->with(['items', 'options'])->get()
+            ];
+            return response()->json($response);
+            
+    }
+
+    }
     public function paid(Request $request)
     {
         $order = Auth::user()->vendor->orders()->find($request->id);

@@ -128,7 +128,8 @@ class OrderController extends Controller
     }
     public function saveOffline(Request $request)
     {
-        foreach ($request->orders as $o) {
+        $ordersList = json_decode($request->orders);
+        foreach ($ordersList as $o) {
             $vendor = Auth::user();
             $items = $o->i;
             $digits = 6;

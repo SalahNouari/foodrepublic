@@ -129,7 +129,9 @@ class OrderController extends Controller
     public function saveOffline(Request $request)
     {
         $ordersList = json_decode($request->orders);
+        $list = array();
         foreach ($ordersList as $o) {
+            array_push($list, $o->o);
             $vendor = Auth::user();
             $items = $o->i;
             $digits = 6;
@@ -150,6 +152,7 @@ class OrderController extends Controller
             }
             $order->paid = $o->p;
             $order->total = $o->t;
+            $order->offline = $o->o;
             $order->status = 4;
             $order->user_status = 0;
             $order->paid = 1;
@@ -190,7 +193,8 @@ class OrderController extends Controller
             
         }
             $response = [
-                'message' => 'successful'
+                'message' => 'successful',
+                'list' => $list 
             ];
             return response()->json($response);
 

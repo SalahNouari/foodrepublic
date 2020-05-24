@@ -118,10 +118,12 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
     width: 100%;
 }
 .ui.container.imager {
-        padding-top:22px;
+        padding-top:60px;
       }
     @media only screen and (max-width: 700px) {
-    
+        .ui.container.imager {
+        padding-top:22px;
+      }
       .txt{
       position: absolute;
     padding: 0 2em;
@@ -175,7 +177,7 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
 <body>
 <div>
   <div style="height: 100vh;" class="ui vertical masthead">
-    <div class="ui container imager" style="padding-top: 60px">
+    <div class="ui container imager" >
 <img width="70" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1582290476/e_dey_e_only_2.png" alt="">
 
     </div>

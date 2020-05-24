@@ -1,99 +1,277 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <!-- Site Properties -->
+  <title>E dey app</title>
 
-        <title>Laravel</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" integrity="sha256-OweaP/Ic6rsV+lysfyS4h+LM6sRwuO3euTYfr6M124g=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+  <style type="text/css">
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+    .hidden.menu {
+      display: none;
+    }
 
-            .full-height {
-                height: 100vh;
-            }
+    .masthead.segment {
+      min-height: 700px;
+      padding: 1em 0em;
+    }
+    .masthead .logo.item img {
+      margin-right: 1em;
+    }
+    .masthead .ui.menu .ui.button {
+      margin-left: 0.5em;
+    }
+    .masthead h1.ui.header {
+      margin-top: 2em;
+      margin-bottom: 0em;
+      font-size: 4em;
+      font-weight: normal;
+    }
+    .masthead h2 {
+      font-size: 1.7em;
+      font-weight: normal;
+      margin-bottom: 3em;
+    }
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+    .ui.vertical.stripe {
+      padding: 8em 0em;
+    }
+    .ui.vertical.stripe h3 {
+      font-size: 2em;
+    }
 
-            .position-ref {
-                position: relative;
-            }
+    .ui.vertical.stripe .button + h3,
+    .ui.vertical.stripe p + h3 {
+      margin-top: 3em;
+    }
+    .ui.vertical.stripe .floated.image {
+      clear: both;
+    }
+    .ui.vertical.stripe p {
+      font-size: 1.33em;
+    }
+    .ui.vertical.stripe .horizontal.divider {
+      margin: 3em 0em;
+    }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+    .quote.stripe.segment {
+      padding: 0em;
+    }
+    .quote.stripe.segment .grid .column {
+      padding-top: 5em;
+      padding-bottom: 5em;
+    }
 
-            .content {
-                text-align: center;
-            }
+    .footer.segment {
+      padding: 5em 0em;
+    }
+   .ui.button{
+      border-radius: 51px !important;
+    }
+    .secondary.pointing.menu .toc.item {
+      display: none;
+    }
+/*.carousel{
+ height: 845px;
+    transform: translate(10px, -263px);
+}*/
+.carousel .carousel-item {
+    width: 229px;
+    }
+    .column.btns{
+      width: fit-content!important;
+    }
+.carousel {width: 100%;transform:translateY(-314px);height: 765px!important;}/*.carousel-item {
+transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) translateZ(0px)}
+*/
+.txt{
+      position: absolute;
+    top: 431px;
+    padding: 0 6em;
+    font-weight: 100;
+    width: 100%;
+}
+    @media only screen and (max-width: 700px) {
+      .txt{
+      position: absolute;
+    padding: 0 2em;
+    top: 544px;
+    font-weight: 100;
+    width: 100%;
+}
+         .column.btns{
+      width: auto!important;
+    }
+      .carousel {width: 100%;
+        transform:translateY(-301px);height: 865px!important;perspective: 346px;}
+      .ui.fixed.menu {
+        display: none !important;
+      }
+      .ui.container {
+    width: auto!important;
+    margin-left: 0em!important;
+    margin-right: 0em!important;
+}
+      .secondary.pointing.menu .item,
+      .secondary.pointing.menu .menu {
+        display: none;
+      }
+      .secondary.pointing.menu .toc.item {
+        display: block;
+      }
+      .masthead.segment {
+        min-height: 350px;
+      }
+      .masthead h1.ui.header {
+        font-size: 3em;
+        margin-top: 1.5em;
+      }
+      .masthead h2 {
+        margin-bottom: 3.5em;
+        margin-top: 2.2em;
+        font-size: 1.5em;
+      }
+      img.heroimage{
+        margin: 13px auto;
+      }
+      div.ui.stackable.mainer, .ui.container.imager {
+        text-align: center;
+      }
+    }
 
-            .title {
-                font-size: 84px;
-            }
 
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
+  </style>
+</head>
+<body>
+<div>
+  <div style="height: 100vh;" class="ui vertical masthead">
+    <div class="ui container imager" style="padding-top: 60px">
+<img width="70" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1582290476/e_dey_e_only_2.png" alt="">
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
+    </div>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+    <div style="" class="ui  container">
+      <div class="ui stackable mainer two column grid">
+  <div class="column" style="padding: 0 1em!important;z-index: 2">  <h1 class="ui  header">
+        That thing wey you dey find, <span style="color: #e65100; font-weight: 700;   text-shadow: -4px 1px 4px #c4c4c4;">e dey app.</span>
+      </h1>
+      <h2 style="font-weight: 400;">Buy wetin you need, get am sharp sharp.</h2>
+ <div class="ui stackable two column grid">
+    
+  <div class="column btns" >
+<button class="ui huge black button">
+   <img width="141" src="http://uploads.webflow.com/530bbebfb2a25b985700019d/530bc2b8712f189757000140_app-store-google.png" alt="">
+</button></div>
+  <div class="column btns">
+<button class="ui huge black button">
+  <img width="141" src="http://uploads.webflow.com/530bbebfb2a25b985700019d/530bc28eb2a25b98570001b1_app-store-apple.png" alt="">
+</button> </div>  
+ </div>
+</div>
+<div class=" column" style="text-align: center;z-index: 1">
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
+  <div class="carousel">
+  <div class="carousel-item" onclick="pressed(1)">
+    <h2 style="margin-bottom: 1em;font-weight: 700" >Discover</h2>
+  <img style="width: 229px;border-radius: 22px;
+    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/q_auto:best/v1589975584/Screenshot_20200520-115447.jpg" alt="">
+  </div>   <div class="carousel-item" onclick="pressed(2)">
+    <h2 style="margin-bottom: 1em;font-weight: 700" >Get Deals</h2>
+  <img style="width: 229px;border-radius: 22px;
+    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1590140540/Screenshot_20200522-102959.jpg" alt="">
+  </div>  
+ <div class="carousel-item" onclick="pressed(3)">
+    <h2 style="margin-bottom: 1em;font-weight: 700" >Track Order</h2>
+  <img style="width: 229px;border-radius: 22px;
+    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1590140541/Screenshot_20200522-102846.jpg" alt="">
+  </div>  <div class="carousel-item"  onclick="pressed(4)">
+    <h2 style="margin-bottom: 1em;font-weight: 700" >Offline Companion</h2>
+  <img style="width: 229px;border-radius: 22px;
+    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1590140543/Screenshot_20200522-102505.jpg" alt="">
+  </div> <div class="carousel-item"  onclick="pressed(5)">
+    <h2 style="margin-bottom: 1em;font-weight: 700" >Save and scan</h2>
+  <img style="width: 229px;border-radius: 22px;
+    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1590140542/Screenshot_20200522-102604.jpg" alt="">
+  </div>
+    <div class="carousel-item" onclick="pressed(6)">
+    <h2 style="margin-bottom: 1em;font-weight: 700" >Get Notified</h2>
+  <img style="width: 229px;border-radius: 22px;
+    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/q_auto:best/v1589975584/Screenshot_20200520-115447.jpg" alt="">
+  </div> 
+  </div>
+  <h3 style="color: grey;" class="txt"></h3>
+</div>
+</div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
+  </div>
+
+  
+
+
+  <div class="ui inverted vertical footer segment">
+    <div class="ui container">
+      <div class="ui stackable inverted divided equal height stackable grid">
+        <div class="three wide column">
+          <h4 class="ui inverted header">About</h4>
+          <div class="ui inverted link list">
+            <a href="#" class="item">Sitemap</a>
+            <a href="#" class="item">Contact Us</a>
+            <a href="#" class="item">Religious Ceremonies</a>
+            <a href="#" class="item">Gazebo Plans</a>
+          </div>
         </div>
-    </body>
-</html>
+        <div class="three wide column">
+          <h4 class="ui inverted header">Services</h4>
+          <div class="ui inverted link list">
+            <a href="#" class="item">Banana Pre-Order</a>
+            <a href="#" class="item">DNA FAQ</a>
+            <a href="#" class="item">How To Access</a>
+            <a href="#" class="item">Favorite X-Men</a>
+          </div>
+        </div>
+        <div class="seven wide column">
+          <h4 class="ui inverted header">Footer Header</h4>
+          <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js" integrity="sha256-6DDZX77BrYnAmK9a3N3tvNPtyTIk1q1w9iW+UBtot3Y=" crossorigin="anonymous"></script>
+<script>
+
+       $('.txt').html('Your favourite vendors in your hands anytime of the day.');
+  function pressed(x){
+       $('.txt').html(
+        x === 1 ? 'Your favourite vendors in your hands anytime of the day.':
+         x === 2 ? 'Get real-time deals and promos from vendors in your area.' :
+         x === 3 ? 'Keep track of your order, until it gets to you.' :
+         x === 4 ? 'Access your favourite vendors offline and browse their menu.' :
+         x === 5 ? "Select the items you need, save the order and scan at your vendor's, all these can be done offline." :
+         x === 6 ? 'Get notifications of everything from deals, order update, promos and discount deliveries to your area.' :
+          'Your favourite vendors in your hands anytime of the day.') 
+    } 
+   $(document).ready(function(){
+  
+    const elems = document.querySelectorAll('.carousel');
+    var instances = M.Carousel.init(elems);
+    $('.carousel').carousel();
+    $('.carousel').carousel({
+    onCycleTo: function (ele) {
+      pressed($(ele).index() + 1); // the slide's index
+    }
+});
+  });
+</script>
+</body></html>

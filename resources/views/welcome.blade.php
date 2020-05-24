@@ -117,7 +117,11 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
     font-weight: 100;
     width: 100%;
 }
+.ui.container.imager {
+        padding-top:22px;
+      }
     @media only screen and (max-width: 700px) {
+    
       .txt{
       position: absolute;
     padding: 0 2em;
@@ -150,7 +154,7 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
       }
       .masthead h1.ui.header {
         font-size: 3em;
-        margin-top: 1.5em;
+        margin-top: 22px;
       }
       .masthead h2 {
         margin-bottom: 3.5em;

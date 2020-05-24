@@ -189,11 +189,11 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
  <div class="ui stackable two column grid">
     
   <div class="column btns" >
-<button class="ui huge black button">
+<button onclick="window.location.href = 'https://play.google.com/store/apps/details?id=com.edeyapp.edey';" class="ui huge black button">
    <img width="141" src="http://uploads.webflow.com/530bbebfb2a25b985700019d/530bc2b8712f189757000140_app-store-google.png" alt="">
 </button></div>
   <div class="column btns">
-<button class="ui huge black button">
+<button onclick="window.location.href = 'https://play.google.com/store/apps/details?id=com.edeyapp.edey';" class="ui huge black button">
   <img width="141" src="http://uploads.webflow.com/530bbebfb2a25b985700019d/530bc28eb2a25b98570001b1_app-store-apple.png" alt="">
 </button> </div>  
  </div>

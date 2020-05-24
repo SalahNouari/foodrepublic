@@ -159,8 +159,8 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
         margin-top: 22px;
       }
       .masthead h2 {
-        margin-bottom: 3.5em;
-        margin-top: 2.2em;
+        margin-bottom: 1.5em;
+        margin-top: 1.5em;
         font-size: 1.5em;
       }
       img.heroimage{

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use AfricasTalking\SDK\AfricasTalking;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class VendorController extends Controller
 {
@@ -113,6 +114,86 @@ class VendorController extends Controller
             'popular' => $vendor->orders,
             'location' => $vendor->location
         ];
+        return response()->json($response);
+    }
+    public function summary(Request $request)
+    {
+     
+        switch ($request->type) {
+            case 1:
+              $end = now()->subHours(24);
+            break;
+            case 2:
+                $end = now()->subDays(30);
+            break;
+            case 3:
+                $end = now()->subMonth();
+            break;
+            case 4:
+                $end = now()->subYear();
+            break;
+            default:
+            $end = now()->subHours(24);
+          }
+          switch ($request->category) {
+            case 'sales':
+                $data = Auth::user()->vendor->orders->cursor()->whereBetween('updated_at', [$end, now()])
+                ->where('status', 4)
+                ->select('updated_at', 'total as value')
+                ->orderBy('updated_at')
+                ->get();
+            break;
+            case 'orders':
+                $data = Auth::user()->vendor->orders->cursor()->whereBetween('updated_at', [$end, now()])
+                ->where('status', 4)
+                ->select('')
+                ->orderBy('updated_at')
+                ->get();
+            break;
+            case 'transactions':
+                $data = Auth::user()->vendor->orders->cursor()->whereBetween('updated_at', [$end, now()])
+                ->where('status', 4)
+                ->select('')
+                ->orderBy('updated_at')
+                ->get();
+            break;
+            default:
+            $data = Auth::user()->vendor->orders->cursor()->whereBetween('updated_at', [$end, now()])
+                ->where('status', 4)
+                ->select('')
+                ->orderBy('updated_at')
+                ->get();
+          }
+          switch ($request->type) {
+            case 1:
+              $data2 = $data->groupBy(function ($val) {
+                    return Carbon::parse($val->updated_at)->hour;
+                });
+            break;
+            case 2:
+                $data2 = $data->groupBy(function ($val) {
+                    return Carbon::parse($val->updated_at)->dayOfWeek;
+                });
+            break;
+            case 3:
+                $data2 = $data->groupBy(function ($val) {
+                    return Carbon::parse($val->updated_at)->weekOfMonth;
+                });
+            break;
+            case 4:
+                $data2 = $data->groupBy(function ($val) {
+                    return Carbon::parse($val->updated_at)->month;
+                });
+            break;
+            default:
+            $data2 = now()->subHours(24);
+          }
+        //   ->groupBy(function ($val) {
+        //     return Carbon::parse($val->updated_at)->hour;
+        // })
+        $response = [
+                'data' => $data2
+            ];
         return response()->json($response);
     }
     public function setfee(Request $request)

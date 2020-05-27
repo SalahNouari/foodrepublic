@@ -167,14 +167,14 @@ class VendorController extends Controller
           }
           switch ($request->type) {
               case 1:
-                $list = array();
-              $data2 = $data->groupBy(function ($val) {
+                $data2 = array();
+              $data3 = $data->groupBy(function ($val) {
                     return Carbon::parse($val->updated_at)->hour;
                 });
-                $keys = $data2->keys();
+                $keys = $data3->keys();
                  foreach ($keys as $d) {
-                    $sum = $data2->$d->sum('value');
-                    Arr::add($list, $data2->$d, $sum);
+                    $sum = $data3->$d->sum('value');
+                    Arr::add($data2, $data3->$d, $sum);
                 } 
             break;
             case 2:

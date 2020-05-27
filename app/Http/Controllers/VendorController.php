@@ -147,7 +147,7 @@ class VendorController extends Controller
             case 'orders':
                 $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$end, now()])
                 ->where('status', 4)
-                ->select('created_at', 'grand_total as value')
+                ->select('created_at')
                 ->orderBy('created_at')
                 ->get();
             break;
@@ -202,9 +202,29 @@ class VendorController extends Controller
         //     return Carbon::parse($val->created_at)->hour;
         // })
         $list = array();
-        foreach ($data2 as $key => $value) {
-            array_push($list, ['value' => $value->sum('value'), 'title' => $key ]);
-        } 
+        switch ($request->category) {
+            case 'sales':
+                foreach ($data2 as $key => $value) {
+                    array_push($list, ['value' => $value->sum('value'), 'title' => $key ]);
+                } 
+            break;
+            case 'orders':
+                foreach ($data2 as $key => $value) {
+                    array_push($list, ['value' => $value->count('created_at'), 'title' => $key ]);
+                }
+            break;
+            case 'transactions':
+                foreach ($data2 as $key => $value) {
+                    array_push($list, ['value' => $value->sum('value'), 'title' => $key ]);
+                } 
+            break;
+            default:
+            foreach ($data2 as $key => $value) {
+                array_push($list, ['value' => $value->sum('value'), 'title' => $key ]);
+            } 
+          }
+       
+      
         $response = [
                 'data'=> $list
             ];

@@ -169,7 +169,7 @@ class VendorController extends Controller
               case 1:
                 // $data2 = array();
               $data2 = $data->groupBy(function ($val) {
-                    return Carbon::parse($val->created_at)->hour;
+                    return Carbon::parse($val->created_at)->format('h A');
                 });
                 // $keys = $data3->keys()->all();
                 //  foreach ($keys as $d) {

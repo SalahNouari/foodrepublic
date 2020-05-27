@@ -137,28 +137,28 @@ class VendorController extends Controller
           }
           switch ($request->category) {
             case 'sales':
-                $data = Auth::user()->vendor->orders->cursor()->whereBetween('updated_at', [$end, now()])
+                $data = Auth::user()->vendor->orders()->whereBetween('updated_at', [$end, now()])
                 ->where('status', 4)
                 ->select('updated_at', 'total as value')
                 ->orderBy('updated_at')
                 ->get();
             break;
             case 'orders':
-                $data = Auth::user()->vendor->orders->cursor()->whereBetween('updated_at', [$end, now()])
+                $data = Auth::user()->vendor->orders()->whereBetween('updated_at', [$end, now()])
                 ->where('status', 4)
                 ->select('')
                 ->orderBy('updated_at')
                 ->get();
             break;
             case 'transactions':
-                $data = Auth::user()->vendor->orders->cursor()->whereBetween('updated_at', [$end, now()])
+                $data = Auth::user()->vendor->orders()->whereBetween('updated_at', [$end, now()])
                 ->where('status', 4)
                 ->select('')
                 ->orderBy('updated_at')
                 ->get();
             break;
             default:
-            $data = Auth::user()->vendor->orders->cursor()->whereBetween('updated_at', [$end, now()])
+            $data = Auth::user()->vendor->orders()->whereBetween('updated_at', [$end, now()])
                 ->where('status', 4)
                 ->select('')
                 ->orderBy('updated_at')

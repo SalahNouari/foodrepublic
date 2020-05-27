@@ -203,7 +203,7 @@ class VendorController extends Controller
         // })
         $list = array();
         foreach ($data2 as $key => $value) {
-            array_push($list, ['name' => $key, 'value' => $value->sum('value')]);
+            array_push($list, ['title' => $key, 'value' => $value->sum('value')]);
         } 
         $response = [
                 'data'=> $list

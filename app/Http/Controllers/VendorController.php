@@ -206,8 +206,7 @@ class VendorController extends Controller
             array_push($list, [$key => $value->sum('value')]);
         } 
         $response = [
-                'data' => $data2,
-                'list'=> $list
+                'data'=> $list
             ];
         return response()->json($response);
     }

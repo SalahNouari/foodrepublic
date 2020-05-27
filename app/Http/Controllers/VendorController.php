@@ -147,21 +147,21 @@ class VendorController extends Controller
             case 'orders':
                 $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$end, now()])
                 ->where('status', 4)
-                ->select('')
+                ->select('created_at', 'grand_total as value')
                 ->orderBy('created_at')
                 ->get();
             break;
             case 'transactions':
                 $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$end, now()])
                 ->where('status', 4)
-                ->select('')
+                ->select('created_at', 'grand_total as value')
                 ->orderBy('created_at')
                 ->get();
             break;
             default:
             $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$end, now()])
                 ->where('status', 4)
-                ->select('')
+                ->select('created_at', 'grand_total as value')
                 ->orderBy('created_at')
                 ->get();
           }

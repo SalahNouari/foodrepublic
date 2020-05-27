@@ -14,6 +14,7 @@ use AfricasTalking\SDK\AfricasTalking;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 
 class VendorController extends Controller
 {
@@ -165,10 +166,16 @@ class VendorController extends Controller
                 ->get();
           }
           switch ($request->type) {
-            case 1:
+              case 1:
+                $list = array();
               $data2 = $data->groupBy(function ($val) {
                     return Carbon::parse($val->updated_at)->hour;
                 });
+                $keys = $data2->keys();
+                 foreach ($keys as $d) {
+                    $sum = $data2->$d->sum('value');
+                    Arr::add($list, $data2->$d, $sum);
+                } 
             break;
             case 2:
                 $data2 = $data->groupBy(function ($val) {
@@ -177,12 +184,12 @@ class VendorController extends Controller
             break;
             case 3:
                 $data2 = $data->groupBy(function ($val) {
-                    return Carbon::parse($val->updated_at)->format('W');
+                    return Carbon::parse($val->updated_at)->weekOfMonth;
                 });
             break;
             case 4:
                 $data2 = $data->groupBy(function ($val) {
-                    return Carbon::parse($val->updated_at)->format('Y-m');
+                    return Carbon::parse($val->updated_at)->month;
                 });
             break;
             default:

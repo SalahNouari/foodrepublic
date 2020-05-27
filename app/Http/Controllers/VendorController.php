@@ -208,7 +208,7 @@ class VendorController extends Controller
         $response = [
                 'data'=> $list
             ];
-        return response()->json($response);
+        return response($response);
     }
     public function setfee(Request $request)
     {

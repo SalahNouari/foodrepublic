@@ -174,7 +174,7 @@ class VendorController extends Controller
                 $keys = $data3->keys();
                  foreach ($keys as $d) {
                     $sum = $data3[$d]->sum('value');
-                    array_push($data2, [$data3[$d] => $sum]);
+                    array_push($data2, json_encode([$data3[$d] => $sum]));
                 } 
             break;
             case 2:

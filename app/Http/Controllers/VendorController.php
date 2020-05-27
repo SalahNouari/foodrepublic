@@ -138,38 +138,38 @@ class VendorController extends Controller
           }
           switch ($request->category) {
             case 'sales':
-                $data = Auth::user()->vendor->orders()->whereBetween('updated_at', [$end, now()])
+                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$end, now()])
                 ->where('status', 4)
-                ->select('updated_at', 'total as value')
-                ->orderBy('updated_at')
+                ->select('created_at', 'grand_total as value')
+                ->orderBy('created_at')
                 ->get();
             break;
             case 'orders':
-                $data = Auth::user()->vendor->orders()->whereBetween('updated_at', [$end, now()])
+                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$end, now()])
                 ->where('status', 4)
                 ->select('')
-                ->orderBy('updated_at')
+                ->orderBy('created_at')
                 ->get();
             break;
             case 'transactions':
-                $data = Auth::user()->vendor->orders()->whereBetween('updated_at', [$end, now()])
+                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$end, now()])
                 ->where('status', 4)
                 ->select('')
-                ->orderBy('updated_at')
+                ->orderBy('created_at')
                 ->get();
             break;
             default:
-            $data = Auth::user()->vendor->orders()->whereBetween('updated_at', [$end, now()])
+            $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$end, now()])
                 ->where('status', 4)
                 ->select('')
-                ->orderBy('updated_at')
+                ->orderBy('created_at')
                 ->get();
           }
           switch ($request->type) {
               case 1:
                 // $data2 = array();
               $data2 = $data->groupBy(function ($val) {
-                    return Carbon::parse($val->updated_at)->hour;
+                    return Carbon::parse($val->created_at)->hour;
                 });
                 // $keys = $data3->keys()->all();
                 //  foreach ($keys as $d) {
@@ -182,24 +182,24 @@ class VendorController extends Controller
             break;
             case 2:
                 $data2 = $data->groupBy(function ($val) {
-                    return Carbon::parse($val->updated_at)->format('Y-m-d');
+                    return Carbon::parse($val->created_at)->format('Y-m-d');
                 });
             break;
             case 3:
                 $data2 = $data->groupBy(function ($val) {
-                    return Carbon::parse($val->updated_at)->weekOfMonth;
+                    return Carbon::parse($val->created_at)->weekOfMonth;
                 });
             break;
             case 4:
                 $data2 = $data->groupBy(function ($val) {
-                    return Carbon::parse($val->updated_at)->month;
+                    return Carbon::parse($val->created_at)->month;
                 });
             break;
             default:
             $data2 = now()->subHours(24);
           }
         //   ->groupBy(function ($val) {
-        //     return Carbon::parse($val->updated_at)->hour;
+        //     return Carbon::parse($val->created_at)->hour;
         // })
         $response = [
                 'data' => $data2

@@ -173,8 +173,8 @@ class VendorController extends Controller
                 });
                 $keys = $data3->keys();
                  foreach ($keys as $d) {
-                    $sum = $data3->$d->sum('value');
-                    Arr::add($data2, $data3->$d, $sum);
+                    $sum = $data3[$d]->sum('value');
+                    Arr::add($data2, $data3[$d], $sum);
                 } 
             break;
             case 2:

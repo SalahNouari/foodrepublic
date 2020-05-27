@@ -172,7 +172,7 @@ class VendorController extends Controller
             break;
             case 2:
                 $data2 = $data->groupBy(function ($val) {
-                    return Carbon::parse($val->updated_at)->dayOfWeek;
+                    return Carbon::parse($val->updated_at)->format('Y-m-d');
                 });
             break;
             case 3:

@@ -156,9 +156,11 @@ class OrderController extends Controller
             $order->status = 4;
             $order->user_status = 0;
             $order->paid = 1;
-            $order->recieved_time = Carbon::parse($o->d);
-            $order->served_time = Carbon::parse($o->d);
-            $order->delivered_time = Carbon::parse($o->d);
+            $time = Carbon::parse($o->d);
+            $order->recieved_time = $time;
+            $order->served_time = $time;
+            $order->updated_at = $time;
+            $order->delivered_time = $time;
             $order->vendor()->associate($vendor);
             if (isset($o->u)) {
                 $user = User::find($o->u);

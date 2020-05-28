@@ -145,7 +145,7 @@ class VendorController extends Controller
                 ->select('created_at', 'grand_total as value')
                 ->orderBy('created_at')
                 ->get();
-                array_push($det, ['value' => $data->count() , 'title' => 'Delivered' ]);
+                array_push($det, ['value' => $data->sum('grand_total') , 'title' => 'Delivered' ]);
                 $data4 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 5)
                 ->sum('grand_total');
@@ -166,7 +166,7 @@ class VendorController extends Controller
                 ->select('created_at')
                 ->orderBy('created_at')
                 ->get();
-                array_push($det, ['value' => $data->sum('grand_total') , 'title' => 'Delivered' ]);
+                array_push($det, ['value' => $data->count() , 'title' => 'Delivered' ]);
                 $data4 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 5)
                 ->count();

@@ -22,11 +22,7 @@ class OrderController extends Controller
 {
     public function all(Request $request)
     {
-        $order = Auth::user()->vendor->orders()->latest()->makeHidden([
-            'change_amount', 'distance', 'duration',
-             'grand_total', 'service_charge', 'delivery_fee',
-              'delivered_time', 'recieved_time', 'reject_reason',
-               'rejected_time', 'served_time', 'transit_time', 'table_no', 'total', ])->paginate(12);
+        $order = Auth::user()->vendor->orders()->latest()->makeHidden(['change_amount', 'distance', 'duration', 'grand_total', 'service_charge', 'delivery_fee', 'delivered_time', 'recieved_time', 'reject_reason', 'rejected_time', 'served_time', 'transit_time', 'table_no', 'total', ])->paginate(12);
         $response = [
             'orders' => $order
         ];

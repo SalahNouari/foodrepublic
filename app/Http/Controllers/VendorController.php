@@ -155,8 +155,8 @@ class VendorController extends Controller
                 ->count();
                 array_push($det, ['value' => $data5 , 'title' => 'In-transit' ]);
                 $data6 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
-                ->where('status', 2)
-                ->orWhere('status', 1)
+                ->where('status', 1)
+                ->orWhere('status', 0)
                 ->count();
                 array_push($det, ['value' => $data6 , 'title' => 'Pending' ]);
             break;

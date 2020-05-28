@@ -228,7 +228,10 @@ class OrderController extends Controller
                 $query->select('id', 'first_name', 'phone', 'middle_name', 'surname', 'image');
         }, 'items'=> function ($query) {
                 $query->select('item_id','order_id', 'price', 'name', 'image');
-        }, 'options', 'address.area', 'delivery', 'reviews'])->find($request->id);
+            }, 'options', 'address.area', 'delivery' => function ($query) {
+                $query->select('delivery_id','order_id', 'name', 'phone');
+
+        }, 'reviews'])->find($request->id);
       
         $response = [
             'order' => $order

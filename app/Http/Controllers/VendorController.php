@@ -122,44 +122,44 @@ class VendorController extends Controller
      
         switch ($request->type) {
             case 1:
-              $end = now()->subHours(24);
+              $start = Carbon::today();
             break;
             case 2:
-                $end = now()->subDays(30);
+                $start = Carbon::now()->startOfWeek();
             break;
             case 3:
-                $end = now()->subMonth();
+                $start = Carbon::now()->startOfMonth();
             break;
             case 4:
-                $end = now()->subYear();
+                $start = Carbon::now()->startOfYear();
             break;
             default:
-            $end = now()->subHours(24);
+            $start = Carbon::today();
           }
           switch ($request->category) {
             case 'sales':
-                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$end, now()])
+                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 4)
                 ->select('created_at', 'grand_total as value')
                 ->orderBy('created_at')
                 ->get();
             break;
             case 'orders':
-                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$end, now()])
+                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 4)
                 ->select('created_at')
                 ->orderBy('created_at')
                 ->get();
             break;
             case 'transactions':
-                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$end, now()])
+                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 4)
                 ->select('created_at', 'grand_total as value')
                 ->orderBy('created_at')
                 ->get();
             break;
             default:
-            $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$end, now()])
+            $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 4)
                 ->select('created_at', 'grand_total as value')
                 ->orderBy('created_at')
@@ -196,7 +196,7 @@ class VendorController extends Controller
                 });
             break;
             default:
-            $data2 = now()->subHours(24);
+            $data2 = Carbon::today();
           }
         //   ->groupBy(function ($val) {
         //     return Carbon::parse($val->created_at)->hour;

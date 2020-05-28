@@ -119,22 +119,23 @@ class VendorController extends Controller
     }
     public function summary(Request $request)
     {
-     
+     $now = Carbon::now();
+     $today = Carbon::today();
         switch ($request->type) {
             case 1:
-              $start = Carbon::today();
+              $start = $today;
             break;
             case 2:
-                $start = Carbon::now()->startOfWeek();
+                $start = $now->startOfWeek();
             break;
             case 3:
-                $start = Carbon::now()->startOfMonth();
+                $start = $now->startOfMonth();
             break;
             case 4:
-                $start = Carbon::now()->startOfYear();
+                $start = $now->startOfYear();
             break;
             default:
-            $start = Carbon::today();
+            $start = $today;
           }
           switch ($request->category) {
             case 'sales':
@@ -196,7 +197,7 @@ class VendorController extends Controller
                 });
             break;
             default:
-            $data2 = Carbon::today();
+            $data2 = $today;
           }
         //   ->groupBy(function ($val) {
         //     return Carbon::parse($val->created_at)->hour;

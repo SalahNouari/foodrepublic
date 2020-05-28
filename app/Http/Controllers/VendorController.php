@@ -148,6 +148,27 @@ class VendorController extends Controller
                 array_push($det, ['value' => $data->count() , 'title' => 'Delivered' ]);
                 $data4 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 5)
+                ->sum('grand_total');
+                array_push($det, ['value' => $data4 , 'title' => 'Rejected' ]);
+                $data5 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+                ->where('status', 3)
+                ->sum('grand_total');
+                array_push($det, ['value' => $data5 , 'title' => 'In-transit' ]);
+                $data6 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+                ->where('status', 1)
+                ->orWhere('status', 0)
+                ->sum('grand_total');
+                array_push($det, ['value' => $data6 , 'title' => 'Pending' ]);
+            break;
+            case 'orders':
+                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+                ->where('status', 4)
+                ->select('created_at')
+                ->orderBy('created_at')
+                ->get();
+                array_push($det, ['value' => $data->count() , 'title' => 'Delivered' ]);
+                $data4 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+                ->where('status', 5)
                 ->count();
                 array_push($det, ['value' => $data4 , 'title' => 'Rejected' ]);
                 $data5 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
@@ -159,13 +180,6 @@ class VendorController extends Controller
                 ->orWhere('status', 0)
                 ->count();
                 array_push($det, ['value' => $data6 , 'title' => 'Pending' ]);
-            break;
-            case 'orders':
-                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
-                ->where('status', 4)
-                ->select('created_at')
-                ->orderBy('created_at')
-                ->get();
             break;
             case 'transactions':
                 $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])

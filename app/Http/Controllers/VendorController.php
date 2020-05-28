@@ -145,20 +145,20 @@ class VendorController extends Controller
                 ->select('created_at', 'grand_total as value')
                 ->orderBy('created_at')
                 ->get();
-                array_push($list, ['value' => $data->count() , 'title' => 'Delivered' ]);
+                array_push($det, ['value' => $data->count() , 'title' => 'Delivered' ]);
                 $data4 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 5)
                 ->count();
-                array_push($list, ['value' => $data4 , 'title' => 'Rejected' ]);
+                array_push($det, ['value' => $data4 , 'title' => 'Rejected' ]);
                 $data5 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 3)
                 ->count();
-                array_push($list, ['value' => $data5 , 'title' => 'In-transit' ]);
+                array_push($det, ['value' => $data5 , 'title' => 'In-transit' ]);
                 $data6 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 2)
                 ->orWhere('status', 1)
                 ->count();
-                array_push($list, ['value' => $data6 , 'title' => 'Pending' ]);
+                array_push($det, ['value' => $data6 , 'title' => 'Pending' ]);
             break;
             case 'orders':
                 $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])

@@ -94,7 +94,6 @@ public $successStatus = 200;
                     $delivery_agent->save();
                 break;
                 default:
-                $user->delivery_agent->token = $request->token;
                     # code...
                     break;
             }

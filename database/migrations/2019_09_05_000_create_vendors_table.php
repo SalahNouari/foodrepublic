@@ -30,6 +30,7 @@ class CreateVendorsTable extends Migration
             $table->integer('minimum_order')->default(1000)->nullable();
             $table->integer('pos_charge')->default(0)->nullable();
             $table->string('phone');
+            $table->string('token')->nullable();
             $table->string('branch')->nullable();
             $table->string('lat');
             $table->string('city');

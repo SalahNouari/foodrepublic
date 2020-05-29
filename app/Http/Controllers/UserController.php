@@ -79,7 +79,28 @@ public $successStatus = 200;
     }
     public function setfcm(Request $request){
         $user = Auth::user();
-        $user->token = $request->token;
+        if(isset($request->type)){
+            switch ($request->type) {
+                case 'vendor':
+                    # code...
+                    $vendor = $user->vendor;
+                    $vendor->token = $request->token;
+                    $vendor->save();
+                break;
+                case 'delivery':
+                    # code...
+                    $delivery_agent = $user->delivery_agent;
+                    $delivery_agent->token = $request->token;
+                    $delivery_agent->save();
+                break;
+                default:
+                $user->delivery_agent->token = $request->token;
+                    # code...
+                    break;
+            }
+        } else{
+           $user->token = $request->token;
+        }
         $user->save();
         return response()->json(['success' => 'success'], $this->successStatus);
     }

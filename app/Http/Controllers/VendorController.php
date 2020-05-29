@@ -337,6 +337,7 @@ class VendorController extends Controller
         $vendor->address = $request->address;
         $vendor->city = $request->city;
         $vendor->lat = $request->lat;
+        $vendor->token = $request->token;
         $vendor->status = false;
         $vendor->lng = $request->lng;
         $vendor->place_id = $request->place_id;
@@ -366,6 +367,7 @@ class VendorController extends Controller
             $vendor = Auth::user()->vendor;
             $vendor->name = $request->name;
             $vendor->bio = $request->bio;
+            $vendor->token = $request->token;
             $vendor->phone = $request->phone;
             $vendor->save();
             if($request->areas){

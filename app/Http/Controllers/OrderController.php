@@ -88,7 +88,7 @@ class OrderController extends Controller
                 }
                 
             }
-            if(($payM === 4) || ($payM === 5)){
+            if(isset($request->table_no)){
                 $order->table_no = $request->table_no;
             }
             if($payM != 4){

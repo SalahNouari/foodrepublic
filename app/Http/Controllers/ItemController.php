@@ -85,8 +85,8 @@ class ItemController extends Controller
                 if ($files) {
                     foreach ($files as $file) {
                         $image_name = $file->getRealPath();
-                        Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto"));
-                        $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 400, "height" => 400]);
+                        Cloudder::upload($image_name);
+                        $image_url = Cloudder::show(Cloudder::getPublicId());
                         $item->image = str_replace("http://", "https://", $image_url);
                     }
                 }

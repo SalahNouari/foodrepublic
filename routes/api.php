@@ -16,7 +16,7 @@ Route::get('/', function () {
    return 'success';
 });
 // Route::get('/', 'VendorController@hn');
-Route::post( 'notify', 'NotificationController@notify' );
+Route::post( 'notify', 'NotificationController@notify' )->middleware('auth:api');
 Route::get('summary', 'VendorController@summary')->middleware('auth:api');
 Route::post('setfcm', 'UserController@setfcm')->middleware('auth:api');
 Route::post('login', 'UserController@login');

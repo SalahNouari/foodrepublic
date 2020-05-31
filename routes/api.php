@@ -163,6 +163,6 @@ Route::prefix('category')->group(function () {
    Route::post('delete', 'CategoryController@delete')->middleware('auth:api');
    Route::get('all', 'CategoryController@all')->middleware('auth:api');
 });
-oute::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => 'auth:api'], function () {
    Route::get('details', 'UserController@details');
 });

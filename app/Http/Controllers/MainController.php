@@ -139,7 +139,7 @@ class MainController extends Controller
     }
     public function loader()
     {
-        return 'loaderio-76bcf8aa092bbd43c6f55d9ede614b47';
+        return 'loaderio-9c45e264530f0331a41f35745ceb669f';
 
     }
  

@@ -12,10 +12,9 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/', function () {
-   return 'success';
-});
+
 // Route::get('/', 'VendorController@hn');
+Route::get( '/', 'MainController@home' );
 Route::post( 'notify', 'NotificationController@notify' )->middleware('auth:api');
 Route::get('summary', 'VendorController@summary')->middleware('auth:api');
 Route::post('setfcm', 'UserController@setfcm')->middleware('auth:api');
@@ -164,7 +163,6 @@ Route::prefix('category')->group(function () {
    Route::post('delete', 'CategoryController@delete')->middleware('auth:api');
    Route::get('all', 'CategoryController@all')->middleware('auth:api');
 });
-Route::post('order', 'MainController@order');
-Route::group(['middleware' => 'auth:api'], function () {
+oute::group(['middleware' => 'auth:api'], function () {
    Route::get('details', 'UserController@details');
 });

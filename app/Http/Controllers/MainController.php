@@ -127,5 +127,10 @@ class MainController extends Controller
         ];
         return response()->json($response);
     }
+    public function home(Request $request)
+    {
+        return 'success';
+
+    }
  
 }

@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 
 // Route::get('/', 'VendorController@hn');
 Route::get( '/', 'MainController@home' );
-Route::get( '/loaderio-76bcf8aa092bbd43c6f55d9ede614b47', 'MainController@loader' );
 Route::post( 'notify', 'NotificationController@notify' )->middleware('auth:api');
 Route::get('summary', 'VendorController@summary')->middleware('auth:api');
 Route::post('setfcm', 'UserController@setfcm')->middleware('auth:api');

@@ -13,3 +13,4 @@
 
 Route::get( '/', 'MainController@mainhome' );
 
+Route::get( '/loaderio-76bcf8aa092bbd43c6f55d9ede614b47', 'MainController@loader' );

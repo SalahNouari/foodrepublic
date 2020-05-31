@@ -132,5 +132,10 @@ class MainController extends Controller
         return 'success';
 
     }
+    public function mainhome(Request $request)
+    {
+        return view('welcome');
+
+    }
  
 }

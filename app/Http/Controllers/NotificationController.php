@@ -52,15 +52,22 @@ class NotificationController extends Controller {
 			} else if ( $push_type === 'individual' ) {
 				$json     = $push->getPush();
 				$regId    = $receiver_id ?? '';
-				switch ($payload['url']) {
-					case '/adminorder':
+				if (isset($payload->url)) {
+				
+				switch ($payload->url) {
+				case '/adminorder':
 						$env = 'vendor';
 						break;
 					
 					default:
 						$env = 'user';
-						break;
+					break;
 				}
+			} else {
+				$env = 'user';
+
+				}
+			
 				$response = $firebase->send( $regId, $json, $env );
 
 				return response()->json( [

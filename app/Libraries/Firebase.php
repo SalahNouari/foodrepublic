@@ -16,7 +16,7 @@ class Firebase {
 	 *
 	 * @return mixed
 	 */
-	public function send( $to, $message ) {
+	public function send( $to, $message, $env ) {
 
 		$fields = array(
 			"to"   => $to,
@@ -27,21 +27,7 @@ class Firebase {
 			),
 			"data" => $message['data']
 		);
-		if (isset($message['data']['delivery'])) {
-			$vendor = Auth::user()->vendor;
-			$fields = array(
-				"to"   => $message['data']['delivery'],
-				"notification" =>array(
-					"title"=> 'New Order!!',
-					"body"=> $vendor->name,
-					"sound"=> "default"
-				),
-				"data" => $message['data']
-			);
-			$this->sendPushNotification( $fields );
-		}
-
-		return $this->sendPushNotification( $fields );
+		return $this->sendPushNotification( $fields, $env );
 	}
 
 
@@ -59,7 +45,7 @@ class Firebase {
 			'data' => $message,
 		);
 
-		return $this->sendPushNotification( $fields );
+		return $this->sendPushNotification( $fields, 'user' );
 	}
 
 
@@ -77,7 +63,7 @@ class Firebase {
 			'data' => $message,
 		);
 
-		return $this->sendPushNotification( $fields );
+		return $this->sendPushNotification( $fields, 'delivery' );
 	}
 
 	/**
@@ -87,19 +73,33 @@ class Firebase {
 	 *
 	 * @return mixed
 	 */
-	private function sendPushNotification( $fields ) {
+	private function sendPushNotification( $fields, $key ) {
 
 		// Set POST variables
 		$url = 'https://fcm.googleapis.com/fcm/send';
 
 		$client = new Client();
-
+		switch ($key) {
+			case 'user':
+				$env = env( 'FCM_LEGACY_KEY_USER' );
+				break;
+			case 'vendor':
+				$env = env( 'FCM_LEGACY_KEY_VENDOR' );
+				break;
+			case 'delivery':
+				$env = env( 'FCM_LEGACY_KEY_DELIVERY' );
+				break;
+			
+			default:
+				$env = env( 'FCM_LEGACY_KEY_USER' );
+				break;
+		}
 		$result = $client->post( $url, [
 			'json'    =>
 				$fields
 			,
 			'headers' => [
-				'Authorization' => 'key=' . env( 'FCM_LEGACY_KEY' ),
+				'Authorization' => 'key=' . $env,
 				'Content-Type'  => 'application/json',
 			],
 		] );

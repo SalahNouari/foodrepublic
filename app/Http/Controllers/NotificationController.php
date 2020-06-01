@@ -37,7 +37,7 @@ class NotificationController extends Controller {
 			// push type - single user / topic
 			$push_type = $notification_push_type ?? '';
 
-
+		
 			$push->setTitle( $title );
 			$push->setMessage( $message );
 			$push->setPayload( $payload );
@@ -52,7 +52,25 @@ class NotificationController extends Controller {
 			} else if ( $push_type === 'individual' ) {
 				$json     = $push->getPush();
 				$regId    = $receiver_id ?? '';
-				$response = $firebase->send( $regId, $json );
+				switch ($payload['url']) {
+					case '/adminorder':
+						$env = 'vendor';
+						break;
+					
+					default:
+						$env = 'user';
+						break;
+				}
+				$response = $firebase->send( $regId, $json, $env );
+
+				return response()->json( [
+                    'response' => $response,
+                    'oda' => $json
+				] );
+			} else if ( $push_type === 'multiple' ) {
+				$json     = $push->getPush();
+				$regId    = $receiver_id ?? '';
+				$response = $firebase->sendMultiple( $regId, $json );
 
 				return response()->json( [
                     'response' => $response,

@@ -265,17 +265,14 @@ class OrderController extends Controller
     {
         $order = Auth::user()->vendor->orders()->find($request->id);
         $order->status = 2;
-        $user = $order->user;
-        $user()->increment('orders');
-        $user()->increment('points', 10);
         $order->served_time = Carbon::now();
-        
+        $order->delivery_status = 0;
         $order->user_status = 0;
+        $user = $order->user;
         $order->save();
         $response = [
-            'message' => 'Your order has been served',
+            'message' => 'Your order has been accepted',
             'token' => $user->token,
-
         ];
         return response()->json($response);
     }

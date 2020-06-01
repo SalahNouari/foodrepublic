@@ -97,6 +97,7 @@ class OptionController extends Controller
                 $option->image = str_replace("http://", "https://", $image_url);
                 $vendor->option()->save($option);
             }
+            $vendor->option()->save($option);
         }
         $response = [
             'extras' => $vendor->option,

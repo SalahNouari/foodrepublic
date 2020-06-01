@@ -3,6 +3,7 @@
 namespace App\Libraries;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 
 class Firebase {
 
@@ -26,6 +27,19 @@ class Firebase {
 			),
 			"data" => $message['data']
 		);
+		if (isset($message['data']['delivery'])) {
+			$vendor = Auth::user()->vendor;
+			$fields = array(
+				"to"   => $message['data']['delivery'],
+				"notification" =>array(
+					"title"=> 'New Order!!',
+					"body"=> $vendor->name,
+					"sound"=> "default"
+				),
+				"data" => $message['data']
+			);
+			$this->sendPushNotification( $fields );
+		}
 
 		return $this->sendPushNotification( $fields );
 	}

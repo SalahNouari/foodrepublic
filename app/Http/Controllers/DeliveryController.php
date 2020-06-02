@@ -28,22 +28,12 @@ class DeliveryController extends Controller
         foreach ($d as $item) {
             foreach ($item['vendor'] as  $value) {
                 # code...
-                $r = false;
-                foreach ($vendors as $value2) {
-                if ($value2->id === $value->id) {
-                    $r = false;
-                break;
-                } else {
-                    $r = true;
-                }
-            }
-            if ($r) {
                 $vendors[] = $value;
-            } 
             }
         }
+        $v = collect($vendors);
         $response = [
-            'vendors' => $vendors,
+            'vendors' => $v->unique(),
             // 'result' => $result
         ];
         return response()->json($response);

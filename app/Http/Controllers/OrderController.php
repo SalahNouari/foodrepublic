@@ -33,6 +33,22 @@ class OrderController extends Controller
 
     public function alldelivery()
     {
+        $order = Order::where('status', 2)->select('id', 'address_id', 'payment_method', 'delivery_status', 'tracking_id', 'created_at', 'updated_at', 'status')
+        ->with(['address' => function ($query) {
+            $query->select('id', 'lat', 'lng', 'name');
+        }])
+        ->where('updated_at', '>=', Carbon::now()->subDays(1))
+        // where todays date
+        ->latest()->paginate(20);
+        $response = [
+            'orders' => $order
+        ];
+        return response()->json($response);
+    }
+        
+
+    public function all_my_delivery()
+    {
         $order = Auth::user()->delivery_agent->orders()
         ->select('id', 'address_id', 'payment_method', 'delivery_status', 'tracking_id', 'created_at', 'updated_at', 'status')
         ->with(['address' => function ($query) {

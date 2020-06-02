@@ -110,6 +110,7 @@ Route::prefix('delivery')->group(function () {
    Route::get('agents', 'DeliveryController@agents')->middleware('auth:api');
    Route::get('allvendors', 'DeliveryController@allvendors')->middleware('auth:api');
    Route::post('save', 'DeliveryController@save')->middleware('auth:api');
+   Route::post('updateLocation', 'DeliveryController@updateLocation')->middleware('auth:api');
    Route::post('update', 'DeliveryController@update')->middleware('auth:api');
    Route::get('find', 'DeliveryController@find');
    Route::post('setfee', 'DeliveryController@setfee')->middleware('auth:api');

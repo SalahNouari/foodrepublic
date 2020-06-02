@@ -215,7 +215,7 @@ class OrderController extends Controller
     }
     public function delivery_find(Request $request)
     {
-        $order = Auth::user()->delivery_agent->orders()->with(['user', 'items', 'options', 'address.area', 'delivery'])->find($request->id);
+        $order = Order::with(['user', 'items', 'options', 'address.area', 'delivery'])->find($request->id);
       
         $response = [
             'order' => $order
@@ -253,7 +253,7 @@ class OrderController extends Controller
     }
     public function delivery_read(Request $request)
     {
-        $order = Auth::user()->delivery_agent->orders()->find($request->id);
+        $order = Order::find($request->id);
         $order->delivery_status = 1;
         $order->save();
         $response = [
@@ -278,7 +278,7 @@ class OrderController extends Controller
     }
     public function transit(Request $request)
     {
-        $order = Auth::user()->vendor->orders()->find($request->id);
+        $order = Order::find($request->id);
         $order->status = 3;
         $order->user_status = 0;
         $order->reject_reason = '';

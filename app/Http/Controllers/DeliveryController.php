@@ -19,14 +19,27 @@ class DeliveryController extends Controller
 
     public function allvendors(Request $request)
     {
-        $d = States::find($request->id)->areas()->with('vendor')->latest()->get();
+        $d = States::find($request->id)->areas()
+                ->select('id', 'states_id')->with('vendor')
+                ->latest()->get();
         // $result = $d->get();
         $vendors = array();
         
         foreach ($d as $item) {
             foreach ($item['vendor'] as  $value) {
                 # code...
+                $r = false;
+                foreach ($vendors as $value2) {
+                if ($value2->id === $value->id) {
+                    $r = false;
+                break;
+                } else {
+                    $r = true;
+                }
+            }
+            if ($r) {
                 $vendors[] = $value;
+            } 
             }
         }
         $response = [
@@ -40,6 +53,18 @@ class DeliveryController extends Controller
         $agents = Auth::user()->vendor->delivery_agents()->latest()->get();
         $response = [
             'agents' => $agents
+        ];
+        return response()->json($response);
+    }
+    public function updateLocation(Request $request)
+    {
+        $user = Auth::user();
+        $delivery_agent = $user->delivery_agent;
+        $delivery_agent->lat = $request->lat;
+        $delivery_agent->lng = $request->long;
+        $delivery_agent->save();
+        $response = [
+            'message' => "location set successfully"
         ];
         return response()->json($response);
     }

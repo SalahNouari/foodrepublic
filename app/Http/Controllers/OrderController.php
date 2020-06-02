@@ -300,12 +300,14 @@ class OrderController extends Controller
         $order = '';
 
         if(Auth::user()->vendor){
-
             $order = Auth::user()->vendor->orders()->find($request->id);
         } else {
             $order = Auth::user()->delivery_agent->orders()->find($request->id);
         }
         $order->user()->increment('orders');
+        if(!$order->served_time){
+            $order->served_time = Carbon::now();
+        }
         $order->delivered_time = Carbon::now();
         
         $order->user()->increment('points', 10);

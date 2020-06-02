@@ -308,6 +308,7 @@ class OrderController extends Controller
         $response = [
             'message' => 'Your order is on the way',
             'token' => $user->token,
+            "order" => $order
         ];
         return response()->json($response);
     }

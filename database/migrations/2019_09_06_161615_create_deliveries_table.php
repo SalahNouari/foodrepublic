@@ -22,7 +22,7 @@ class CreateDeliveriesTable extends Migration
             $table->string('account_number')->nullable();
             $table->string('bank_name')->nullable();
             $table->string('address');
-            $table->integer('current_area_id')->nullable();;
+            $table->integer('current_area_id')->nullable();
             $table->string('phone');
             $table->string('lat');
             $table->string('city');

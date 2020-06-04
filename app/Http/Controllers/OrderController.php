@@ -337,7 +337,7 @@ class OrderController extends Controller
         $order->save();
         $response = [
             'message' => 'Your order has been delivered.',
-            'token' => $user->token        ];
+            'token' => $user->token ];
         return response()->json($response);
     }
     public function rejected(Request $request)

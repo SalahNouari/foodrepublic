@@ -28,6 +28,7 @@ class CreateVendorsTable extends Migration
             $table->string('instagram')->nullable();
             $table->string('twitter')->nullable();
             $table->integer('minimum_order')->default(1000)->nullable();
+            $table->integer('current_area_id')->nullable();
             $table->integer('pos_charge')->default(0)->nullable();
             $table->string('phone');
             $table->string('token')->nullable();

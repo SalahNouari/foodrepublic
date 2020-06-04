@@ -53,7 +53,7 @@ class AreasController extends Controller
     {
       $state = States::find($request->id);
       $areas = $state->areas()->orderBy('name')
-                       ->select('name as text', 'id as value')->get();
+                       ->select('name as text', 'id as value', 'lat', 'lng')->get();
         $user = Auth::user();
         $user->state()->associate($state);
         $user->save();

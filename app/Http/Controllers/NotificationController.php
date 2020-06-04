@@ -58,6 +58,9 @@ class NotificationController extends Controller {
 				case '/adminorder':
 						$env = 'vendor';
 						break;
+				case '/delivery':
+						$env = 'delivery';
+						break;
 					
 					default:
 						$env = 'user';
@@ -65,7 +68,6 @@ class NotificationController extends Controller {
 				}
 			} else {
 				$env = 'user';
-
 				}
 			
 				$response = $firebase->send( $regId, $json, $env );

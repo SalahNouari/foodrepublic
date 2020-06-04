@@ -285,10 +285,12 @@ class OrderController extends Controller
         $order->delivery_status = 0;
         $order->user_status = 0;
         $user = $order->user;
+        $agent = Delivery::find($request->delivery_agent_id);
         $order->save();
         $response = [
             'message' => 'Your order has been accepted',
             'token' => $user->token,
+            'agentsToken' => $agent->token
         ];
         return response()->json($response);
     }

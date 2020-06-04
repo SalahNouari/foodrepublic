@@ -40,7 +40,7 @@ class DeliveryController extends Controller
     }
     public function agents(Request $request)
     {
-        $agents = Delivery::where("current_area_id", $request->id)->select("name","lat", "lng")->latest()->get();
+        $agents = Delivery::where("current_area_id", $request->id)->select("name", "id", "lat", "lng")->latest()->get();
         $response = [
             'agents' => $agents
         ];

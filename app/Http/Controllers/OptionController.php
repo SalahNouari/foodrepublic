@@ -88,7 +88,7 @@ class OptionController extends Controller
             request()->validate([
                 'files.*' => 'image|mimes:jpeg,JPG,png,jpg,gif,svg|max:4048'
             ]);
-
+            if ($files) {
             foreach ($files as $file) {
                 $image_name = $file->getRealPath();
                 Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto"));
@@ -96,6 +96,7 @@ class OptionController extends Controller
                 $option->image = str_replace("http://", "https://", $image_url);
                 $vendor->option()->save($option);
             }
+        }
             $vendor->option()->save($option);
         }
         $response = [

@@ -86,7 +86,6 @@ class OptionController extends Controller
             $option->price = $request->mark_up_price + $request->cost_price;
             $files = $request->file('files');
             request()->validate([
-                'files' => 'required',
                 'files.*' => 'image|mimes:jpeg,JPG,png,jpg,gif,svg|max:4048'
             ]);
 

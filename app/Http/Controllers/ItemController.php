@@ -79,7 +79,6 @@ class ItemController extends Controller
             $opt = json_decode($request->optional);
             $files = $request->file('files');
             request()->validate([
-                'files' => 'required',
                 'files.*' => 'image|mimes:jpeg,JPG,png,jpg,gif,svg|max:4048'
                 ]);
                 if ($files) {

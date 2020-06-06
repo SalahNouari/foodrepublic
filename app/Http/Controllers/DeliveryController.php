@@ -54,7 +54,7 @@ class DeliveryController extends Controller
         $delivery_agent->lng = $request->long;
         $delivery_agent->save();
         $response = [
-            'message' => "location set successfully"
+            'message' => "200"
         ];
         return response()->json($response);
     }

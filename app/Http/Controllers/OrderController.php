@@ -306,11 +306,14 @@ class OrderController extends Controller
 
         $agent = Delivery::find($request->delivery_agent_id);
         $order->delivery()->associate($agent);
+        $vendorToken = $order->vendor->token;
+
         $order->save();
         $response = [
             'message' => 'Your order is on the way',
+            'message2' => 'Prepare this order, delivery agent is on the way',
             'token' => $user->token,
-            "order" => $order
+            "vendorToken" => $vendorToken
         ];
         return response()->json($response);
     }
@@ -335,11 +338,14 @@ class OrderController extends Controller
         $order->paid = 1;
         $user = $order->user;
         $order->delivery_status = 0;
+        $vendorToken = $order->vendor->token;
         
         $order->save();
         $response = [
             'message' => 'Your order has been delivered.',
-            'token' => $user->token ];
+            'message2' => 'Order Delivered',
+            'token' => $user->token,
+            "vendorToken" => $vendorToken ];
         return response()->json($response);
     }
     public function rejected(Request $request)

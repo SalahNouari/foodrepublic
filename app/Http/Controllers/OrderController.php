@@ -56,7 +56,7 @@ class OrderController extends Controller
         }])
         ->where('updated_at', '>=', Carbon::now()->subDays(2))
         // where todays date
-        ->latest()->paginate(20);
+        ->latest()->paginate(100);
         $response = [
             'orders' => $order
         ];

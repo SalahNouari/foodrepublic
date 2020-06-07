@@ -37,7 +37,7 @@ class OrderController extends Controller
         ->with(['address' => function ($query) {
             $query->select('id', 'lat', 'lng', 'name');
         }])
-        ->where('updated_at', '>=', Carbon::now()->subDays(4))
+        ->where('updated_at', '>=', Carbon::now()->subDays(2))
         // where todays date
         ->latest()->paginate(20);
         $response = [

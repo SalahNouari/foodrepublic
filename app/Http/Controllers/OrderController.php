@@ -319,13 +319,7 @@ class OrderController extends Controller
     }
     public function delivered(Request $request)
     {
-        $order = '';
-
-        if(Auth::user()->vendor){
-            $order = Auth::user()->vendor->orders()->find($request->id);
-        } else {
-            $order = Auth::user()->delivery_agent->orders()->find($request->id);
-        }
+        $order = Order::find($request->id);
         $order->user()->increment('orders');
         if(!$order->served_time){
             $order->served_time = Carbon::now();

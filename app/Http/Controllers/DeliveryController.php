@@ -136,6 +136,7 @@ class DeliveryController extends Controller
         $delivery_agent->bio = $request->bio;
         $delivery_agent->address = $request->address;
         $delivery_agent->city = $request->city;
+        $delivery_agent->token = $request->token;
         $delivery_agent->lat = $request->lat;
         $delivery_agent->lng = $request->lng;
         $vendors = $request->vendor;

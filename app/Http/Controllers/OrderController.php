@@ -234,7 +234,7 @@ class OrderController extends Controller
     public function delivery_find(Request $request)
     {
         $order = Order::with(['user', 'items', 'options', 'address.area', 'vendor'=> function ($query) {
-            $query->select('id', 'name');
+            $query->select('id', 'name', 'address');
     }, 'delivery'])->find($request->id);
       
         $response = [

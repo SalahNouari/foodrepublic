@@ -61,7 +61,6 @@ class NotificationController extends Controller {
 				case '/delivery':
 						$env = 'delivery';
 						break;
-					
 					default:
 						$env = 'user';
 					break;

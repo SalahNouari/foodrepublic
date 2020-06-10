@@ -33,7 +33,7 @@ class OrderController extends Controller
 
     public function alldelivery()
     {
-        $order = Order::where('status', 2)->select('id', 'vendor_id', 'address_id', 'payment_method', 'delivery_status', 'tracking_id', 'created_at', 'updated_at', 'status')
+        $order = Order::where('status', 2)->select('id', 'vendor_id', 'address_id', 'delivery_status', 'created_at', 'updated_at', 'status')
         ->with(['address' => function ($query) {
             $query->select('id', 'lat', 'lng', 'name');
         },'vendor' => function ($query) {
@@ -52,9 +52,11 @@ class OrderController extends Controller
     public function all_my_delivery()
     {
         $order = Auth::user()->delivery_agent->orders()
-        ->select('id', 'address_id', 'payment_method', 'delivery_status', 'tracking_id', 'created_at', 'updated_at', 'status')
+        ->select('id', 'address_id', 'delivery_status', 'created_at', 'updated_at', 'status')
         ->with(['address' => function ($query) {
             $query->select('id', 'lat', 'lng', 'name');
+        },'vendor' => function ($query) {
+            $query->select('id','name', 'address');
         }])
         ->where('updated_at', '>=', Carbon::now()->subDays(2))
         // where todays date

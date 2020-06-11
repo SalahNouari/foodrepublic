@@ -37,7 +37,7 @@ class OrderController extends Controller
         ->with(['address' => function ($query) {
             $query->select('id', 'lat', 'lng', 'name');
         },'vendor' => function ($query) {
-            $query->select('id','name', 'address');
+            $query->select('id','name', 'address', 'lat', 'lng');
         }])
         ->where('updated_at', '>=', Carbon::now()->subDays(2))
         // where todays date
@@ -56,7 +56,7 @@ class OrderController extends Controller
         ->with(['address' => function ($query) {
             $query->select('id', 'lat', 'lng', 'name');
         },'vendor' => function ($query) {
-            $query->select('id','name', 'address');
+            $query->select('id','name', 'address', 'lat', 'lng');
         }])
         ->where('updated_at', '>=', Carbon::now()->subDays(2))
         // where todays date

@@ -73,6 +73,8 @@ class ItemController extends Controller
             $item->category_name = $request->category_name;
             $item->category_id = $request->category_id;
             $item->generic = $request->category_name;
+            $item->tel = $request->tel;
+            $item->address = $request->address;
             $item->vendor_name = $vendor->name;
             $item->vendor_id = $vendor->id;
             $comp = json_decode($request->compulsory);
@@ -135,6 +137,8 @@ class ItemController extends Controller
         $item = $vendor->categories->find($request->cat_id)->items()->find($request->item_id);
         $item->main_option()->detach();
         $item->name = $request->name;
+        $item->tel = $request->tel;
+        $item->address = $request->address;
         $item->cost_price = $request->cost_price;
         $item->mark_up_price = $request->mark_up_price;
         $item->price = $request->mark_up_price + $request->cost_price;

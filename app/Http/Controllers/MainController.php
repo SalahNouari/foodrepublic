@@ -119,7 +119,7 @@ class MainController extends Controller
     {
         
         $cat = Category::find($request->cat);
-        $item = $cat->where('name', urldecode($request->name))
+        $item = $cat->items()->where('name', urldecode($request->name))
         ->with('main_option')->first();
         $item->makeHidden(['cost_price', 'mark_up_price']);
         $response = [

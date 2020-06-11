@@ -125,7 +125,8 @@ class MainController extends Controller
         $response = [
             'item' => $item,
             'vendor' => $cat->vendor->name,
-            'type' => $cat->vendor->type
+            'type' => $cat->vendor->type,
+            'name' =>  $request->name
         ];
         return response()->json($response);
     }

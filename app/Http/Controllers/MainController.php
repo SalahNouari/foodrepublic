@@ -87,7 +87,7 @@ class MainController extends Controller
     }
     public function vendorpage(Request $request)
     {
-        $vendor = Vendor::where('name', $request->name)
+        $vendor = Vendor::where('name', urldecode($request->name))
         ->with(['tags',
         'categories' => function ($query){
             $query->withCount('items');

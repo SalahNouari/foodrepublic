@@ -118,7 +118,9 @@ class MainController extends Controller
     public function vendoritem(Request $request)
     {
         $cat = Category::find($request->cat);
-        $item = $cat->items()->where('name', $request->name)->with('main_option')->first();
+        $item = Item::where('name', $request->name)
+        ->where('category_id', $request->cat)
+        ->with('main_option')->first();
         // $item->makeHidden(['cost_price', 'mark_up_price']);
         $response = [
             'item' => $item,

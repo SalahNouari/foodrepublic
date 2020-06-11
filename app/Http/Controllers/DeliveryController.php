@@ -158,6 +158,7 @@ class DeliveryController extends Controller
         $delivery_agent->name = $request->name;
         $delivery_agent->bio = $request->bio;
         $delivery_agent->phone = $request->phone;
+        $delivery_agent->token = $request->token;
         $delivery_agent->save();
         $areas = $request->areas;
         $vendors = $request->vendors;

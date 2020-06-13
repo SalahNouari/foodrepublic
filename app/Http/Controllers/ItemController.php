@@ -74,6 +74,7 @@ class ItemController extends Controller
             $item->category_id = $request->category_id;
             $item->generic = $request->category_name;
             $item->tel = $request->tel;
+            $item->ig = $request->ig;
             $item->address = $request->address;
             $item->vendor_name = $vendor->name;
             $item->vendor_id = $vendor->id;
@@ -138,6 +139,7 @@ class ItemController extends Controller
         $item->main_option()->detach();
         $item->name = $request->name;
         $item->tel = $request->tel;
+        $item->ig = $request->ig;
         $item->address = $request->address;
         $item->cost_price = $request->cost_price;
         $item->mark_up_price = $request->mark_up_price;

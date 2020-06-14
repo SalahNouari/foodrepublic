@@ -119,6 +119,7 @@ class VendorController extends Controller
     }
     public function summary(Request $request)
     {
+     $vendor = Auth::user()->vendor;
      $now = Carbon::now();
      $today = Carbon::today();
         switch ($request->type) {
@@ -140,56 +141,56 @@ class VendorController extends Controller
           $det = array();
           switch ($request->category) {
             case 'sales':
-                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+                $data = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 4)
                 ->select('created_at', 'grand_total as value')
                 ->orderBy('created_at')
                 ->get();
                 array_push($det, ['value' => $data->sum('value'), 'title' => 'Delivered' ]);
-                $data4 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+                $data4 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 5)
                 ->sum('grand_total');
                 array_push($det, ['value' => $data4 , 'title' => 'Rejected' ]);
-                $data5 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+                $data5 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 3)
                 ->sum('grand_total');
                 array_push($det, ['value' => $data5 , 'title' => 'In-transit' ]);
-                $data6 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+                $data6 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 1)
                 ->orWhere('status', 0)
                 ->sum('grand_total');
                 array_push($det, ['value' => $data6 , 'title' => 'Pending' ]);
             break;
             case 'orders':
-                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+                $data = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 4)
                 ->select('created_at')
                 ->orderBy('created_at')
                 ->get();
                 array_push($det, ['value' => $data->count() , 'title' => 'Delivered' ]);
-                $data4 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+                $data4 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 5)
                 ->count();
                 array_push($det, ['value' => $data4 , 'title' => 'Rejected' ]);
-                $data5 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+                $data5 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 3)
                 ->count();
                 array_push($det, ['value' => $data5 , 'title' => 'In-transit' ]);
-                $data6 = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+                $data6 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 1)
                 ->orWhere('status', 0)
                 ->get();
                 array_push($det, ['value' => $data6 , 'title' => 'Pending' ]);
             break;
             case 'transactions':
-                $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+                $data = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 4)
                 ->select('created_at', 'grand_total as value')
                 ->orderBy('created_at')
                 ->get();
             break;
             default:
-            $data = Auth::user()->vendor->orders()->whereBetween('created_at', [$start, now()])
+            $data = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 4)
                 ->select('created_at', 'grand_total as value')
                 ->orderBy('created_at')

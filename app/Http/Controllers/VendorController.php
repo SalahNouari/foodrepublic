@@ -149,13 +149,16 @@ class VendorController extends Controller
                 array_push($det, ['value' => $data->sum('value'), 'title' => 'Delivered' ]);
                 $data4 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 5)
+                ->select('id', 'created_at', 'grand_total')
                 ->sum('grand_total');
                 array_push($det, ['value' => $data4 , 'title' => 'Rejected' ]);
                 $data5 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 3)
+                ->select('id', 'created_at', 'grand_total')
                 ->sum('grand_total');
                 array_push($det, ['value' => $data5 , 'title' => 'In-transit' ]);
                 $data6 = $vendor->orders()->whereBetween('created_at', [$start, now()])
+                ->select('id', 'created_at', 'grand_total')
                 ->where('status', 1)
                 ->where('status', 0)
                 ->sum('grand_total');
@@ -164,21 +167,23 @@ class VendorController extends Controller
             case 'orders':
                 $data = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 4)
-                ->select('created_at')
+                ->select('id', 'created_at')
                 ->orderBy('created_at')
                 ->get();
                 array_push($det, ['value' => $data->count() , 'title' => 'Delivered' ]);
                 $data4 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 5)
+                ->select('id', 'created_at')
                 ->count();
                 array_push($det, ['value' => $data4 , 'title' => 'Rejected' ]);
                 $data5 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 3)
+                ->select('id', 'created_at')
                 ->count();
                 array_push($det, ['value' => $data5 , 'title' => 'In-transit' ]);
                 $data6 = $vendor->orders()->whereBetween('created_at', [$start, now()])
-                ->where('status', 1)
-                ->where('status', 0)
+                ->whereIn('status', [1, 0])
+                ->select('id', 'created_at')
                 ->count();
                 array_push($det, ['value' => $data6 , 'title' => 'Pending' ]);
             break;

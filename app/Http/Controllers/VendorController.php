@@ -179,7 +179,7 @@ class VendorController extends Controller
                 $data6 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 1)
                 ->where('status', 0)
-                ->get();
+                ->count();
                 array_push($det, ['value' => $data6 , 'title' => 'Pending' ]);
             break;
             case 'transactions':

@@ -159,7 +159,7 @@ class VendorController extends Controller
                 array_push($det, ['value' => $data5 , 'title' => 'In-transit' ]);
                 $data6 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->select('id', 'created_at', 'grand_total')
-                ->whereIn('status', [1, 0])
+                ->whereIn('status', [1, 0, 2])
                 ->sum('grand_total');
                 array_push($det, ['value' => $data6 , 'title' => 'Pending' ]);
             break;
@@ -181,7 +181,7 @@ class VendorController extends Controller
                 ->count();
                 array_push($det, ['value' => $data5 , 'title' => 'In-transit' ]);
                 $data6 = $vendor->orders()->whereBetween('created_at', [$start, now()])
-                ->whereIn('status', [1, 0])
+                ->whereIn('status', [1, 0, 2])
                 ->select('id', 'created_at')
                 ->count();
                 array_push($det, ['value' => $data6 , 'title' => 'Pending' ]);

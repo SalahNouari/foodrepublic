@@ -157,7 +157,7 @@ class VendorController extends Controller
                 array_push($det, ['value' => $data5 , 'title' => 'In-transit' ]);
                 $data6 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 1)
-                ->orWhere('status', 0)
+                ->where('status', 0)
                 ->sum('grand_total');
                 array_push($det, ['value' => $data6 , 'title' => 'Pending' ]);
             break;
@@ -178,7 +178,7 @@ class VendorController extends Controller
                 array_push($det, ['value' => $data5 , 'title' => 'In-transit' ]);
                 $data6 = $vendor->orders()->whereBetween('created_at', [$start, now()])
                 ->where('status', 1)
-                ->orWhere('status', 0)
+                ->where('status', 0)
                 ->get();
                 array_push($det, ['value' => $data6 , 'title' => 'Pending' ]);
             break;

@@ -90,7 +90,8 @@ class MainController extends Controller
         $vendor = Vendor::where('name', urldecode($request->name))
         ->with(['tags',
         'categories' => function ($query){
-            $query->withCount('items');
+            $query->withCount('items')
+            ->orderBy('name');
         }, 'area'])
         ->withCount('reviews')
         ->first();
@@ -107,7 +108,7 @@ class MainController extends Controller
     {
         $cat = Category::find($request->cat_id);
 
-        $items = $cat->items()->with(['main_option'])->get();
+        $items = $cat->items()->orderBy('name')->with(['main_option'])->get();
         $items->makeHidden(['cost_price', 'mark_up_price']);
         $response = [
             'items' => $items,

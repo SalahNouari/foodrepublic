@@ -37,6 +37,7 @@ Route::post('passcode', 'UserController@passcode');
 Route::get('home', 'MainController@home');
 Route::get('page', 'MainController@page')->middleware('auth:api');
 Route::get('search', 'MainController@search');
+Route::get('searchVendor', 'MainController@searchVendor');
 Route::get('vendorpage', 'MainController@vendorpage');
 Route::get('vendoritems', 'MainController@vendoritems');
 Route::get('vendoritem', 'MainController@vendoritem');

@@ -85,6 +85,19 @@ class MainController extends Controller
         ];
         return response()->json($response);
     }
+    public function searchVendor(Request $request)
+    {
+
+    $items = Item::where('vendor_id', $request->id)
+                    ->whereLike('name', $request->name)
+                    ->select('name', 'available', 'id', 'image', 'price', 'category_id')
+                    ->get();
+        
+        $response = [
+            'items' => $items
+        ];
+        return response()->json($response);
+    }
     public function vendorpage(Request $request)
     {
         $vendor = Vendor::where('name', urldecode($request->name))

@@ -102,18 +102,32 @@ class MainController extends Controller
     }
     public function vendorpage(Request $request)
     {
+        if(isset($request->type)){
+            $d = Areas::find($request->id);
+            $vendor = $d->vendor()
+            ->where('type', $request->type)
+            ->with([
+            'categories' => function ($query){
+                $query->withCount('items')
+                ->orderBy('name');
+            }])
+            ->select('vendor_id', 'name', 'type', 'status', 'image')
+            ->first();
+         } else{
+
+          
         $vendor = Vendor::where('name', urldecode($request->name))
-        ->with(['tags',
+        ->with([
         'categories' => function ($query){
             $query->withCount('items')
             ->orderBy('name');
-        }, 'area'])
+        }])
         ->withCount('reviews')
         ->first();
         $t = $vendor->reviews()->avg('rating');
         data_fill($vendor, 'rate', $t);
         $vendor->makeHidden(['created_at', 'updated_at', 'place_id', 'account_number', 'phone', 'branch', 'account_name', 'bank_name', 'instagram', 'twitter']);
-
+    }
         $response = [
             'vendor' => $vendor,
         ];

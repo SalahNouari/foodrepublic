@@ -115,7 +115,7 @@ class MainController extends Controller
                 $query->where('areas_id', $request->id);
             }])
             ->withCount('reviews')
-            ->select('vendor_id', 'name', 'type', 'status', 'image')
+            // ->select('id as vendor_id', 'name', 'type', 'status', 'image')
             ->first();
          } else{
 

@@ -90,7 +90,7 @@ class MainController extends Controller
 
     $items = Item::where('vendor_id', $request->id)
                     ->whereLike('name', $request->name)
-                    ->select('name', 'available', 'id', 'image', 'price', 'category_id')
+                    ->select('name', 'available', 'id', 'image', 'price', 'category_id', 'vendor_name')
                     ->get();
         
         $response = [

@@ -110,7 +110,11 @@ class MainController extends Controller
             'categories' => function ($query){
                 $query->withCount('items')
                 ->orderBy('name');
+            },
+            'area' => function ($query) use ($request) {
+                $query->where('areas_id', $request->id);
             }])
+            ->withCount('reviews')
             ->select('vendor_id', 'name', 'type', 'status', 'image')
             ->first();
          } else{
@@ -121,6 +125,8 @@ class MainController extends Controller
         'categories' => function ($query){
             $query->withCount('items')
             ->orderBy('name');
+        },'area' => function ($query) use ($request) {
+            $query->where('areas_id', $request->id);
         }])
         ->withCount('reviews')
         ->first();

@@ -67,7 +67,7 @@ class MainController extends Controller
                     ->select('name', 'type', 'status', 'image')
                     ->get();
         $items = array();
-        $vend = $d->vendor()->where('type', $request->type)->get();
+        $vend = $d->vendor()->where('type', $request->type)->select('id', 'name', 'status')->get();
         foreach ($vend as $vendor) {
             $d = Item::where('vendor_id', $vendor->id)
                     ->whereLike('name', $request->name)

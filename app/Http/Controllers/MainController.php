@@ -62,6 +62,7 @@ class MainController extends Controller
         $d = Areas::find($request->id);
         
         $vendors = $d->vendor()
+                    ->where('type', $request->type)
                     ->where('name', 'like', '%' . $request->name . '%')
                     ->select('name', 'type', 'status', 'image')
                     ->get();

@@ -24,8 +24,11 @@ class TransactionsController extends Controller
             $trans = new Transactions;
             $trans->amount = $request->amount;
             $trans->type = $request->type;
-            $trans->transaction = $request->transaction;
-            $trans->reference = $request->reference;
+            if (isset($request->transaction)) {
+                # code...
+                $trans->transaction = $request->transaction;
+                $trans->reference = $request->reference;
+            }
             $trans->transaction_id = $rand_code;
       
             if (($request->type === 'debit')) {

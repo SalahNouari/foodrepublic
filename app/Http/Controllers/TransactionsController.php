@@ -44,7 +44,7 @@ class TransactionsController extends Controller
      
 
             $response = [
-                'message' => 'success'
+                'transaction' => $trans
             ];
             return response()->json($response);
         }

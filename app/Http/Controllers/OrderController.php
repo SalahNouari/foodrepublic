@@ -161,13 +161,13 @@ class OrderController extends Controller
                     array_push($optional, $newOption);
                 }
                 if ($itemsList) {
-                    $order->items()->attach($itemsList);
+                    $order->items()->attach(json_encode($itemsList));
                 }
                 if ($compulsory) {
-                    $order->options()->attach($compulsory);
+                    $order->options()->attach(json_encode($compulsory));
                 }
                 if ($optional) {
-                $order->options()->attach($optional);
+                $order->options()->attach(json_encode($optional));
                 }
             }
             

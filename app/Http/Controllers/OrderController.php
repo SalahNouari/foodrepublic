@@ -137,7 +137,7 @@ class OrderController extends Controller
                       'tracking_id' => $random_code,
                      'vendor_id' => $request->vendor_id]
                 ];
-                array_push($itemsList, json_decode($newItem));
+                array_push($itemsList, ($newItem));
                 
                 
                 foreach ($comp as $compa) {
@@ -148,7 +148,7 @@ class OrderController extends Controller
                         'tracking_id' => $random_code,
                         'vendor_id' => $request->vendor_id]
                     ];
-                    array_push($compulsory, json_decode($newCompulsory));
+                    array_push($compulsory, ($newCompulsory));
                 }
                 
                 foreach ($opt as $opta) {
@@ -159,19 +159,19 @@ class OrderController extends Controller
                         'tracking_id' => $random_code,
                         'vendor_id' => $request->vendor_id]
                     ];
-                    array_push($optional, json_decode($newOption));
+                    array_push($optional, ($newOption));
                 }
-                array_push($resp, $itemsList);
-                array_push($resp, $compulsory);
-                array_push($resp, $optional);
+             array_push($resp, $itemsList);
+             array_push($resp, $compulsory);
+             array_push($resp, $optional);
                 if ($itemsList) {
-                    $order->items()->attach(json_encode($itemsList));
+                    $order->items()->attach(collect($itemsList));
                 }
                 if ($compulsory) {
-                    $order->options()->attach(json_encode($compulsory));
+                    $order->options()->attach(collect($compulsory));
                 }
                 if ($optional) {
-                $order->options()->attach(json_encode($optional));
+                $order->options()->attach(collect($optional));
                 }
             }
             // return [

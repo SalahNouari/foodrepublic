@@ -161,9 +161,9 @@ class OrderController extends Controller
                     ];
                     array_push($optional, json_decode($newOption));
                 }
-             array_push($resp, $itemsList);
-             array_push($resp, $compulsory);
-             array_push($resp, $optional);
+                array_push($resp, $itemsList);
+                array_push($resp, $compulsory);
+                array_push($resp, $optional);
                 if ($itemsList) {
                     $order->items()->attach(json_encode($itemsList));
                 }

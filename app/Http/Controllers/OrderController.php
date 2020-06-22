@@ -164,15 +164,15 @@ class OrderController extends Controller
              array_push($resp, $itemsList);
              array_push($resp, $compulsory);
              array_push($resp, $optional);
-                // if ($itemsList) {
-                //     $order->items()->attach(($itemsList));
-                // }
-                // if ($compulsory) {
-                //     $order->options()->attach(($compulsory));
-                // }
-                // if ($optional) {
-                // $order->options()->attach(($optional));
-                // }
+                if ($itemsList) {
+                    $order->items()->attach($itemsList);
+                }
+                if ($compulsory) {
+                    $order->options()->attach($compulsory);
+                }
+                if ($optional) {
+                $order->options()->attach($optional);
+                }
             }
             // return [
             //     'items'=> $itemsList,
@@ -180,8 +180,8 @@ class OrderController extends Controller
             //     'comp'=> $compulsory,
             // ];
             $response = [
-                'order' => $resp
-                // 'order' => Order::where('id', $order['id'])->with(['items', 'options'])->get()
+                'order1' => $resp,
+                'order' => Order::where('id', $order['id'])->with(['items', 'options'])->get()
             ];
             return response()->json($response);
             

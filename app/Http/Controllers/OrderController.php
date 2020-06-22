@@ -120,6 +120,7 @@ class OrderController extends Controller
 
             $order->save();
             
+            $resp = array();
             foreach ($items as $item) {
                 $itemsList = array();
                 $compulsory = array();
@@ -160,19 +161,27 @@ class OrderController extends Controller
                     ];
                     array_push($optional, $newOption);
                 }
-                if ($itemsList) {
-                    $order->items()->attach(json_decode($itemsList));
-                }
-                if ($compulsory) {
-                    $order->options()->attach(json_decode($compulsory));
-                }
-                if ($optional) {
-                $order->options()->attach(json_decode($optional));
-                }
+             array_push($resp, $itemsList);
+             array_push($resp, $compulsory);
+             array_push($resp, $optional);
+                // if ($itemsList) {
+                //     $order->items()->attach(($itemsList));
+                // }
+                // if ($compulsory) {
+                //     $order->options()->attach(($compulsory));
+                // }
+                // if ($optional) {
+                // $order->options()->attach(($optional));
+                // }
             }
-            
+            // return [
+            //     'items'=> $itemsList,
+            //     'opt'=> $optional,
+            //     'comp'=> $compulsory,
+            // ];
             $response = [
-                'order' => Order::where('id', $order['id'])->with(['items', 'options'])->get()
+                'order' => $resp
+                // 'order' => Order::where('id', $order['id'])->with(['items', 'options'])->get()
             ];
             return response()->json($response);
             

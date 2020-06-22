@@ -137,7 +137,7 @@ class OrderController extends Controller
                       'tracking_id' => $random_code,
                      'vendor_id' => $request->vendor_id]
                 ];
-                array_push($itemsList, $newItem);
+                array_push($itemsList, json_encode($newItem));
                 
                 
                 foreach ($comp as $compa) {
@@ -148,7 +148,7 @@ class OrderController extends Controller
                         'tracking_id' => $random_code,
                         'vendor_id' => $request->vendor_id]
                     ];
-                    array_push($compulsory, $newCompulsory);
+                    array_push($compulsory, json_encode($newCompulsory));
                 }
                 
                 foreach ($opt as $opta) {
@@ -159,19 +159,19 @@ class OrderController extends Controller
                         'tracking_id' => $random_code,
                         'vendor_id' => $request->vendor_id]
                     ];
-                    array_push($optional, $newOption);
+                    array_push($optional, json_encode($newOption));
                 }
              array_push($resp, $itemsList);
              array_push($resp, $compulsory);
              array_push($resp, $optional);
                 if ($itemsList) {
-                    $order->items()->attach($itemsList);
+                    $order->items()->attach(json_decode($itemsList));
                 }
                 if ($compulsory) {
-                    $order->options()->attach($compulsory);
+                    $order->options()->attach(json_decode($compulsory));
                 }
                 if ($optional) {
-                $order->options()->attach($optional);
+                $order->options()->attach(json_decode($optional));
                 }
             }
             // return [

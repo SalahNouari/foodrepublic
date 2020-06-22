@@ -119,68 +119,28 @@ class OrderController extends Controller
             $order->user()->associate($user);
 
             $order->save();
-            
-            $resp = array();
+        
             foreach ($items as $item) {
-                $itemsList = array();
-                $compulsory = array();
-                $optional = array();
                 $digits = 8;
                 $random_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
+        
                 $comp = $item['compulsory'];
                 $opt = $item['optional'];
                 $itm = $item['item'][0];
-                $newItem = [
-                    $itm['id'],
-                     ['qty' => $itm['qty'],
-                     'total' => $item['total'],
-                      'tracking_id' => $random_code,
-                     'vendor_id' => $request->vendor_id]
-                ];
-                array_push($itemsList, ($newItem));
-                
-                
+
+                $order->items()->attach($itm['id'], ['qty' => $itm['qty'], 'total' => $item['total'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
+  
                 foreach ($comp as $compa) {
-                    $newCompulsory = [
-                        $compa['id'],
-                        ['type' => $compa['type'],
-                        'qty' => 1,
-                        'tracking_id' => $random_code,
-                        'vendor_id' => $request->vendor_id]
-                    ];
-                    array_push($compulsory, ($newCompulsory));
+                    $order->options()->attach($compa['id'], ['type' => $compa['type'], 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
                 }
-                
+            
                 foreach ($opt as $opta) {
-                    $newOption =[  
-                        $opta['id'],
-                        ['type' => $opta['type'],
-                        'qty' => $opta['qty'],
-                        'tracking_id' => $random_code,
-                        'vendor_id' => $request->vendor_id]
-                    ];
-                    array_push($optional, ($newOption));
-                }
-             array_push($resp, $itemsList);
-             array_push($resp, $compulsory);
-             array_push($resp, $optional);
-                if ($itemsList) {
-                    $order->items()->attach(collect($itemsList));
-                }
-                if ($compulsory) {
-                    $order->options()->attach(collect($compulsory));
-                }
-                if ($optional) {
-                $order->options()->attach(collect($optional));
+                    # code...
+                    $order->options()->attach($opta['id'], ['type' =>  $opta['type'], 'qty' => $opta['qty'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
                 }
             }
-            // return [
-            //     'items'=> $itemsList,
-            //     'opt'=> $optional,
-            //     'comp'=> $compulsory,
-            // ];
+            
             $response = [
-                'order1' => $resp,
                 'order' => Order::where('id', $order['id'])->with(['items', 'options'])->get()
             ];
             return response()->json($response);

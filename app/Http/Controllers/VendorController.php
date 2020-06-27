@@ -297,6 +297,13 @@ class VendorController extends Controller
     {
         $user = Auth::user();
         $vendor = $user->vendor;
+        if (Cache::has('vendor_'.$vendor->name)) {
+            Cache::forget('vendor_'.$vendor->name);
+        } else{
+            $tag_id = $vendor->area()->first()->id;
+            $tag_type = $vendor->type;
+            Cache::forget('vendor_'.$tag_id.'_'.$tag_type);
+        }
         $vendor->cash_on_delivery = $request->cash;
         $vendor->card_on_delivery = $request->card;
         $vendor->minimum_order = $request->minimum;

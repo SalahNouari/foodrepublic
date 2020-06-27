@@ -111,6 +111,7 @@ class MainController extends Controller
         }else{
             $tag = $request->name;
         }
+        Cache::flush();
         $value = Cache::remember('vendor_'.$tag, Carbon::now()->addHours(24), function () use ($request) {
         if(isset($request->type)){
             $d = Areas::find($request->id);

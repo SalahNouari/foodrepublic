@@ -29,7 +29,7 @@ class MainController extends Controller
     }
     public function page(Request $request)
     {
-        $value = Cache::remember('page'.$request->id, Carbon::now()->addMinutes(60 * 24), function () use ($request) {
+        $value = Cache::remember('page_'.$request->id.'_'.$request->type, Carbon::now()->addMinutes(60 * 24), function () use ($request) {
            
         
         $d = Areas::find($request->id);

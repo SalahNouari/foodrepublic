@@ -110,7 +110,7 @@ class MainController extends Controller
         if(isset($request->type)){
             $tag = $request->id.'_'.$request->type;
         }else{
-            $tag = $request->id.'_'.$request->name;
+            $tag = $request->name;
         }
         // Cache::flush();
         $value = Cache::remember('vendor_'.$tag, Carbon::now()->addHours(24), function () use ($request, $tag) {
@@ -123,9 +123,7 @@ class MainController extends Controller
                 $query->withCount('items')
                 ->orderBy('name');
             },
-            'area' => function ($query) use ($request) {
-                $query->where('areas_id', $request->id);
-            }])
+            'area'])
             ->withCount('reviews')
             // ->select('id as vendor_id', 'name', 'type', 'status', 'image')
             ->first();

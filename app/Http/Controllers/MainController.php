@@ -123,7 +123,9 @@ class MainController extends Controller
                 $query->withCount('items')
                 ->orderBy('name');
             },
-            'area'])
+            'area' => function ($query) use ($request) {
+                $query->where('areas_id', $request->id);
+            }])
             ->withCount('reviews')
             // ->select('id as vendor_id', 'name', 'type', 'status', 'image')
             ->first();
@@ -135,9 +137,7 @@ class MainController extends Controller
         'categories' => function ($query){
             $query->withCount('items')
             ->orderBy('name');
-        },'area' => function ($query) use ($request) {
-            $query->where('areas_id', $request->id);
-        }])
+        },'area'])
         ->withCount('reviews')
         ->first();
         $t = $vendor->reviews()->avg('rating');

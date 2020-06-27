@@ -60,6 +60,7 @@ class MainController extends Controller
     }
     public function search(Request $request)
     {
+        $value = Cache::tags(['search'])->remember('search_'.$request->id.'_'.$request->type.'_'.$request->name, Carbon::now()->addMinutes(60 * 24), function () use ($request) {
 
         $d = Areas::find($request->id);
         
@@ -83,11 +84,12 @@ class MainController extends Controller
                     }
         }
         
-        $response = [
+        return $response = [
             'vendors' => $vendors,
             'items' => $items
         ];
-        return response()->json($response);
+    });
+        return response()->json($value);
     }
     public function searchVendor(Request $request)
     {
@@ -104,6 +106,8 @@ class MainController extends Controller
     }
     public function vendorpage(Request $request)
     {
+        $value = Cache::tags(['vendor'])->remember('vendor_'.$request->id.'_'.$request->name, Carbon::now()->addMinutes(60 * 24), function () use ($request) {
+
         if(isset($request->type)){
             $d = Areas::find($request->id);
             $vendor = $d->vendor()
@@ -139,36 +143,40 @@ class MainController extends Controller
     if ($vendor) {
         $vendor->makeHidden(['created_at', 'updated_at', 'place_id', 'account_number', 'phone', 'branch', 'account_name', 'bank_name', 'instagram', 'twitter']);
     }
-        $response = [
+       return  $response = [
             'vendor' => $vendor,
         ];
-        return response()->json($response);
+    });
+        return response()->json($value);
     }
     public function vendoritems(Request $request)
     {
+        $value = Cache::tags(['category_items'])->remember('category_items_'.$request->cat_id, Carbon::now()->addMinutes(60 * 24), function () use ($request) {
         $cat = Category::find($request->cat_id);
-
         $items = $cat->items()->orderBy('name')->with(['main_option'])->get();
         $items->makeHidden(['cost_price', 'mark_up_price']);
-        $response = [
+        return $response = [
             'items' => $items,
         ];
-        return response()->json($response);
+    });
+        return response()->json($value);
     }
     
     public function vendoritem(Request $request)
     {
-        
+        $value = Cache::tags(['item'])->remember('item_'.$request->cat.'_'.$request->name, Carbon::now()->addMinutes(60 * 24), function () use ($request) {
+
         $cat = Category::find($request->cat);
         $item = $cat->items()->where('name', urldecode($request->name))
         ->with('main_option')->first();
         $item->makeHidden(['cost_price', 'mark_up_price']);
-        $response = [
+        return $response = [
             'item' => $item,
             'vendor' => $cat->vendor->name,
             'type' => $cat->vendor->type
         ];
-        return response()->json($response);
+    });
+        return response()->json($value);
     }
     public function home(Request $request)
     {

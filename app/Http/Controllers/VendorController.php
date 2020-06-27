@@ -81,6 +81,16 @@ class VendorController extends Controller
             $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 600, "height" => 600]);
             $vendor->image = str_replace("http://", "https://", $image_url);
         }
+        if (Cache::has('vendor_'.$vendor->name)) {
+            Cache::forget('vendor_'.$vendor->name);
+        } else{
+            $tag_id = $vendor->area()->first()->id;
+            $tag_type = $vendor->type;
+            $el = 'vendor_'.$tag_id.'_'.$tag_type;
+            if (Cache::has($el)) {
+                Cache::forget($el);
+            }
+        }
         $vendor->save();
         $success['message'] = 'Image uploaded successfully';
         return response()->json(['success' => $success], 200);
@@ -272,7 +282,16 @@ class VendorController extends Controller
         $vendor = Auth::user()->vendor;
         $areas = $vendor->area;
         $fee = $request->fee;
-        
+        if (Cache::has('vendor_'.$vendor->name)) {
+            Cache::forget('vendor_'.$vendor->name);
+        } else{
+            $tag_id = $vendor->area()->first()->id;
+            $tag_type = $vendor->type;
+            $el = 'vendor_'.$tag_id.'_'.$tag_type;
+            if (Cache::has($el)) {
+                Cache::forget($el);
+            }
+        }
         foreach ($areas as $i=>$area) {
             $vendor->area()->updateExistingPivot($area->id, ['fee' => $fee[$i]]);
         }
@@ -287,6 +306,16 @@ class VendorController extends Controller
         $user = Auth::user();
         $vendor = $user->vendor;
         $vendor->status = $request->status;
+        if (Cache::has('vendor_'.$vendor->name)) {
+            Cache::forget('vendor_'.$vendor->name);
+        } else{
+            $tag_id = $vendor->area()->first()->id;
+            $tag_type = $vendor->type;
+            $el = 'vendor_'.$tag_id.'_'.$tag_type;
+            if (Cache::has($el)) {
+                Cache::forget($el);
+            }
+        }
         $vendor->save();
         $response = [
                 'message' => 'successful'

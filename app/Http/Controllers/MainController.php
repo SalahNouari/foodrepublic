@@ -30,31 +30,31 @@ class MainController extends Controller
     public function page(Request $request)
     {
         $value = Cache::tags(['pages'])->remember('page_'.$request->id.'_'.$request->type, Carbon::now()->addMinutes(60 * 24), function () use ($request) {
-        // $d = Areas::find($request->id);
-        // $user = Auth::user();
-        // $user->area()->associate($d);
-        // $user->save();
-        // $vendor = $d->vendor()
-        // ->where('type', $request->type)
-        // ->with([
-        //      'tags' => function ($query){
-        //         $query->select('tag');
-        //     },
-        //      'area' => function ($query) use ($request) {
-        //         $query->where('areas_id', $request->id);
-        //     }
-        //     ])
-        // ->withCount('reviews')
-        // ->get();
-        // $vendor->makeHidden(['created_at', 'pos_charge', 'updated_at', 'place_id', 'account_number', 'address', 'phone', 'branch', 'type', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio', 'pos_charge']);
-        // $vendor->each(function ($i, $k){
-        //     $t = $i->reviews()->avg('rating');
-        //         data_fill($i, 'rate', $t);
+        $d = Areas::find($request->id);
+        $user = Auth::user();
+        $user->area()->associate($d);
+        $user->save();
+        $vendor = $d->vendor()
+        ->where('type', $request->type)
+        ->with([
+             'tags' => function ($query){
+                $query->select('tag');
+            },
+             'area' => function ($query) use ($request) {
+                $query->where('areas_id', $request->id);
+            }
+            ])
+        ->withCount('reviews')
+        ->get();
+        $vendor->makeHidden(['created_at', 'pos_charge', 'updated_at', 'place_id', 'account_number', 'address', 'phone', 'branch', 'type', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio', 'pos_charge']);
+        $vendor->each(function ($i, $k){
+            $t = $i->reviews()->avg('rating');
+                data_fill($i, 'rate', $t);
 
-        // });
-        // return  $response = [
-        //     'items' => $vendor
-        //         ];
+        });
+        return  $response = [
+            'items' => $vendor
+                ];
     });
         return response()->json($value);
     }

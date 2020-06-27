@@ -106,8 +106,12 @@ class MainController extends Controller
     }
     public function vendorpage(Request $request)
     {
-        $value = Cache::tags(['vendor'])->remember('vendor_'.$request->id.'_'.$request->name, Carbon::now()->addMinutes(60 * 24), function () use ($request) {
-
+        if(isset($request->type)){
+            $tag = $request->id.'_'.$request->type;
+        }else{
+            $tag = $request->id.'_'.$request->name;
+        }
+        $value = Cache::tags(['vendor'])->remember('vendor_'.$tag, Carbon::now()->addMinutes(60 * 24), function () use ($request) {
         if(isset($request->type)){
             $d = Areas::find($request->id);
             $vendor = $d->vendor()

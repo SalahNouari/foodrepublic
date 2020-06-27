@@ -6,9 +6,11 @@ use App\Areas;
 use App\Item;
 use App\Vendor;
 use App\Category;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;  
 use Illuminate\Support\Facades\Response;
@@ -27,7 +29,9 @@ class MainController extends Controller
     }
     public function page(Request $request)
     {
-
+        $value = Cache::remember('page'.$request->id, Carbon::now()->addMinutes(60 * 24), function () use ($request) {
+           
+        
         $d = Areas::find($request->id);
         $user = Auth::user();
         $user->area()->associate($d);
@@ -50,11 +54,11 @@ class MainController extends Controller
                 data_fill($i, 'rate', $t);
 
         });
-        $response = [
+        return  $response = [
             'items' => $vendor
-        ];
-
-        return response()->json($response);
+                ];
+    });
+        return response()->json($value);
     }
     public function search(Request $request)
     {

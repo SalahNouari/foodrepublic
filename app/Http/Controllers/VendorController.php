@@ -15,6 +15,7 @@ use AfricasTalking\SDK\AfricasTalking;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 
 class VendorController extends Controller
 {
@@ -371,6 +372,13 @@ class VendorController extends Controller
       
             $vendor = Auth::user()->vendor;
             $vendor->name = $request->name;
+            if (Cache::has('vendor_'.$vendor->name)) {
+                Cache::forget('vendor_'.$vendor->name);
+            } else{
+                $tag_id = $vendor->area()->first()->id;
+                $tag_type = $vendor->type;
+                Cache::forget('vendor_'.$tag_id.'_'.$tag_type);
+            }
             $vendor->bio = $request->bio;
             $vendor->token = $request->token;
             $vendor->phone = $request->phone;
@@ -385,7 +393,6 @@ class VendorController extends Controller
             }
             $duration = $request->duration;
             $distance = $request->distance;
-
             foreach ($areas as $i => $area) {
                 $vendor->area()->updateExistingPivot($area, ['distance' => $distance[$i], 'duration' => $duration[$i]]);
             }

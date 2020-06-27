@@ -109,9 +109,9 @@ class MainController extends Controller
         if(isset($request->type)){
             $tag = $request->id.'_'.$request->type;
         }else{
-            $tag = $request->id.'_'.$request->name;
+            $tag = $request->name;
         }
-        $value = Cache::tags(['vendor'])->remember('vendor_'.$tag, Carbon::now()->addMinutes(60 * 24), function () use ($request) {
+        $value = Cache::remember('vendor_'.$tag, Carbon::now()->addHours(24), function () use ($request) {
         if(isset($request->type)){
             $d = Areas::find($request->id);
             $vendor = $d->vendor()

@@ -302,7 +302,10 @@ class VendorController extends Controller
         } else{
             $tag_id = $vendor->area()->first()->id;
             $tag_type = $vendor->type;
-            Cache::forget('vendor_'.$tag_id.'_'.$tag_type);
+            $el = 'vendor_'.$tag_id.'_'.$tag_type;
+            if (Cache::has($el)) {
+                Cache::forget($el);
+            }
         }
         $vendor->cash_on_delivery = $request->cash;
         $vendor->card_on_delivery = $request->card;
@@ -384,7 +387,10 @@ class VendorController extends Controller
             } else{
                 $tag_id = $vendor->area()->first()->id;
                 $tag_type = $vendor->type;
-                Cache::forget('vendor_'.$tag_id.'_'.$tag_type);
+                $el = 'vendor_'.$tag_id.'_'.$tag_type;
+                if (Cache::has($el)) {
+                    Cache::forget($el);
+                }
             }
             $vendor->bio = $request->bio;
             $vendor->token = $request->token;

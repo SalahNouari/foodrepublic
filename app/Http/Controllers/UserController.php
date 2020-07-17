@@ -153,10 +153,10 @@ public $successStatus = 200;
                 if ($FoundUser->state_id) {
                     return response()->json(['error'=>$validator->errors()], 422);
                 }else{
-                   return $this.sendCode($request->phone);
+                    $this.sendCode($request->phone);
                 }
             } else {
-               return $this.sendCode($request->phone);
+                $this.sendCode($request->phone);
             }
         } else {
             return 'an error occured';

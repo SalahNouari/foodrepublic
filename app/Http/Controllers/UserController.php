@@ -149,37 +149,45 @@ public $successStatus = 200;
                 'phone' => ['required', 'string', 'unique:users'],
                 ]);
             if ($validator->fails()) {
-                return response()->json(['error'=>$validator->errors()], 422);            
+                $FoundUser = User::where('phone', $request->phone)->first();
+                if ($FoundUser->state_id) {
+                    return response()->json(['error'=>$validator->errors()], 422);
+                }else{
+                   return $this.sendCode($request->phone);
+                }
             } else {
-                $phone = '+234'.substr($request->phone, 1); 
-                $username = 'bona23'; // use 'sandbox' for development in the test environment
-                $apiKey   = 'b8c7ca472a111134fd505c6745ff8eb022f106a693f5062a3f97cbbd67327c1a'; // use your sandbox app API key for development in the test environment
-                $AT       = new AfricasTalking($username, $apiKey);
-                // Get one of the services
-                $sms      = $AT->sms();
-                // Use the service
-                $result = $sms->send([
-                    'to'      => [$phone],
-                    // 'from'      => 'emekasulk',
-                    'message' => "Your Food Repulic Passcode is {$rand_code}"
-                ]);
-                if ($result['data']->SMSMessageData->Recipients[0]->statusCode === 101) {
-                    $user->phone = $request->phone;
-                    $user->verification_type = 'phone';
-                    $user->save();
-                    $favourites = new Favourites;
-                    $user->favourites()->save($favourites);
-                    $success['user'] = ['phone' => $user->phone, 'type' => 'phone'];
-                    return response()->json(['success'=>$success], $this-> successStatus); 
-                } else {
-                    $success['error'] =  $result['data']->SMSMessageData->Recipients[0]->status;
-                    return response()->json(['success'=>$success], $this-> successStatus); 
-                     
-                 }
+               return $this.sendCode($request->phone);
             }
         } else {
             return 'an error occured';
         }
+}
+public function sendCode($userPhone){
+    $phone = '+234'.substr($userPhone, 1); 
+    $username = 'bona23'; // use 'sandbox' for development in the test environment
+    $apiKey   = env('AFRIKASTLKN_KEY'); // use your sandbox app API key for development in the test environment
+    $AT       = new AfricasTalking($username, $apiKey);
+    // Get one of the services
+    $sms      = $AT->sms();
+    // Use the service
+    $result = $sms->send([
+        'to'      => [$phone],
+        // 'from'      => 'edeyapp',
+        'message' => "Your Food Repulic Passcode is {$rand_code}"
+    ]);
+    if ($result['data']->SMSMessageData->Recipients[0]->statusCode === 101) {
+        $user->phone = $userPhone;
+        $user->verification_type = 'phone';
+        $user->save();
+        $favourites = new Favourites;
+        $user->favourites()->save($favourites);
+        $success['user'] = ['phone' => $user->phone, 'type' => 'phone'];
+        return response()->json(['success'=>$success], $this-> successStatus); 
+    } else {
+        $success['error'] =  $result['data']->SMSMessageData->Recipients[0]->status;
+        return response()->json(['success'=>$success], $this-> successStatus); 
+         
+     }
 }
     public function reset(Request $request){
         $digits = 5;
@@ -216,7 +224,7 @@ public $successStatus = 200;
             } else {
                 $phone = '+234'.substr($request->phone, 1); 
                 $username = 'bona23'; // use 'sandbox' for development in the test environment
-                $apiKey   = 'b8c7ca472a111134fd505c6745ff8eb022f106a693f5062a3f97cbbd67327c1a'; // use your sandbox app API key for development in the test environment
+                $apiKey   = env('AFRIKASTLKN_KEY'); // use your sandbox app API key for development in the test environment
                 $AT       = new AfricasTalking($username, $apiKey);
                 // Get one of the services
                 $sms      = $AT->sms();

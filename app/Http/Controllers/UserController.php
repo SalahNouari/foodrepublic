@@ -153,16 +153,16 @@ public $successStatus = 200;
                 if (isset($FoundUser->state_id)) {
                     return response()->json(['error'=>$validator->errors()], 422);
                 }else{
-                   return $this->sendCode($request->phone, $FoundUser);
+                   return $this->sendCode($request->phone, $FoundUser, $rand_code);
                 }
             } else {
-               return $this->sendCode($request->phone, $FoundUser);
+               return $this->sendCode($request->phone, $FoundUser, $rand_code);
             }
         } else {
             return 'an error occured';
         }
 }
-public function sendCode($userPhone, $user){
+public function sendCode($userPhone, $user, $rand_code){
     $phone = '+234'.substr($userPhone, 1); 
     $username = 'bona23'; // use 'sandbox' for development in the test environment
     $apiKey   = env('AFRIKASTLKN_KEY'); // use your sandbox app API key for development in the test environment

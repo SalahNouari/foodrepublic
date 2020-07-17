@@ -148,15 +148,15 @@ public $successStatus = 200;
             $validator = Validator::make($request->all(), [
                 'phone' => ['required', 'string', 'unique:users'],
                 ]);
-            if ($validator->fails()) {
                 $FoundUser = User::where('phone', $request->phone)->first();
-                if ($FoundUser->state_id) {
+            if ($validator->fails()) {
+                if (isset($FoundUser->state_id)) {
                     return response()->json(['error'=>$validator->errors()], 422);
                 }else{
-                    $this.sendCode($request->phone, $FoundUser);
+                   return $this.sendCode($request->phone, $FoundUser);
                 }
             } else {
-                $this.sendCode($request->phone);
+               return $this.sendCode($request->phone, $FoundUser);
             }
         } else {
             return 'an error occured';

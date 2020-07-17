@@ -135,7 +135,7 @@ public $successStatus = 200;
                     $message->to($to_email, $to_name)->subject('Verify your Email');
                     $message->from('admin@greatdixers.xyz', 'Food Republic');
                 });
-                $user->email = $request->email;
+                $user->email = $to_email;
                 $user->verification_type = 'email';
                 $user->save();
                 $favourites = new Favourites;
@@ -153,7 +153,7 @@ public $successStatus = 200;
                 if ($FoundUser->state_id) {
                     return response()->json(['error'=>$validator->errors()], 422);
                 }else{
-                    $this.sendCode($request->phone);
+                    $this.sendCode($request->phone, $FoundUser);
                 }
             } else {
                 $this.sendCode($request->phone);
@@ -162,7 +162,7 @@ public $successStatus = 200;
             return 'an error occured';
         }
 }
-public function sendCode($userPhone){
+public function sendCode($userPhone, $user){
     $phone = '+234'.substr($userPhone, 1); 
     $username = 'bona23'; // use 'sandbox' for development in the test environment
     $apiKey   = env('AFRIKASTLKN_KEY'); // use your sandbox app API key for development in the test environment

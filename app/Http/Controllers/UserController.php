@@ -157,7 +157,8 @@ public $successStatus = 200;
                 }
             } else {
                 $user = new User;
-               return $this->sendCode($request->phone, $user, $rand_code);
+               return $this->sendCode($request->phone, $user
+               , $rand_code);
             }
         } else {
             return 'an error occured';

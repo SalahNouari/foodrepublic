@@ -19,7 +19,7 @@ class DeliveryController extends Controller
 
     public function allvendors(Request $request)
     {
-        $d = Vendors::where('city', $request->id)->select('vendor_id as value', 'name as text')
+        $d = Vendor::where('city', $request->id)->select('vendor_id as value', 'name as text')
         ->latest()->get();
 
         $response = [

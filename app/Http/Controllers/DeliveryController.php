@@ -19,23 +19,11 @@ class DeliveryController extends Controller
 
     public function allvendors(Request $request)
     {
-        $d = States::find($request->id)->areas()
-                ->select('id', 'states_id')->with('vendor'=> function($query){
-                    $query->select('vendor_id as value', 'name as text');
-            })
-                ->latest()->get();
-        // $result = $d->get();
-        $vendors = array();
-        
-        foreach ($d as $item) {
-            foreach ($item['vendor'] as  $value) {
-                # code...
-                $vendors[] = $value;
-            }
-        }
-        $v = collect($vendors);
+        $d = Vendors::where('city', $request->id)->select('vendor_id as value', 'name as text')
+        ->latest()->get();
+
         $response = [
-            'vendors' => $v->unique(),
+            'vendors' => $d,
             // 'result' => $result
         ];
         return response()->json($response);

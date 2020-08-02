@@ -156,7 +156,9 @@ public $successStatus = 200;
                    return $this->sendCode($request->phone, $FoundUser, $rand_code);
                 }
             } else {
-               return $this->sendCode($request->phone, $FoundUser, $rand_code);
+                $user = new User;
+               return $this->sendCode($request->phone, $user
+               , $rand_code);
             }
         } else {
             return 'an error occured';
@@ -178,6 +180,7 @@ public function sendCode($userPhone, $user, $rand_code){
     if ($result['data']->SMSMessageData->Recipients[0]->statusCode === 101) {
         $user->phone = $userPhone;
         $user->verification_type = 'phone';
+        $user->verification_code = $rand_code;
         $user->save();
         $favourites = new Favourites;
         $user->favourites()->save($favourites);

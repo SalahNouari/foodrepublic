@@ -65,7 +65,7 @@ class DeliveryController extends Controller
     public function load(Request $request)
     {
         $delivery_agent = Auth::user()->delivery_agent()->with(['vendors' => function($query){
-            $query->select('id', 'name');
+            $query->select('vendor_id', 'name');
     },  'areas'])->withCount(['orders' => function ($query) {
             $query->where('status', 4);
         }])->get();

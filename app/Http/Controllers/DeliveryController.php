@@ -88,6 +88,19 @@ class DeliveryController extends Controller
         $success['message'] = 'Image uploaded successfully';
         return response()->json(['success' => $success], 200);
     }
+
+    public function changeStatus(Request $request)
+    {
+        $user = Auth::user();
+        $delivery_agent = $user->delivery_agent;
+        $delivery_agent->status = $request->status;
+        $delivery_agent->save();
+        $response = [
+                'message' => 'successful'
+            ];
+        return response()->json($response);
+    }
+
     public function find(Request $request)
     {
         $delivery_agent = Delivery::where('id', $request->id)

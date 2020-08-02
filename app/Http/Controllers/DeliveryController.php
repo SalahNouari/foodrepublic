@@ -64,12 +64,13 @@ class DeliveryController extends Controller
 
     public function load(Request $request)
     {
-        $delivery_agent = Auth::user()->delivery_agent()->with(['vendors' => function($query){
-            $query->select('vendor_id', 'name');
+        $user = Auth::user();
+        $delivery_agent = $user->delivery_agent()->with(['vendors' => function($query){
+        $query->select('vendor_id', 'name');
     },  'areas'])->withCount(['orders' => function ($query) {
             $query->where('status', 4);
         }])->get();
-        $wallet = Auth::user()->delivery_agent()->orders()->where('status', 4)->sum('total');
+        $wallet = $user->delivery_agent->orders()->where('status', 4)->sum('total');
         $delivery_agent[0]['wallet'] = $wallet;       
          $response = [
             'delivery_agent' => $delivery_agent,

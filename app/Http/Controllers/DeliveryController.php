@@ -32,7 +32,7 @@ class DeliveryController extends Controller
     {
         //when we have many agents and they are assigned to different areas
         // $agents = Delivery::where("current_area_id", $request->id)->select("name", "id", "lat", "lng")->latest()->get();
-        $agents = Delivery::select("name", "id", "lat", "lng")->latest()->get();
+        $agents = Delivery::where('city', $request->id)->select("name", "id", "lat", "lng")->latest()->get();
         $response = [
             'agents' => $agents
         ];

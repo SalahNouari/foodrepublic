@@ -19,21 +19,11 @@ class DeliveryController extends Controller
 
     public function allvendors(Request $request)
     {
-        $d = States::find($request->id)->areas()
-                ->select('id', 'states_id')->with('vendor')
-                ->latest()->get();
-        // $result = $d->get();
-        $vendors = array();
-        
-        foreach ($d as $item) {
-            foreach ($item['vendor'] as  $value) {
-                # code...
-                $vendors[] = $value;
-            }
-        }
-        $v = collect($vendors);
+        $d = Vendor::where('city', $request->id)->select('id as value', 'name as text')
+        ->latest()->get();
+
         $response = [
-            'vendors' => $v->unique(),
+            'vendors' => $d,
             // 'result' => $result
         ];
         return response()->json($response);
@@ -64,11 +54,15 @@ class DeliveryController extends Controller
 
     public function load(Request $request)
     {
-        $delivery_agent = Auth::user()->delivery_agent()->with(['vendors',  'areas'])->withCount(['orders' => function ($query) {
+        $user = Auth::user();
+        $delivery_agent = $user->delivery_agent()->with(['vendors' => function($query){
+        $query->select('vendor_id as value', 'name as text');
+    },  'areas'])->withCount(['orders' => function ($query) {
             $query->where('status', 4);
         }])->get();
-        $wallet = Auth::user()->delivery_agent->orders()->where('status', 4)->sum('total');
-        $delivery_agent[0]['wallet'] = $wallet;        $response = [
+        $wallet = $user->delivery_agent->orders()->where('status', 4)->sum('total');
+        $delivery_agent[0]['wallet'] = $wallet;       
+         $response = [
             'delivery_agent' => $delivery_agent,
             // 'rating' => $rating_avg
         ];
@@ -94,6 +88,19 @@ class DeliveryController extends Controller
         $success['message'] = 'Image uploaded successfully';
         return response()->json(['success' => $success], 200);
     }
+
+    public function changeStatus(Request $request)
+    {
+        $user = Auth::user();
+        $delivery_agent = $user->delivery_agent;
+        $delivery_agent->status = $request->status;
+        $delivery_agent->save();
+        $response = [
+                'message' => 'successful'
+            ];
+        return response()->json($response);
+    }
+
     public function find(Request $request)
     {
         $delivery_agent = Delivery::where('id', $request->id)

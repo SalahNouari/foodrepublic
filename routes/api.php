@@ -107,6 +107,8 @@ Route::prefix('vendor')->group(function () {
    Route::get('get_offline_data', 'VendorController@get_offline_data')->middleware('auth:api');
 });
 Route::prefix('delivery')->group(function () {
+   Route::post('changeStatus', 'DeliveryController@changeStatus')->middleware('auth:api');
+
    Route::post('upload', 'DeliveryController@upload')->middleware('auth:api');
    Route::get('load', 'DeliveryController@load')->middleware('auth:api');
    Route::get('agents', 'DeliveryController@agents')->middleware('auth:api');

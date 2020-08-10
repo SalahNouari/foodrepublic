@@ -65,7 +65,6 @@ class OrderController extends Controller
             'orders' => $order
         ];
         return response()->json($response);
-         
     }
     public function save(Request $request)
     {

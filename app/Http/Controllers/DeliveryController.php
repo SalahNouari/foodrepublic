@@ -23,8 +23,7 @@ class DeliveryController extends Controller
         ->latest()->get();
 
         $response = [
-            'vendors' => $d,
-            // 'result' => $result
+            'vendors' => $d
         ];
         return response()->json($response);
     }
@@ -50,8 +49,6 @@ class DeliveryController extends Controller
         ];
         return response()->json($response);
     }
-
-
     public function load(Request $request)
     {
         $user = Auth::user();

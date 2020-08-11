@@ -398,7 +398,7 @@ class VendorController extends Controller
         $distance = $request->distance;
 
         foreach ($areas as $i => $area) {
-            $vendor->area()->sync([$area, ['distance' => $distance[$i], 'duration' => $duration[$i]]]);
+            $vendor->area()->updateExistingPivot($area, ['distance' => $distance[$i], 'duration' => $duration[$i]]);
         }
         $response = [
             'message' => 'Registeration successful'
@@ -436,7 +436,7 @@ class VendorController extends Controller
             $duration = $request->duration;
             $distance = $request->distance;
             foreach ($areas as $i => $area) {
-                $vendor->area()->sync([$area, ['distance' => $distance[$i], 'duration' => $duration[$i]]]);
+                $vendor->area()->updateExistingPivot($area, ['distance' => $distance[$i], 'duration' => $duration[$i]]);
             }
             return response([
                 'status' => 'success',

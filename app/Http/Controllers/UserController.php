@@ -111,7 +111,7 @@ public $successStatus = 200;
             return response()->json(['success' => $success], $this-> successStatus); 
         }
         else{
-            return response()->json(['error'=>'Invalid phone number or password.'], 401); 
+            return response()->json(['error'=>'Invalid phone number or password.'], 400); 
         } 
     }
 

@@ -316,6 +316,7 @@ class VendorController extends Controller
                 Cache::forget($el);
             }
         }
+        Cache::tags(['pages'])->flush();
         $vendor->save();
         $response = [
                 'message' => 'successful'

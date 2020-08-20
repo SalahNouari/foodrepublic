@@ -6,6 +6,7 @@ use App\Areas;
 use App\States;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Validator;
 
 
@@ -28,46 +29,58 @@ class AreasController extends Controller
     }
     public function cities()
     {
+        $value = Cache::rememberForever('cities_key', function () {
+
       $cities = States::orderBy('name')->select('name as text', 'id as value')->get();
-        $response = [
+        return $response = [
             'city' => $cities
         ];
-        return response()->json($response);
+    });
+        return response()->json($value);
     }
     public function vendorarea(Request $request)
     {
+        $value = Cache::rememberForever('vendor_area', function () {
+
       $d = States::find($request->city)->areas();
       $result = $d->get();
       $areas = $d->orderBy('name')->select('name as text', 'id as value')->get();
-        $response = [
+        return $response = [
             'areas' => $areas,
             'result'=> $result
         ];
-        return response()->json($response);
+    });
+        return response()->json($value);
     }
     public function delivery(Request $request)
     {
+        $value = Cache::rememberForever('delivery_areas', function () {
+
       $d = States::find($request->city)->areas();
       $result = $d->get();
       $areas = $d->orderBy('name')->select('name as text', 'id as value')->get();
-        $response = [
+       return $response = [
             'areas' => $areas,
             'result'=> $result
         ];
-        return response()->json($response);
+    });
+        return response()->json($value);
     }
     public function areas(Request $request)
     {
-      $state = States::find($request->id);
-      $areas = $state->areas()->orderBy('name')
-                       ->select('name as text', 'id as value', 'lat', 'lng')->get();
         $user = Auth::user();
         $user->state()->associate($state);
         $user->save();
-        $response = [
+        $value = Cache::rememberForever('areas', function () {
+
+      $state = States::find($request->id);
+      $areas = $state->areas()->orderBy('name')
+                       ->select('name as text', 'id as value', 'lat', 'lng')->get();
+        return $response = [
             'areas' => $areas
         ];
-        return response()->json($response);
+    });
+        return response()->json($value);
     }
 
     public function save(Request $request)
@@ -87,6 +100,9 @@ class AreasController extends Controller
             $city->lng = $request->lng;
             $city->lat = $request->lat;
             $city->save();
+            Cache::forget('cities_key');
+            Cache::forget('cities');
+
         }
         $response = [
             'city' => $city
@@ -112,6 +128,9 @@ class AreasController extends Controller
             $area->lng = $request->lng;
             $area->lat = $request->lat;
             $city->areas()->save($area);
+            Cache::forget('delivery_areas');
+            Cache::forget('vendor_area');
+            Cache::forget('areas');
         }
         $response = [
             'areas' => $city->areas()->orderBy('name')->get()

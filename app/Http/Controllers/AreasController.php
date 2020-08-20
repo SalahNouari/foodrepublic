@@ -40,9 +40,9 @@ class AreasController extends Controller
     }
     public function vendorarea(Request $request)
     {
+        $d = States::find($request->city)->areas();
         $value = Cache::rememberForever('vendor_area', function () {
 
-      $d = States::find($request->city)->areas();
       $result = $d->get();
       $areas = $d->orderBy('name')->select('name as text', 'id as value')->get();
         return $response = [
@@ -54,9 +54,9 @@ class AreasController extends Controller
     }
     public function delivery(Request $request)
     {
+        $d = States::find($request->city)->areas();
         $value = Cache::rememberForever('delivery_areas', function () {
 
-      $d = States::find($request->city)->areas();
       $result = $d->get();
       $areas = $d->orderBy('name')->select('name as text', 'id as value')->get();
        return $response = [

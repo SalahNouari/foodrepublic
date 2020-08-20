@@ -14,6 +14,7 @@ class AreasController extends Controller
 {
     public function all()
     {
+        Cache::flush();
       $value = Cache::rememberForever('cities', function () {
 
       $cities = States::orderBy('name')->get();

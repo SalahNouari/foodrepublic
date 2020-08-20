@@ -127,9 +127,9 @@ class AreasController extends Controller
             $area->lng = $request->lng;
             $area->lat = $request->lat;
             $city->areas()->save($area);
-            Cache::forget('delivery_areas');
-            Cache::forget('vendor_area');
-            Cache::forget('areas');
+            Cache::forget('delivery_areas_'.$request->city_id);
+            Cache::forget('vendor_area_'.$request->city_id);
+            Cache::forget('areas_'.$request->city_id);
         }
         $response = [
             'areas' => $city->areas()->orderBy('name')->get()

@@ -41,7 +41,7 @@ class AreasController extends Controller
     public function vendorarea(Request $request)
     {
         $d = States::find($request->city)->areas();
-        $value = Cache::rememberForever('vendor_area', function () {
+        $value = Cache::rememberForever('vendor_area', function () use ($d) {
 
       $result = $d->get();
       $areas = $d->orderBy('name')->select('name as text', 'id as value')->get();
@@ -55,7 +55,7 @@ class AreasController extends Controller
     public function delivery(Request $request)
     {
         $d = States::find($request->city)->areas();
-        $value = Cache::rememberForever('delivery_areas', function () {
+        $value = Cache::rememberForever('delivery_areas', function () use ($d) {
 
       $result = $d->get();
       $areas = $d->orderBy('name')->select('name as text', 'id as value')->get();
@@ -72,9 +72,9 @@ class AreasController extends Controller
         $user = Auth::user();
         $user->state()->associate($state);
         $user->save();
-        $value = Cache::rememberForever('areas', function () {
+        $value = Cache::rememberForever('areas', function () use ($state){
 
-      $areas = $state->areas()->orderBy('name')
+        $areas = $state->areas()->orderBy('name')
                        ->select('name as text', 'id as value', 'lat', 'lng')->get();
         return $response = [
             'areas' => $areas

@@ -68,12 +68,12 @@ class AreasController extends Controller
     }
     public function areas(Request $request)
     {
+        $state = States::find($request->id);
         $user = Auth::user();
         $user->state()->associate($state);
         $user->save();
         $value = Cache::rememberForever('areas', function () {
 
-      $state = States::find($request->id);
       $areas = $state->areas()->orderBy('name')
                        ->select('name as text', 'id as value', 'lat', 'lng')->get();
         return $response = [

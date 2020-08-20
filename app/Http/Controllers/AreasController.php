@@ -99,8 +99,12 @@ class AreasController extends Controller
             $city->lng = $request->lng;
             $city->lat = $request->lat;
             $city->save();
-            Cache::forget('cities_key');
-            Cache::forget('cities');
+            if (Cache::has('cities_key')) {
+                Cache::forget('cities_key');
+            }
+            if (Cache::has('cities')) {
+                Cache::forget('cities');
+            }
 
         }
         $response = [
@@ -127,9 +131,18 @@ class AreasController extends Controller
             $area->lng = $request->lng;
             $area->lat = $request->lat;
             $city->areas()->save($area);
-            Cache::forget('delivery_areas_'.$request->city_id);
-            Cache::forget('vendor_area_'.$request->city_id);
-            Cache::forget('areas_'.$request->city_id);
+            $el = 'delivery_areas_'.$request->city_id;
+            $el2 = 'vendor_area_'.$request->city_id;
+            $el2 = 'areas_'.$request->city_id;
+            if (Cache::has($el)) {
+                Cache::forget($el);
+            }
+            if (Cache::has($el2)) {
+                Cache::forget($el2);
+            }
+            if (Cache::has($el3)) {
+                Cache::forget($el3);
+            }
         }
         $response = [
             'areas' => $city->areas()->orderBy('name')->get()

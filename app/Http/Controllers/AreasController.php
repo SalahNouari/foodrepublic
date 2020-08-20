@@ -13,11 +13,18 @@ class AreasController extends Controller
 {
     public function all()
     {
+      $value = Cache::rememberForever('cities', function () {
+
       $cities = States::orderBy('name')->get();
-        $response = [
+       return $response = [
             'city' => $cities
         ];
-        return response()->json($response);
+        // 1. store key value objcts of vendors and their properties
+        // then return the vendors individually by running a paginated requests to they individual vendors 
+        // just like a channel
+        // 2. embedding vendor information on qrcode storing the pictures in low quality and the deciphering the qrcode in the app, such that the images are loaded from cache
+    });
+    return response()->json($value);
     }
     public function cities()
     {

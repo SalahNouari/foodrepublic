@@ -268,12 +268,10 @@ public function sendCode($userPhone, $user, $rand_code){
             return response()->json(['error' => $validator->errors()], 422);
         } else {
             $favourites = $user->favourites;
-            $favourites->vendors()->attach($request->id);
-            $user->save();
-            $success['favs'] = $favourites;
+            $favourites->vendors()->toggle($request->id);
             $success['message'] = 'successfully added to favourites';
             return response()->json(['success' => $success], $this->successStatus);
-        }
+    }
     }
    public function remove_favourite(Request $request){
       

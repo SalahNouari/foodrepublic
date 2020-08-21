@@ -274,7 +274,7 @@ public function sendCode($userPhone, $user, $rand_code){
             $user->save();
             $success['message'] = 'successfully added to favourites';
             return response()->json(['success' => $success], $this->successStatus);
-    }
+        }
     }
    public function remove_favourite(Request $request){
       

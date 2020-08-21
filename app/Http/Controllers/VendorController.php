@@ -91,6 +91,7 @@ class VendorController extends Controller
                 Cache::forget($el);
             }
         }
+        Cache::tags(['pages'])->flush();
         $vendor->save();
         $success['message'] = 'Image uploaded successfully';
         return response()->json(['success' => $success], 200);
@@ -292,6 +293,7 @@ class VendorController extends Controller
                 Cache::forget($el);
             }
         }
+        Cache::tags(['pages'])->flush();
         foreach ($areas as $i=>$area) {
             $vendor->area()->updateExistingPivot($area->id, ['fee' => $fee[$i]]);
         }
@@ -345,6 +347,7 @@ class VendorController extends Controller
         $vendor->account_number = $request->account_number;
         $vendor->bank_name = $request->bank_name;
         $vendor->save();
+        Cache::tags(['pages'])->flush();
         $response = [
                 'message' => 'successful'
             ];
@@ -401,6 +404,7 @@ class VendorController extends Controller
         foreach ($areas as $i => $area) {
             $vendor->area()->updateExistingPivot($area, ['distance' => $distance[$i], 'duration' => $duration[$i]]);
         }
+        Cache::tags(['pages'])->flush();
         $response = [
             'message' => 'Registeration successful'
         ];

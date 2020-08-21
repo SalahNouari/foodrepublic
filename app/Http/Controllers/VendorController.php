@@ -439,6 +439,7 @@ class VendorController extends Controller
             foreach ($areas as $i => $area) {
                 $vendor->area()->updateExistingPivot($area, ['distance' => $distance[$i], 'duration' => $duration[$i]]);
             }
+            Cache::tags(['pages'])->flush();
             return response([
                 'status' => 'success',
             ], 200);

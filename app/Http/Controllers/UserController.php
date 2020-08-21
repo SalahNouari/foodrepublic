@@ -270,6 +270,7 @@ public function sendCode($userPhone, $user, $rand_code){
             $favourites = new Favourites;
             $favourites->vendors()->attach($request->id);
             $user->favourites()->associate($favourites);
+            $favourites->save();
             $user->save();
             $success['message'] = 'successfully added to favourites';
             return response()->json(['success' => $success], $this->successStatus);

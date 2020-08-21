@@ -267,10 +267,9 @@ public function sendCode($userPhone, $user, $rand_code){
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         } else {
-            $favourites = $user->favourites();
-            // $favourites->vendors()->attach($request->id);
-            // $favourites->save();
-            // $user->save();
+            $favourites = $user->favourites;
+            $favourites->vendors()->attach($request->id);
+            $user->save();
             $success['favs'] = $favourites;
             $success['message'] = 'successfully added to favourites';
             return response()->json(['success' => $success], $this->successStatus);

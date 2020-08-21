@@ -268,8 +268,8 @@ public function sendCode($userPhone, $user, $rand_code){
             return response()->json(['error' => $validator->errors()], 422);
         } else {
             $favourites = new Favourites;
-            $favourites->save();
             $user->favourites()->associate($favourites);
+            $favourites->save();
             $user->save();
             $favourites->vendors()->attach($request->id);
             $success['message'] = 'successfully added to favourites';

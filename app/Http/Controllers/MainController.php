@@ -121,6 +121,7 @@ class MainController extends Controller
             $d = Areas::find($request->id);
             $vendor = $d->vendor()
             ->where('type', $request->type)
+            ->where('status', true)
             ->with([
             'categories' => function ($query){
                 $query->withCount('items')

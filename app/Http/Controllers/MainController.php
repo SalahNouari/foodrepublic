@@ -29,7 +29,7 @@ class MainController extends Controller
     }
     public function page(Request $request)
     {
-        Cache::flush();
+        // Cache::flush();
         // Cache::tags(['pages'])->flush();
         $d = Areas::find($request->id);
         $city = $d->states_id;

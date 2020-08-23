@@ -239,7 +239,7 @@ class OrderController extends Controller
         }, 'delivery'])
         ->find($request->id);
         $response = '';
-          if (($order->delivery_id === null) || ($order->delivery_id === $request->delivery_agent_id)) {
+          if (($order->delivery_id === null) || ($order->delivery_id == $request->delivery_agent_id)) {
               $response = [
                   'order' => $order
                 ];

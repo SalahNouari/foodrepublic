@@ -73,7 +73,7 @@ public $successStatus = 200;
         }
     }
     public function load(){
-        $user = Auth::user()->with(['orders'])->get();
+        $user = Auth::user()->with(['orders'])->first();
         $success['user'] =  $user;
         return response()->json(['success' => $success], $this->successStatus);
     }

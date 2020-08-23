@@ -334,6 +334,8 @@ class OrderController extends Controller
     public function delivered(Request $request)
     {
         $order = Order::find($request->id);
+
+        if ($order->status === 3) {
         $order->user()->increment('orders');
         if(!$order->served_time){
             $order->served_time = Carbon::now();
@@ -355,10 +357,15 @@ class OrderController extends Controller
             'token' => $user->token,
             "vendorToken" => $vendorToken ];
         return response()->json($response);
+    } else {
+        return response('error', 400);
+    }
     }
     public function rejected(Request $request)
     {
         $order = Auth::user()->vendor->orders()->find($request->id);
+
+        if ($order->status === 1) {
         $order->status = 5;
         $order->user_status = 0;
         $order->rejected_time = Carbon::now();
@@ -378,6 +385,9 @@ class OrderController extends Controller
             'token' => $user->token
         ];
         return response()->json($response);
+    } else {
+        return response('error', 400);
+    }
     }
 
     public function delete(Request $request)

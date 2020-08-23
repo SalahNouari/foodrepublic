@@ -237,14 +237,20 @@ class OrderController extends Controller
         $order = Order::with(['user', 'items', 'options', 'address.area', 'vendor'=> function ($query) {
             $query->select('id', 'name', 'address');
         }, 'delivery'])
-        ->where('delivery_id', $request->delivery_agent_id)
-        ->orWhere('delivery_id', null)
         ->find($request->id);
-      
-        $response = [
-            'order' => $order
-        ];
-        return response()->json($response);
+        $response = '';
+          if (($order->delivery_id === null) || ($order->delivery_id === $request->delivery_agent_id)) {
+              $response = [
+                  'order' => $order
+                ];
+            }else{
+                
+                $response = [
+                 'order' => null
+             ];
+    }
+    return response()->json($response);
+     
     }
     public function find(Request $request)
     {

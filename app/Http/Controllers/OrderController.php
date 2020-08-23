@@ -285,6 +285,7 @@ class OrderController extends Controller
     public function served(Request $request)
     {
         $order = Auth::user()->vendor->orders()->find($request->id);
+        if ($order->status === 1) {
         $order->status = 2;
         $order->served_time = Carbon::now();
         $order->delivery_status = 0;
@@ -298,29 +299,37 @@ class OrderController extends Controller
             'agentsToken' => $agent->token
         ];
         return response()->json($response);
+    } else {
+        return response('error', 400);
+    }
     }
     public function transit(Request $request)
     {
         $order = Order::find($request->id);
-        $order->status = 3;
-        $order->user_status = 0;
-        $order->reject_reason = '';
-        $user = $order->user;
-        $order->delivery_status = 0;
-        $order->transit_time = Carbon::now();
-
-        $agent = Delivery::find($request->delivery_agent_id);
-        $order->delivery()->associate($agent);
-        $vendorToken = $order->vendor->token;
-
-        $order->save();
-        $response = [
-            'message' => 'Your order is on the way',
-            'message2' => 'Prepare this order, delivery agent is on the way',
-            'token' => $user->token,
-            "vendorToken" => $vendorToken
-        ];
-        return response()->json($response);
+        if ($order->status === 2) {
+            # code...
+            $order->status = 3;
+            $order->user_status = 0;
+            $order->reject_reason = '';
+            $user = $order->user;
+            $order->delivery_status = 0;
+            $order->transit_time = Carbon::now();
+    
+            $agent = Delivery::find($request->delivery_agent_id);
+            $order->delivery()->associate($agent);
+            $vendorToken = $order->vendor->token;
+    
+            $order->save();
+            $response = [
+                'message' => 'Your order is on the way',
+                'message2' => 'Prepare this order, delivery agent is on the way',
+                'token' => $user->token,
+                "vendorToken" => $vendorToken
+            ];
+            return response()->json($response);
+        } else {
+            return response('error', 400);
+        }
     }
     public function delivered(Request $request)
     {

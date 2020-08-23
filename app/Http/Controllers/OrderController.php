@@ -237,7 +237,8 @@ class OrderController extends Controller
         $order = Order::with(['user', 'items', 'options', 'address.area', 'vendor'=> function ($query) {
             $query->select('id', 'name', 'address');
         }, 'delivery'])
-        ->whereIn('delivery_id', [null, $request->delivery_agent_id])
+        ->where('delivery_id', $request->delivery_agent_id)
+        ->orWhere('delivery_id', null)
         ->find($request->id);
       
         $response = [

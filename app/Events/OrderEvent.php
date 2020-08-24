@@ -42,13 +42,7 @@ class OrderEvent implements ShouldBroadcastNow
     }
     public function broadcastWith()
     {
-        $ord = $this->order->select('id', 'vendor_id', 'address_id', 'delivery_status', 'created_at', 'updated_at', 'status')
-        ->with(['address' => function ($query) {
-            $query->select('id', 'lat', 'lng', 'name');
-        },'vendor' => function ($query) {
-            $query->select('id','name', 'address', 'lat', 'lng');
-        }])
-        ->get();
+        $ord = $this->order->id;
        
         return [
             'order' => $ord

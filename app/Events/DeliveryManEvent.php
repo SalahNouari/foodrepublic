@@ -33,7 +33,7 @@ class DeliveryManEvent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('delivery'.$order->delivery_id);
+        return new Channel('delivery'.$this->$order->delivery_id);
     }
     public function broadcastAs()
     {

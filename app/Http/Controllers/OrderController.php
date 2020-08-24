@@ -294,7 +294,7 @@ class OrderController extends Controller
     public function served(Request $request)
     {
         $order = Auth::user()->vendor->orders()->find($request->id);
-        if ($order->status === 1) {
+        // if ($order->status === 1) {
         $order->status = 2;
         $order->served_time = Carbon::now();
         $order->delivery_status = 0;
@@ -309,9 +309,9 @@ class OrderController extends Controller
             'agentsToken' => $agent->token
         ];
         return response()->json($response);
-    } else {
-        return response('error', 400);
-    }
+    // } else {
+    //     return response('error', 400);
+    // }
     }
     public function transit(Request $request)
     {

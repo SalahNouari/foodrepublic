@@ -10,7 +10,7 @@ use App\Delivery;
 use App\Item;
 use Illuminate\Support\Facades\Auth;
 use Validator;
-
+use App\Events\OrderEvent;
 use App\Order; 
 use App\Location; 
 use App\Snacks; 
@@ -302,6 +302,7 @@ class OrderController extends Controller
         $user = $order->user;
         $agent = Delivery::find($request->delivery_agent_id);
         $order->save();
+        event(new OrderEvent($order));
         $response = [
             'message' => 'Your order has been accepted',
             'token' => $user->token,
@@ -329,6 +330,8 @@ class OrderController extends Controller
             $vendorToken = $order->vendor->token;
     
             $order->save();
+            event(new OrderEvent($order));
+
             $response = [
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',

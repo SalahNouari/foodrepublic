@@ -43,9 +43,11 @@ class OrderEvent implements ShouldBroadcastNow
     public function broadcastWith()
     {
         $ord = $this->order->id;
+        $status = $this->order->status;
        
         return [
-            'order' => $ord
+            'order' => $ord,
+            'status' => $
         ];
     }
 }

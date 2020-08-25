@@ -47,7 +47,7 @@ class OrderEvent implements ShouldBroadcastNow
        
         return [
             'order' => $ord,
-            'status' => $
+            'status' => $status
         ];
     }
 }

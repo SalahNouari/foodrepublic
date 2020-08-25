@@ -302,7 +302,7 @@ class OrderController extends Controller
         $user = $order->user;
         $agent = Delivery::find($request->delivery_agent_id);
         $order->save();
-        broadcast(new OrderEvent($order));
+        event(new OrderEvent($order));
         $response = [
             'message' => 'Your order has been accepted',
             'token' => $user->token,
@@ -330,7 +330,7 @@ class OrderController extends Controller
             $vendorToken = $order->vendor->token;
     
             $order->save();
-            broadcast(new OrderEvent($order));
+            event(new OrderEvent($order));
 
             $response = [
                 'message' => 'Your order is on the way',

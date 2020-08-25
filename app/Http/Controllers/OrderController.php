@@ -31,7 +31,7 @@ class OrderController extends Controller
         return response()->json($response);
     }
 
-    public function alldelivery_find()
+    public function alldelivery_find(Request $request)
     {
         $order = Order::where('id', $request->id)->select('id', 'vendor_id', 'address_id', 'delivery_status', 'created_at', 'updated_at', 'status')
         ->with(['address' => function ($query) {

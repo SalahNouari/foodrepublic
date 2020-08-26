@@ -368,7 +368,7 @@ class OrderController extends Controller
                 'message2' => 'Prepare this order, delivery agent is on the way',
                 'token' => $user->token,
                 "vendorToken" => $vendorToken,
-                've' => $vId['original']
+                've' => $vId
             ];
             return response()->json($response);
         // } else {

@@ -365,9 +365,9 @@ class OrderController extends Controller
             $reply = '';
              if($isVendTIme){
                  $reply = 'did not timer';
+                 $this->Start_timer($vendorId, $vendor, $area);
                 } else {
                     $reply = 'Its now in timer';
-                 $this->Start_timer($vendorId, $vendor, $area);
 
                 }
             $response = [

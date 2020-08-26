@@ -366,7 +366,7 @@ class OrderController extends Controller
             // Cache::forget('vendor_timer_'.$vendorId);
 
 
-             if(Cache::has('vendor_timer_'.$vendorId) === true){
+             if(Cache::has('vendor_timer_'.$vendorId) == true){
                  $reply = 'its not timer';
                 } else {
                     $this->Start_timer($vendorId, $vendor, $area);

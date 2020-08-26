@@ -364,15 +364,15 @@ class OrderController extends Controller
             $reply = '';
             // Cache::put('vendor_timer_'.$vendorId, 'hello', 200000);
             // Cache::forget('vendor_timer_'.$vendorId);
-            // $bole = Cache::has('vendor_timer_'.$vendorId);
-            // switch ($bole) {
-            //     case true:
-            //         $reply = 'its already cached';
-            //       break;
-            //       default:
-            //       $this->Start_timer($vendorId, $vendor, $area);
-            //       $reply = $bole;
-            //     }
+            $bole = Cache::has('vendor_timer_'.$vendorId);
+            switch ($bole) {
+                case true:
+                    $reply = 'its already cached';
+                  break;
+                  default:
+                  $this->Start_timer($vendorId, $vendor, $area);
+                  $reply = $bole;
+                }
 
             // if(Cache::has('vendor_timer_'.$vendorId) == true){
             //    } else {

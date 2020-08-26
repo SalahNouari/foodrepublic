@@ -387,7 +387,7 @@ class OrderController extends Controller
             });
             }
             else{
-                return
+                return;
             }
     }
     public function delivered(Request $request)

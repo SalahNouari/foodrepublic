@@ -35,13 +35,14 @@ class OrderController extends Controller
 
     public function alldelivery_find(Request $request)
     {
-       $order = $this.getOrder_find($request->id);
+       $order = $this->getOrder_find($request->id);
         $response = [
             'orders' => $order
         ];
   
         return response()->json($response);
     }
+
     public function getOrder_find($id){
        $value = Cache::remember('order_find_'.$id, Carbon::now()->addHours(24), function () use ($id) {
         $order = Order::where('id', $id)->select('id', 'vendor_id', 'address_id', 'delivery_status', 'created_at', 'updated_at', 'status')
@@ -327,7 +328,7 @@ class OrderController extends Controller
         $agent = Delivery::find($request->delivery_agent_id);
         $order->save();
         event(new OrderEvent($order));
-        $this.getOrder_find($order->id);
+        $this->getOrder_find($order->id);
         $response = [
             'message' => 'Your order has been accepted',
             'token' => $user->token,

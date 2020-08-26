@@ -17,6 +17,8 @@ use App\Snacks;
 use App\User;
 use App\Vendor;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
+
 
 class OrderController extends Controller
 {
@@ -33,19 +35,26 @@ class OrderController extends Controller
 
     public function alldelivery_find(Request $request)
     {
-        $order = Order::where('id', $request->id)->select('id', 'vendor_id', 'address_id', 'delivery_status', 'created_at', 'updated_at', 'status')
+       $order = $this.getOrder_find($request->id);
+        $response = [
+            'orders' => $order
+        ];
+  
+        return response()->json($response);
+    }
+    public function getOrder_find($id){
+       $value = Cache::remember('order_find_'.$id, Carbon::now()->addHours(24), function () use ($id) {
+        $order = Order::where('id', $id)->select('id', 'vendor_id', 'address_id', 'delivery_status', 'created_at', 'updated_at', 'status')
         ->with(['address' => function ($query) {
             $query->select('id', 'lat', 'lng', 'name');
         },'vendor' => function ($query) {
             $query->select('id','name', 'address', 'lat', 'lng');
         }])
         ->first();
-        $response = [
-            'orders' => $order
-        ];
-        return response()->json($response);
+        return $order;
+    });
+    return $value;
     }
-
     public function alldelivery()
     {
         $order = Order::where('status', 2)->select('id', 'vendor_id', 'address_id', 'delivery_status', 'created_at', 'updated_at', 'status')
@@ -318,6 +327,7 @@ class OrderController extends Controller
         $agent = Delivery::find($request->delivery_agent_id);
         $order->save();
         event(new OrderEvent($order));
+        $this.getOrder_find($order->id);
         $response = [
             'message' => 'Your order has been accepted',
             'token' => $user->token,
@@ -346,7 +356,7 @@ class OrderController extends Controller
     
             $order->save();
             event(new OrderEvent($order));
-
+            Cache::flush('order_find_'.$order->id);
             $response = [
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',

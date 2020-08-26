@@ -361,14 +361,15 @@ class OrderController extends Controller
             $order->save();
             event(new OrderEvent($order));
             Cache::flush('order_find_'.$order->id);
-             if (!Cache::has('vendor_timer_'.$vendorId)) {
+            $isVendTIme = Cache::has('vendor_timer_'.$vendorId);
+             if (!$isVendTIme) {
                 $this->Start_timer($vendorId, $vendor, $area);
                 } 
             $response = [
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',
                 'token' => $user->token,
-                've' => Cache::has('vendor_timer_'.$vendorId),
+                've' => !Cache::has('vendor_timer_'.$vendorId),
                 "vendorToken" => $vendorToken,
             ];
             return response()->json($response);

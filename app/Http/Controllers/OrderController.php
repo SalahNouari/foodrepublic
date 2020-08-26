@@ -365,7 +365,7 @@ class OrderController extends Controller
             // Cache::put('vendor_timer_'.$vendorId, 'hello', 200000);
             // Cache::forget('vendor_timer_'.$vendorId);
             $bole = Cache::has('vendor_timer_'.$vendorId);
-            switch ($bol) {
+            switch ($bole) {
                 case true:
                     $reply = 'its already cached';
                   break;

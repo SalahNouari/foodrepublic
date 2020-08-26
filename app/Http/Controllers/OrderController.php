@@ -388,15 +388,15 @@ class OrderController extends Controller
     }
     public function Start_timer($vendorId, $vendor, $area)
     {
-            event(new VendorEvent($vendor));
-            $val = Cache::remember('vendor_timer_'.$vendorId, Carbon::now()->addMinutes(10), function () use ($vendor) {
-                 $vendor = [
-                    'image' => $vendor->image,
-                    'id' => $vendor->id,
-                    'name' => $vendor->name,
-                ];
-                   return response()->json($vendor);
-            });
+        $val = Cache::remember('vendor_timer_'.$vendorId, Carbon::now()->addMinutes(10), function () use ($vendor) {
+            $vendor = [
+                'image' => $vendor->image,
+                'id' => $vendor->id,
+                'name' => $vendor->name,
+            ];
+            return response()->json($vendor);
+        });
+        event(new VendorEvent($vendor));
             return $val;
     }
     public function delivered(Request $request)

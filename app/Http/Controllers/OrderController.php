@@ -361,9 +361,9 @@ class OrderController extends Controller
             $order->save();
             event(new OrderEvent($order));
             Cache::flush('order_find_'.$order->id);
-             if (!(Cache::has('vendor_timer_'.$vendorId))) {
+             if (!Cache::has('vendor_timer_'.$vendorId)) {
                 $this->Start_timer($vendorId, $vendor, $area);
-        } 
+                } 
             $response = [
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',

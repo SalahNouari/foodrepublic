@@ -362,17 +362,15 @@ class OrderController extends Controller
             event(new OrderEvent($order));
             Cache::flush('order_find_'.$order->id);
             $reply = '';
-            Cache::flush();
-            Cache::put('vendor_timer_'.$vendorId, 'hello', 200000);
+            // Cache::put('vendor_timer_'.$vendorId, 'hello', 200000);
             // Cache::forget('vendor_timer_'.$vendorId);
 
 
              if(!Cache::has('vendor_timer_'.$vendorId)){
-                //  $this->Start_timer($vendorId, $vendor, $area);
+                 $this->Start_timer($vendorId, $vendor, $area);
                  $reply = 'Its now in timer';
                 } else {
                     $reply = 'its not timer';
-
                 }
             $response = [
                 'message' => 'Your order is on the way',

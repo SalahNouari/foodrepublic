@@ -362,7 +362,7 @@ class OrderController extends Controller
             event(new OrderEvent($order));
             Cache::flush('order_find_'.$order->id);
             $reply = '';
-             if(Cache::has('vendor_timer_'.$vendorId)){
+             if(!Cache::has('vendor_timer_'.$vendorId)){
                  $reply = 'did not timer';
                  $this->Start_timer($vendorId, $vendor, $area);
                 } else {

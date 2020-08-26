@@ -353,11 +353,14 @@ class OrderController extends Controller
     
             $agent = Delivery::find($request->delivery_agent_id);
             $order->delivery()->associate($agent);
-            $vendorToken = $order->vendor->token;
-    
+            $vendor = $order->vendor;
+            $vendorId = $vendor->id;
+            $vendorToken = $vendor->token;
+            $area = $order->address->area->id;
             $order->save();
             event(new OrderEvent($order));
             Cache::flush('order_find_'.$order->id);
+            $this->Start_timer($vendorId, $vendor);
             $response = [
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',
@@ -368,6 +371,19 @@ class OrderController extends Controller
         } else {
             return response('error', 400);
         }
+    }
+    public function Start_timer($vendorId, $vendor)
+    {
+        if (!(Cache::has('vendor_timer_'.$vendorId))) {
+            event(new VendorEvent($vendor));
+            Cache::tags(['timer_'.$area])->remember('vendor_timer_'.$vendorId, Carbon::now()->addMinutes(10), function () use ($vendor) {
+                return $vendor = [
+                    'image' => $vendor->image,
+                    'id' => $vendor->id,
+                    'name' => $vendor->name,
+                ];
+            });
+            }
     }
     public function delivered(Request $request)
     {

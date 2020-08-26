@@ -327,13 +327,13 @@ class OrderController extends Controller
         $user = $order->user;
         $agent = Delivery::find($request->delivery_agent_id);
         $order->save();
-        event(new OrderEvent($order));
         $this->getOrder_find($order->id);
         $response = [
             'message' => 'Your order has been accepted',
             'token' => $user->token,
             'agentsToken' => $agent->token
         ];
+        event(new OrderEvent($order));
         return response()->json($response);
     // } else {
     //     return response('error', 400);

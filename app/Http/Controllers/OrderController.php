@@ -362,7 +362,7 @@ class OrderController extends Controller
             event(new OrderEvent($order));
             Cache::flush('order_find_'.$order->id);
             $vId = Cache::tags(['timer_'.$area])->get('vendor_timer_'.$vendorId);
-            if ($vId === null) {
+            if (!isset($vId->original)) {
                 # code...
                 $this->Start_timer($vendorId, $vendor, $area);
             }

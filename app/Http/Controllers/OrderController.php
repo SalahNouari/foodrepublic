@@ -371,7 +371,7 @@ class OrderController extends Controller
                   break;
                   default:
                   $this->Start_timer($vendorId, $vendor, $area);
-                  $reply = $vendorId;
+                  $reply = 'vendor_timer_'.$vendorId;
                 }
 
             // if(Cache::has('vendor_timer_'.$vendorId) == true){

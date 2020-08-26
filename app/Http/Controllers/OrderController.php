@@ -384,7 +384,7 @@ class OrderController extends Controller
     public function Start_timer($vendorId, $vendor, $area)
     {
             event(new VendorEvent($vendor));
-            Cache::remember('vendor_timer_'.$vendorId, Carbon::now()->addMinutes(10), function () use ($vendor) {
+            $val = Cache::remember('vendor_timer_'.$vendorId, Carbon::now()->addMinutes(10), function () use ($vendor) {
                  $vendor = [
                     'image' => $vendor->image,
                     'id' => $vendor->id,
@@ -392,6 +392,7 @@ class OrderController extends Controller
                 ];
                    return response()->json($vendor);
             });
+            return $val
     }
     public function delivered(Request $request)
     {

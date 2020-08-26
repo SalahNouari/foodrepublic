@@ -364,14 +364,14 @@ class OrderController extends Controller
             $reply = '';
             // Cache::put('vendor_timer_'.$vendorId, 'hello', 200000);
             // Cache::forget('vendor_timer_'.$vendorId);
+            if(Cache::has('vendor_timer_'.$vendorId) == true){
+                $reply = 'its not timer';
+               } else {
+                   $this->Start_timer($vendorId, $vendor, $area);
+                   $reply = 'Its now in timer';
+               }
 
 
-             if(Cache::has('vendor_timer_'.$vendorId) == true){
-                 $reply = 'its not timer';
-                } else {
-                    $this->Start_timer($vendorId, $vendor, $area);
-                    $reply = 'Its now in timer';
-                }
             $response = [
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',

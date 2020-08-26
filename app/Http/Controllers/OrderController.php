@@ -374,7 +374,7 @@ class OrderController extends Controller
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',
                 'token' => $user->token,
-                've' => !Cache::has('vendor_timer_'.$vendorId),
+                've' => $reply,
                 "vendorToken" => $vendorToken,
             ];
             return response()->json($response);

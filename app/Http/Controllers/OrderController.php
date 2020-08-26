@@ -362,9 +362,14 @@ class OrderController extends Controller
             event(new OrderEvent($order));
             Cache::flush('order_find_'.$order->id);
             $isVendTIme = Cache::has('vendor_timer_'.$vendorId);
-             if (!$isVendTIme) {
-                $this->Start_timer($vendorId, $vendor, $area);
-                } 
+            $reply = '';
+             if($isVendTIme){
+                 $reply = 'did not timer';
+                } else {
+                    $reply = 'Its now in timer';
+                 $this->Start_timer($vendorId, $vendor, $area);
+
+                }
             $response = [
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',

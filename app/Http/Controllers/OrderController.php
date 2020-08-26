@@ -364,30 +364,15 @@ class OrderController extends Controller
                 # code...
                 Cache::forget('order_find_'.$order->id);
             }
-            $reply = '';
-            // Cache::put('vendor_timer_'.$vendorId, 'hello', 200000);
-            // Cache::forget('vendor_timer_'.$vendorId);
-            $bole = Cache::has('vendor_timer_'.$vendorId);
-            switch ($bole) {
-                case true:
-                    $reply = 'its already cached';
-                  break;
-                  default:
+            if (!Cache::has('vendor_timer_'.$vendorId)) {
                   $this->Start_timer($vendorId, $vendor, $area);
-                  $reply = $bole;
                 }
-
-            // if(Cache::has('vendor_timer_'.$vendorId) == true){
-            //    } else {
-            //    }
 
 
             $response = [
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',
                 'token' => $user->token,
-                've' => $reply,
-                'va' => Cache::has('vendor_timer_'.$vendorId),
                 "vendorToken" => $vendorToken,
             ];
             return response()->json($response);

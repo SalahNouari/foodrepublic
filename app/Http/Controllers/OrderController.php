@@ -392,7 +392,7 @@ class OrderController extends Controller
                 ];
                    return response()->json($vendor);
             });
-            return $val
+            return $val;
     }
     public function delivered(Request $request)
     {

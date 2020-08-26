@@ -377,7 +377,7 @@ class OrderController extends Controller
     public function Start_timer($vendorId, $vendor, $area)
     {
         $ifAvailbl = Cache::tags(['timer_'.$area])->get('vendor_timer_'.$vendorId);
-        if ($ifAvailbl) {
+        if (!$ifAvailbl) {
             event(new VendorEvent($vendor));
             Cache::tags(['timer_'.$area])->remember('vendor_timer_'.$vendorId, Carbon::now()->addMinutes(10), function () use ($vendor) {
                  $vendor = [

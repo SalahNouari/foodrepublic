@@ -342,7 +342,7 @@ class OrderController extends Controller
     public function transit(Request $request)
     {
         $order = Order::find($request->id);
-        if ($order->status === 2) {
+        // if ($order->status === 2) {
             # code...
             $order->status = 3;
             $order->user_status = 0;
@@ -368,9 +368,9 @@ class OrderController extends Controller
                 "vendorToken" => $vendorToken
             ];
             return response()->json($response);
-        } else {
-            return response('error', 400);
-        }
+        // } else {
+        //     return response('error', 400);
+        // }
     }
     public function Start_timer($vendorId, $vendor)
     {

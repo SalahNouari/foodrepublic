@@ -10,6 +10,7 @@ use App\Delivery;
 use App\Item;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use App\Events\VendorEvent;
 use App\Events\OrderEvent;
 use App\Order; 
 use App\Location; 

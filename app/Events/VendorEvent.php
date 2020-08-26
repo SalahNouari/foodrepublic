@@ -16,14 +16,16 @@ class VendorEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $vendor;
+    public $vendor, $time;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Vendor $vendor)
+ 
+    public function __construct(Vendor $vendor, $time)
     {
+        $this->time = $time;
         $this->vendor = $vendor;
     }
     /**
@@ -50,6 +52,7 @@ class VendorEvent implements ShouldBroadcastNow
             'id' => $id,
             'image' => $img,
             'name' => $name,
+            'end_time' => $this->time
         ];
     }
 }

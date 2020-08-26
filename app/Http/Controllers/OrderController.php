@@ -361,7 +361,7 @@ class OrderController extends Controller
             $order->save();
             event(new OrderEvent($order));
             Cache::flush('order_find_'.$order->id);
-            $this->Start_timer($vendorId, $vendor);
+            $this->Start_timer($vendorId, $vendor, $area);
             $response = [
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',
@@ -373,7 +373,7 @@ class OrderController extends Controller
         //     return response('error', 400);
         // }
     }
-    public function Start_timer($vendorId, $vendor)
+    public function Start_timer($vendorId, $vendor, $area)
     {
         if (!(Cache::has('vendor_timer_'.$vendorId))) {
             event(new VendorEvent($vendor));

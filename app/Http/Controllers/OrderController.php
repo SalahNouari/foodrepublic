@@ -359,7 +359,7 @@ class OrderController extends Controller
             $vendorToken = $vendor->token;
             $area = $order->address->area->id;
             $order->save();
-            $vId = Cache::tags(['timer_'.$area])->get('vendor_timer_'.$vendorId)->original->id;
+            $vId = (Cache::tags(['timer_'.$area])->get('vendor_timer_'.$vendorId))->original->id;
             event(new OrderEvent($order));
             Cache::flush('order_find_'.$order->id);
             // $this->Start_timer($vendorId, $vendor, $area);

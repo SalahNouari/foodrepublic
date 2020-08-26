@@ -363,10 +363,10 @@ class OrderController extends Controller
             Cache::flush('order_find_'.$order->id);
             $reply = '';
              if(!Cache::has('vendor_timer_'.$vendorId)){
-                 $reply = 'did not timer';
                  $this->Start_timer($vendorId, $vendor, $area);
+                 $reply = 'Its now in timer';
                 } else {
-                    $reply = 'Its now in timer';
+                    $reply = 'its not timer';
 
                 }
             $response = [

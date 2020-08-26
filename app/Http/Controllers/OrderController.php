@@ -366,11 +366,11 @@ class OrderController extends Controller
             // Cache::forget('vendor_timer_'.$vendorId);
 
 
-             if(Cache::has('vendor_timer_'.$vendorId)){
-                 $this->Start_timer($vendorId, $vendor, $area);
-                 $reply = 'Its now in timer';
+             if(Cache::has('vendor_timer_'.$vendorId) === true){
+                 $reply = 'its not timer';
                 } else {
-                    $reply = 'its not timer';
+                    $this->Start_timer($vendorId, $vendor, $area);
+                    $reply = 'Its now in timer';
                 }
             $response = [
                 'message' => 'Your order is on the way',

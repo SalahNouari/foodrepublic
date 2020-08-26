@@ -380,11 +380,12 @@ class OrderController extends Controller
         if ($ifAvailbl) {
             event(new VendorEvent($vendor));
             Cache::tags(['timer_'.$area])->remember('vendor_timer_'.$vendorId, Carbon::now()->addMinutes(10), function () use ($vendor) {
-                return $vendor = [
+                 $vendor = [
                     'image' => $vendor->image,
                     'id' => $vendor->id,
                     'name' => $vendor->name,
                 ];
+                   return response()->json($vendor);
             });
             }
             else{

@@ -361,7 +361,7 @@ class OrderController extends Controller
             $order->save();
             event(new OrderEvent($order));
             Cache::flush('order_find_'.$order->id);
-            $vId = Cache::tags(['timer_'.$area])->get('vendor_timer_'.$vendorId);
+            $vId = Cache::tags(['timer_'.$area])->get();
             if (!isset($vId->original)) {
                 # code...
                 $this->Start_timer($vendorId, $vendor, $area);
@@ -370,6 +370,7 @@ class OrderController extends Controller
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',
                 'token' => $user->token,
+                've' => $vId,
                 "vendorToken" => $vendorToken,
             ];
             return response()->json($response);

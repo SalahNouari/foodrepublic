@@ -362,7 +362,7 @@ class OrderController extends Controller
             $vId = Cache::tags(['timer_'.$area])->get('vendor_timer_'.$vendorId);
             event(new OrderEvent($order));
             Cache::flush('order_find_'.$order->id);
-            // $this->Start_timer($vendorId, $vendor, $area);
+            $this->Start_timer($vendorId, $vendor, $area);
             $response = [
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',
@@ -378,7 +378,7 @@ class OrderController extends Controller
     public function Start_timer($vendorId, $vendor, $area)
     {
         $vId = Cache::tags(['timer_'.$area])->get('vendor_timer_'.$vendorId);
-        if (!($vId === $vendorId)) {
+        if (!isset($vId)) {
             event(new VendorEvent($vendor));
             Cache::tags(['timer_'.$area])->remember('vendor_timer_'.$vendorId, Carbon::now()->addMinutes(10), function () use ($vendor) {
                  $vendor = [

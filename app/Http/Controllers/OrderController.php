@@ -366,7 +366,7 @@ class OrderController extends Controller
             // Cache::forget('vendor_timer_'.$vendorId);
 
 
-             if(!Cache::has('vendor_timer_'.$vendorId)){
+             if(Cache::has('vendor_timer_'.$vendorId)){
                  $this->Start_timer($vendorId, $vendor, $area);
                  $reply = 'Its now in timer';
                 } else {
@@ -377,7 +377,7 @@ class OrderController extends Controller
                 'message2' => 'Prepare this order, delivery agent is on the way',
                 'token' => $user->token,
                 've' => $reply,
-                'va' => !Cache::has('vendor_timer_'.$vendorId),
+                'va' => Cache::has('vendor_timer_'.$vendorId),
                 "vendorToken" => $vendorToken,
             ];
             return response()->json($response);

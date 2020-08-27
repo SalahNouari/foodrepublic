@@ -382,7 +382,7 @@ class OrderController extends Controller
     }
     public function Start_timer($vendorId, $vendor, $area)
     {
-        $time = Carbon::now()->addMinutes(10);
+        $time = Carbon::now()->addMinutes(5);
         $val = Cache::remember('vendor_timer_'.$vendorId, $time, function () use ($vendor) {
             $vendor = [
                 'image' => $vendor->image,

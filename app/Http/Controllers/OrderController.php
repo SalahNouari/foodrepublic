@@ -424,6 +424,7 @@ class OrderController extends Controller
         return response('error', 400);
     }
     }
+    
     public function rejected(Request $request)
     {
         $order = Auth::user()->vendor->orders()->find($request->id);

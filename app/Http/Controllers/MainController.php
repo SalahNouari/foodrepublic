@@ -63,7 +63,7 @@ class MainController extends Controller
     }
     public function search(Request $request)
     {
-        $value = Cache::tags(['search'])->remember('search_'.$request->id.'_'.$request->type.'_'.$request->name, Carbon::now()->addMinutes(60 * 24), function () use ($request) {
+        $value = Cache::tags(['search'])->remember('search_'.$request->id.'_'.$request->type.'_'.$request->name, Carbon::now()->add(60 * 24), function () use ($request) {
 
         $d = Areas::find($request->id);
         
@@ -141,7 +141,9 @@ class MainController extends Controller
         'categories' => function ($query){
             $query->withCount('items')
             ->orderBy('name');
-        },'area'])
+        }, 'area' => function ($query) use ($request) {
+            $query->where('areas_id', $request->id);
+        }])
         ->withCount('reviews')
         ->first();
         $t = $vendor->reviews()->avg('rating');

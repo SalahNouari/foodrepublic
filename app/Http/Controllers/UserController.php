@@ -349,7 +349,8 @@ public function sendCode($userPhone, $user, $rand_code){
             foreach ($files as $file) {
             $image_name = $file->getRealPath();
             Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto", "radius" => "max"));
-            $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 400, "height" => 400]);
+            // $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 400, "height" => 400]);
+            $image_url = Cloudder::getPublicId();
             $user->image = str_replace("http://", "https://", $image_url);
             $user->save();
             // $file->storeAs('uploads', $file->getClientOriginalName());

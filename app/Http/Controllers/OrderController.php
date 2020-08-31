@@ -416,7 +416,7 @@ class OrderController extends Controller
         return $data = [
             '1' => $data,
             '2' => $val1,
-        ]
+        ];
     }
     public function delivered(Request $request)
     {

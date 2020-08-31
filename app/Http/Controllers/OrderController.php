@@ -13,6 +13,7 @@ use App\Order;
 use App\User;
 use App\Vendor;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 
 
@@ -375,18 +376,41 @@ class OrderController extends Controller
     }
     public function Start_timer($vendorId, $vendor, $area)
     {
+
         $time = Carbon::now()->addMinutes(5);
-        $val = Cache::remember('vendor_timer_'.$vendorId, $time, function () use ($vendor, $time) {
-            $vendor = [
-                'image' => $vendor->image,
-                'id' => $vendor->id,
-                'name' => $vendor->name,
-                'expire' => $time
-            ];
-            return response()->json($vendor);
+        $time2 = Carbon::now()->addHours(24);
+        $vendor2 = [
+          'image' => $vendor->image,
+          'id' => $vendor->id,
+          'name' => $vendor->name,
+          'expire' => $time
+      ];
+      $this->real_time($area, $vendor2, $time2);
+        $val = Cache::remember('vendor_timer_'.$vendorId, $time, function () use ($vendor, $vendor2, $time) {
+            return response()->json($vendor2);
         });
         event(new VendorEvent($vendor, $time, $area));
             return $val;
+    }
+
+    public function get_real_time(Request $request) {
+        
+        Cache::get('area_timer_'.$request->area);
+    }
+    public function real_time($area, $vendor2, $time2) {
+        $data = array();
+        $val1 = Cache::get('area_timer_'.$area);
+        if (isset($val1)) {
+            $filtered = Arr::where($val1, function ($value, $key) {
+                return Carbon::now() < $value['expire'];
+            });
+            Arr::prepend($filtered, $vendor2);
+            Cache::put('area_timer_'.$area, $filtered);
+            # code...
+        }else{
+            Arr::prepend($data, $vendor2);
+         Cache::put('area_timer_'.$area, $data, $time2);
+        }
     }
     public function delivered(Request $request)
     {

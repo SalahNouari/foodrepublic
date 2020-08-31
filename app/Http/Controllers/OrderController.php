@@ -405,7 +405,7 @@ class OrderController extends Controller
         $val1 = Cache::get('area_timer_'.$area);
         if (isset($val1)) {
             $filtered = array_filter($val1, function($val){
-                return 1 < Carbon::parse(Carbon::now())->floatDiffInSeconds($val->expire);
+                return 1 < Carbon::parse(Carbon::now())->floatDiffInSeconds($val['expire'], false);
             });
             array_push($filtered, $vendor2);
             Cache::put('area_timer_'.$area, $filtered, $time2);

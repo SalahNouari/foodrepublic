@@ -395,7 +395,7 @@ class OrderController extends Controller
 
     public function get_real_time(Request $request) {
         
-        Cache::get('area_timer_'.$request->area);
+        return Cache::get('area_timer_'.$request->area);
     }
     public function real_time($area, $vendor2, $time2) {
         $data = array();

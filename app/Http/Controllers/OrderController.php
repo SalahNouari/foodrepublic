@@ -403,7 +403,7 @@ class OrderController extends Controller
         if (isset($val1)) {
             $filtered = array();
             array_push($filtered, $vendor2);
-            Cache::put('area_timer_'.$area, $filtered);
+            Cache::put('area_timer_'.$area, $filtered, $time2);
             # code...
         }else{
             array_push($data, $vendor2);

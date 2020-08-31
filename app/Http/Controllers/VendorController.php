@@ -81,16 +81,7 @@ class VendorController extends Controller
             $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 600, "height" => 600]);
             $vendor->image = str_replace("http://", "https://", $image_url);
         }
-        if (Cache::has('vendor_'.$vendor->name)) {
-            Cache::forget('vendor_'.$vendor->name);
-        } else{
-            $tag_id = $vendor->area()->first()->id;
-            $tag_type = $vendor->type;
-            $el = 'vendor_'.$tag_id.'_'.$tag_type;
-            if (Cache::has($el)) {
-                Cache::forget($el);
-            }
-        }
+        Cache::tags(['page', $vendor->name])->flush();
         Cache::tags(['pages_'.$vendor->city,  $vendor->type])->flush();
         $vendor->save();
         $success['message'] = 'Image uploaded successfully';

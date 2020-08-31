@@ -3,22 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use App\FoodCategory; 
 use App\Address;
 use App\Delivery;
-use App\Item;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Events\VendorEvent;
 use App\Events\OrderEvent;
 use App\Order; 
-use App\Location; 
-use App\Snacks; 
 use App\User;
 use App\Vendor;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Cache;
 
 
@@ -368,8 +362,6 @@ class OrderController extends Controller
             if (!Cache::has('vendor_timer_'.$vendorId)) {
                   $this->Start_timer($vendorId, $vendor, $area);
                 }
-
-
             $response = [
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',
@@ -384,7 +376,6 @@ class OrderController extends Controller
     public function Start_timer($vendorId, $vendor, $area)
     {
         $time = Carbon::now()->addMinutes(5);
-
         $val = Cache::remember('vendor_timer_'.$vendorId, $time, function () use ($vendor, $time) {
             $vendor = [
                 'image' => $vendor->image,

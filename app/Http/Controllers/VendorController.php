@@ -274,16 +274,8 @@ class VendorController extends Controller
         $vendor = Auth::user()->vendor;
         $areas = $vendor->area;
         $fee = $request->fee;
-        if (Cache::has('vendor_'.$vendor->name)) {
-            Cache::forget('vendor_'.$vendor->name);
-        } else{
-            $tag_id = $vendor->area()->first()->id;
-            $tag_type = $vendor->type;
-            $el = 'vendor_'.$tag_id.'_'.$tag_type;
-            if (Cache::has($el)) {
-                Cache::forget($el);
-            }
-        }
+     
+        Cache::tags(['page', $vendor->name])->flush();
         Cache::tags(['pages_'.$vendor->city, $vendor->type] )->flush();
         foreach ($areas as $i=>$area) {
             $vendor->area()->updateExistingPivot($area->id, ['fee' => $fee[$i]]);

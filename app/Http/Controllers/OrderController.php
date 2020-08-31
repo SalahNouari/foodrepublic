@@ -396,10 +396,10 @@ class OrderController extends Controller
     public function get_real_time(Request $request) {
         $val1 = Cache::get('area_timer_'.$request->area);
         if (isset($val1[0])) {
-            # code...
-            return array_filter($val1, function($val){
+            $dat =  array_filter($val1, function($val){
                 return 1 < Carbon::parse(Carbon::now())->floatDiffInSeconds($val['expire'], false);
             });
+            return Arr::wrap($dat);
         }
     }
     public function real_time($area, $vendor2, $time2) {
@@ -416,10 +416,6 @@ class OrderController extends Controller
             array_push($data, $vendor2);
          Cache::put('area_timer_'.$area, $data, $time2);
         }
-      $data = [
-            '1' => $data,
-            '2' => $val1,
-        ];
     }
     public function delivered(Request $request)
     {

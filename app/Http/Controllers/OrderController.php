@@ -360,15 +360,13 @@ class OrderController extends Controller
                 # code...
                 Cache::forget('order_find_'.$order->id);
             }
-            $re = '';
             if (!Cache::has('vendor_timer_'.$vendorId)) {
-                  $re = $this->Start_timer($vendorId, $vendor, $area);
+                  $this->Start_timer($vendorId, $vendor, $area);
                 }
             $response = [
                 'message' => 'Your order is on the way',
                 'message2' => 'Prepare this order, delivery agent is on the way',
                 'token' => $user->token,
-                're' => $re,
                 "vendorToken" => $vendorToken,
             ];
             return response()->json($response);
@@ -413,7 +411,7 @@ class OrderController extends Controller
             Arr::prepend($data, $vendor2);
          Cache::put('area_timer_'.$area, $data, $time2);
         }
-        return $data = [
+      $data = [
             '1' => $data,
             '2' => $val1,
         ];

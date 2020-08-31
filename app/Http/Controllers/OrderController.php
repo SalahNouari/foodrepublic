@@ -398,8 +398,14 @@ class OrderController extends Controller
             $dat =  array_filter($val1, function($val){
                 return 1 < Carbon::parse(Carbon::now())->floatDiffInSeconds($val['expire'], false);
             });
-            return $dat;
         }
+        if (isset($dat)) {
+            # code...
+            $res = $dat;
+        } else {
+            $res = $val1;
+        }
+        return($res);
     }
     public function real_time($area, $vendor2, $time2) {
         $data = array();

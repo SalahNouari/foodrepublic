@@ -402,11 +402,11 @@ class OrderController extends Controller
         $val1 = Cache::get('area_timer_'.$area);
         if (isset($val1)) {
             $filtered = array();
-            Arr::prepend($filtered, $vendor2);
+            array_push($filtered, $vendor2);
             Cache::put('area_timer_'.$area, $filtered);
             # code...
         }else{
-            Arr::prepend($data, $vendor2);
+            array_push($data, $vendor2);
          Cache::put('area_timer_'.$area, $data, $time2);
         }
       $data = [

@@ -18,6 +18,7 @@ use App\Snacks;
 use App\User;
 use App\Vendor;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Cache;
 
 
@@ -383,15 +384,17 @@ class OrderController extends Controller
     public function Start_timer($vendorId, $vendor, $area)
     {
         $time = Carbon::now()->addMinutes(5);
-        $val = Cache::remember('vendor_timer_'.$vendorId, $time, function () use ($vendor) {
+
+        $val = Cache::remember('vendor_timer_'.$vendorId, $time, function () use ($vendor, $time) {
             $vendor = [
                 'image' => $vendor->image,
                 'id' => $vendor->id,
                 'name' => $vendor->name,
+                'expire' => $time
             ];
             return response()->json($vendor);
         });
-        event(new VendorEvent($vendor, $time));
+        event(new VendorEvent($vendor, $time, $area));
             return $val;
     }
     public function delivered(Request $request)

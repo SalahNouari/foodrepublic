@@ -16,17 +16,18 @@ class VendorEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $vendor, $time;
+    public $vendor, $time, $area;
     /**
      * Create a new event instance.
      *
      * @return void
      */
  
-    public function __construct(Vendor $vendor, $time)
+    public function __construct(Vendor $vendor, $time, $area)
     {
         $this->time = $time;
         $this->vendor = $vendor;
+        $this->area = $area;
     }
     /**
      * Get the channels the event should broadcast on.
@@ -40,7 +41,7 @@ class VendorEvent implements ShouldBroadcastNow
     }
     public function broadcastAs()
     {
-        return 'timer_event';
+        return 'timer_event_'.$this->area;;
     }
     public function broadcastWith()
     {

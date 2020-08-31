@@ -397,7 +397,7 @@ class OrderController extends Controller
         
         $val1 = Cache::get('area_timer_'.$request->area);
         return $dat =  array_filter($val1, function($val){
-            return 1 > Carbon::parse(Carbon::now())->floatDiffInSeconds($val['expire']);
+            return 1 < Carbon::parse(Carbon::now())->floatDiffInSeconds($val['expire'], false);
         });
     }
     public function real_time($area, $vendor2, $time2) {

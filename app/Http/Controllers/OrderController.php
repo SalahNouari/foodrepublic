@@ -385,12 +385,11 @@ class OrderController extends Controller
           'name' => $vendor->name,
           'expire' => $time
       ];
-      $re = $this->real_time($area, $vendor2, $time2);
-        $val = Cache::remember('vendor_timer_'.$vendorId, $time, function () use ($vendor, $vendor2, $time) {
+      $val = Cache::remember('vendor_timer_'.$vendorId, $time, function () use ($vendor, $vendor2, $area, $time2, $time) {
+        $re = $this->real_time($area, $vendor2, $time2);
             return response()->json($vendor2);
         });
         event(new VendorEvent($vendor, $time, $area));
-            return $re;
     }
 
     public function get_real_time(Request $request) {

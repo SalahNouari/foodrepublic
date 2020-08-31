@@ -430,7 +430,6 @@ class VendorController extends Controller
             $vendor->token = $request->token;
             $vendor->phone = $request->phone;
             $vendor->save();
-            $areas = '';
             if($request->areas){
                 $areas = $request->areas;
                 $vendor->area()->sync($areas);

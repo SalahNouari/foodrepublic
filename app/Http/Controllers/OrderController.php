@@ -401,9 +401,7 @@ class OrderController extends Controller
         $data = array();
         $val1 = Cache::get('area_timer_'.$area);
         if (isset($val1)) {
-            $filtered = Arr::where($val1, function ($value, $key) {
-                return Carbon::now() < $value['expire'];
-            });
+            $filtered = array();
             Arr::prepend($filtered, $vendor2);
             Cache::put('area_timer_'.$area, $filtered);
             # code...

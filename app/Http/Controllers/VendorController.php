@@ -291,16 +291,9 @@ class VendorController extends Controller
         $user = Auth::user();
         $vendor = $user->vendor;
         $vendor->status = $request->status;
-        if (Cache::has('vendor_'.$vendor->name)) {
-            Cache::forget('vendor_'.$vendor->name);
-        } else{
-            $tag_id = $vendor->area()->first()->id;
-            $tag_type = $vendor->type;
-            $el = 'vendor_'.$tag_id.'_'.$tag_type;
-            if (Cache::has($el)) {
-                Cache::forget($el);
-            }
-        }
+      
+        Cache::tags(['page', $vendor->name])->flush();
+
         Cache::tags(['pages_'.$vendor->city, $vendor->type] )->flush();
         $vendor->save();
         $response = [
@@ -312,16 +305,7 @@ class VendorController extends Controller
     {
         $user = Auth::user();
         $vendor = $user->vendor;
-        if (Cache::has('vendor_'.$vendor->name)) {
-            Cache::forget('vendor_'.$vendor->name);
-        } else{
-            $tag_id = $vendor->area()->first()->id;
-            $tag_type = $vendor->type;
-            $el = 'vendor_'.$tag_id.'_'.$tag_type;
-            if (Cache::has($el)) {
-                Cache::forget($el);
-            }
-        }
+     
         $vendor->cash_on_delivery = $request->cash;
         $vendor->card_on_delivery = $request->card;
         $vendor->minimum_order = $request->minimum;
@@ -330,6 +314,8 @@ class VendorController extends Controller
         $vendor->account_number = $request->account_number;
         $vendor->bank_name = $request->bank_name;
         $vendor->save();
+        Cache::tags(['page', $vendor->name])->flush();
+
         Cache::tags(['pages_'.$vendor->city, $vendor->type] )->flush();
         $response = [
                 'message' => 'successful'
@@ -399,16 +385,7 @@ class VendorController extends Controller
       
             $vendor = Auth::user()->vendor;
             $vendor->name = $request->name;
-            if (Cache::has('vendor_'.$vendor->name)) {
-                Cache::forget('vendor_'.$vendor->name);
-            } else{
-                $tag_id = $vendor->area()->first()->id;
-                $tag_type = $vendor->type;
-                $el = 'vendor_'.$tag_id.'_'.$tag_type;
-                if (Cache::has($el)) {
-                    Cache::forget($el);
-                }
-            }
+       
             $vendor->bio = $request->bio;
             $vendor->token = $request->token;
             $vendor->phone = $request->phone;
@@ -426,6 +403,8 @@ class VendorController extends Controller
             foreach ($areas as $i => $area) {
                 $vendor->area()->updateExistingPivot($area, ['distance' => $distance[$i], 'duration' => $duration[$i]]);
             }
+            Cache::tags(['page', $vendor->name])->flush();
+
             Cache::tags(['pages_'.$vendor->city, $vendor->type] )->flush();
             return response([
                 'status' => 'success',

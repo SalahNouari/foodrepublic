@@ -173,9 +173,9 @@ class OrderController extends Controller
     {
         $ordersList = json_decode($request->orders);
         $list = array();
+        $vendor = Auth::user();
         foreach ($ordersList as $o) {
             array_push($list, $o->o);
-            $vendor = Auth::user();
             $items = $o->i;
             $digits = 6;
             $rand_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);

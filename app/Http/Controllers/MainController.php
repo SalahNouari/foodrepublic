@@ -63,7 +63,6 @@ class MainController extends Controller
     }
     public function search(Request $request)
     {
-        $value = Cache::tags(['search'])->remember('search_'.$request->id.'_'.$request->type.'_'.$request->name, Carbon::now()->add(60 * 24), function () use ($request) {
 
         $d = Areas::find($request->id);
         
@@ -91,8 +90,6 @@ class MainController extends Controller
             'vendors' => $vendors,
             'items' => $items
         ];
-    });
-        return response()->json($value);
     }
     public function searchVendor(Request $request)
     {

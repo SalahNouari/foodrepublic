@@ -12,7 +12,7 @@ return [
     |
     */
    
-    'supportsCredentials' => false,
+    'supportsCredentials' => true,
     'allowed_origins' => ['*'],
     'paths' => ['api/*'],
     'allowed_origins_patterns' => [],

@@ -108,7 +108,6 @@ public $successStatus = 200;
             $user = Auth::user(); 
             $success['token'] =  $user->createToken('MyApp')-> accessToken; 
             $success['user'] =  $user; 
-            $success['user']['token'] =  $user->token; 
             return response()->json(['success' => $success], $this-> successStatus); 
         }
         else{

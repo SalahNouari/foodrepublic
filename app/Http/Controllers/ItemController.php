@@ -210,6 +210,9 @@ class ItemController extends Controller
         $category = $vendor->categories->find($request->cat_id);
         $item = $category->items->find($request->item_id);
         $item->available= $request->availability;
+        Cache::tags(['page', $vendor->name])->flush();
+        Cache::tags(['category_items'])->flush('category_items_'.$request->cat_id);
+        
         $item->save();
         if ($item->available) {
             $d = 'on';

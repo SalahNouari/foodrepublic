@@ -23,10 +23,11 @@ class VendorEvent implements ShouldBroadcastNow
      * @return void
      */
  
-    public function __construct(Vendor $vendor, $time, $area)
+    public function __construct(Vendor $vendor, $time, $area, $d_id)
     {
         $this->time = $time;
         $this->vendor = $vendor;
+        $this->d_id = $d_id;
         $this->area = $area;
     }
     /**
@@ -47,12 +48,14 @@ class VendorEvent implements ShouldBroadcastNow
     {
         $id = $this->vendor->id;
         $img = $this->vendor->image;
+        $d_id = $this->d_id;
         $name = $this->vendor->name;
        
         return [
             'id' => $id,
             'image' => $img,
             'name' => $name,
+            'd_id' => $d_id,
             'end_time' => $this->time
         ];
     }

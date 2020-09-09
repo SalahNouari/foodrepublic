@@ -351,6 +351,7 @@ class OrderController extends Controller
             $agent = Delivery::find($request->delivery_agent_id);
             $order->delivery()->associate($agent);
             $vendor = $order->vendor;
+            $d_id = $request->delivery_agent_id;
             $vendorId = $vendor->id;
             $vendorToken = $vendor->token;
             $area = $order->address->area->id;
@@ -361,7 +362,7 @@ class OrderController extends Controller
                 Cache::forget('order_find_'.$order->id);
             }
             if (!Cache::has('vendor_timer_'.$vendorId)) {
-                  $this->Start_timer($vendorId, $vendor, $area);
+                  $this->Start_timer($vendorId, $vendor, $area, $d_id);
                 }
             $response = [
                 'message' => 'Your order is on the way',
@@ -374,7 +375,7 @@ class OrderController extends Controller
         //     return response('error', 400);
         // }
     }
-    public function Start_timer($vendorId, $vendor, $area)
+    public function Start_timer($vendorId, $vendor, $area, $d_id)
     {
 
         $time = Carbon::now()->addMinutes(5);
@@ -383,13 +384,14 @@ class OrderController extends Controller
           'image' => $vendor->image,
           'id' => $vendor->id,
           'name' => $vendor->name,
+          'd_id' => $d_id,
           'expire' => $time
       ];
       Cache::remember('vendor_timer_'.$vendorId, $time, function () use ($vendor, $vendor2, $area, $time2, $time) {
          $this->real_time($area, $vendor2, $time2);
             return response()->json($vendor2);
         });
-        event(new VendorEvent($vendor, $time, $area));
+        event(new VendorEvent($vendor, $time, $area, $d_id));
     }
 
     public function get_real_time(Request $request) {

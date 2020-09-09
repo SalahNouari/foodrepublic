@@ -9,6 +9,7 @@ use JD\Cloudder\Facades\Cloudder;
 use Validator;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ItemController extends Controller
 {
@@ -81,6 +82,8 @@ class ItemController extends Controller
             $comp = json_decode($request->compulsory);
             $opt = json_decode($request->optional);
             $files = $request->file('files');
+            Cache::tags(['page', $vendor->name])->flush();
+            Cache::tags(['category_items'])->flush('category_items_'.$request->category_id);
             request()->validate([
                 'files.*' => 'image|mimes:jpeg,JPG,png,jpg,gif,svg|max:4048'
                 ]);

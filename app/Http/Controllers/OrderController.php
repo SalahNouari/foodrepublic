@@ -145,9 +145,10 @@ class OrderController extends Controller
                 $order->delivery()->associate($delivery_agent);
                 $order->discount = true;
                 $order->status = 3;
-                $order->recieved_time = Carbon::now();
-                $order->served_time = Carbon::now();
-                $order->transit_time = Carbon::now();
+                $time= Carbon::now();
+                $order->recieved_time = $time;
+                $order->served_time = $time;
+                $order->transit_time = $time;
 
 
             }

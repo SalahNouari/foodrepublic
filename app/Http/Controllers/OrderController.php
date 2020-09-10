@@ -142,6 +142,7 @@ class OrderController extends Controller
             if ($request->discount && isset($request->d_id)) {
                 $delivery_agent = Delivery::find($request->d_id);
                 $order->delivery()->associate($delivery_agent);
+                $order->discount = true;
                 $order->status = 3;
             }
             $order->save();

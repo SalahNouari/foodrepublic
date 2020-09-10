@@ -139,6 +139,7 @@ class OrderController extends Controller
             $order->vendor()->associate($vendor);
             $order->user()->associate($user);
             
+          
             if ($request->discount && isset($request->d_id)) {
                 $delivery_agent = Delivery::find($request->d_id);
                 $order->delivery()->associate($delivery_agent);
@@ -168,7 +169,7 @@ class OrderController extends Controller
             }
             
             $response = [
-                'order' => 'saved'
+                'order' => Order::where('id', $order['id'])->with(['items', 'options'])->get()
             ];
             return response()->json($response);
             

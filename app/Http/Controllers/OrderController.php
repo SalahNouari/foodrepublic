@@ -106,7 +106,7 @@ class OrderController extends Controller
             $items = $request->items;
             $digits = 6;
             $rand_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
-        
+            
             $order = new Order;
             $order->duration = $request->duration;
             $order->distance = $request->distance;
@@ -122,8 +122,8 @@ class OrderController extends Controller
             $payM = $request->payment_method;
             if(($payM != 4) && ($order->wallet === true) && ($order->paid === true)){
                 if ($user->wallet >= $request->grand_total) {
-                $user->decrement('wallet', $request->grand_total);
-                $user->save();
+                    $user->decrement('wallet', $request->grand_total);
+                    $user->save();
                 } else{
                     return response(['message' => 'Insufficient funds in wallet'], 422);
                 }
@@ -138,23 +138,28 @@ class OrderController extends Controller
             }
             $order->vendor()->associate($vendor);
             $order->user()->associate($user);
-
+            
+            if ($request->discount && isset($request->d_id)) {
+                $delivery_agent = Delivery::find($request->d_id);
+                $order->delivery()->associate($delivery_agent);
+                $order->status = 3;
+            }
             $order->save();
-        
+            
             foreach ($items as $item) {
                 $digits = 8;
                 $random_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
-        
+                
                 $comp = $item['compulsory'];
                 $opt = $item['optional'];
                 $itm = $item['item'][0];
-
+                
                 $order->items()->attach($itm['id'], ['qty' => $itm['qty'], 'total' => $item['total'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
-  
+                
                 foreach ($comp as $compa) {
                     $order->options()->attach($compa['id'], ['type' => $compa['type'], 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
                 }
-            
+                
                 foreach ($opt as $opta) {
                     # code...
                     $order->options()->attach($opta['id'], ['type' =>  $opta['type'], 'qty' => $opta['qty'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
@@ -162,7 +167,7 @@ class OrderController extends Controller
             }
             
             $response = [
-                'order' => Order::where('id', $order['id'])->with(['items', 'options'])->get()
+                'order' => 'saved'
             ];
             return response()->json($response);
             

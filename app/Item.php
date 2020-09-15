@@ -21,6 +21,10 @@ class Item extends Model
     {
         return $query->orWhere($column, 'like', '%' . $value . '%');
     }
+    public function deals()
+    {
+        return $this->belongsToMany('App\Deals')->withPivot('qty', 'type', 'end_time');
+    }
     public function order()
     {
         return $this->belongsToMany('App\Order')->withPivot('qty', 'tracking_id');

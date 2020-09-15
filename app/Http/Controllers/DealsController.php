@@ -15,7 +15,7 @@ class DealsController extends Controller
     
     public function get_deals(Request $request)
     {
-        $value = Cache::rememberForever('vendor_area_'.$request->id, function () use ($request) {
+        $value = Cache::tag(['deals', 'area_'.$request->area_id])->rememberForever('deals_area_'.$request->area_id.'_'.$request->type, function () use ($request) {
 
         $validator = Validator::make($request->all(), [
             'area_id' => 'required',
@@ -55,6 +55,7 @@ class DealsController extends Controller
         $dealR = $deal->with(['items'=> function ($query){
             $query->select('name', 'image', 'vendor_name', 'item_id', 'category_id', 'price');
         },])->get();
+        Cache::tag(['deals', 'area_'.$request->area_id])->flush();
             $response = [
                 'deal' => $dealR
             ];
@@ -72,6 +73,7 @@ class DealsController extends Controller
         } else {
         $item = Item::find($request->item_id);
         $deal = Deals::find($request->deal_id);
+        Cache::tag(['deals', 'area_'.$request->area_id])->flush();
 
         $deal->items()->attach($item, [
             'end_time' => $request->end_time, 

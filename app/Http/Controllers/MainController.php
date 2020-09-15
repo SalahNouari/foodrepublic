@@ -49,6 +49,12 @@ class MainController extends Controller
             ])
         ->withCount('reviews')
         ->get();
+        $deal = $d->deals()->where('type', $request->type)->
+        select('id', 'name')
+        ->with(['items'=> function ($query){
+            $query->select('name', 'image', 'vendor_name', 'item_id', 'category_id', 'price');
+        },])->get();
+
         $vendor->makeHidden(['created_at', 'pos_charge', 'updated_at', 'place_id', 'account_number', 'address', 'phone', 'branch', 'type', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio', 'pos_charge']);
         $vendor->each(function ($i, $k){
             $t = $i->reviews()->avg('rating');

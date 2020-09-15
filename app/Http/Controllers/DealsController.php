@@ -47,8 +47,11 @@ class DealsController extends Controller
         $deal = Deals::find($request->deal_id);
 
         $deal->items()->detach($request->item_id);
+        $dealR = $deal->with(['items'=> function ($query){
+            $query->select('name', 'image', 'vendor_name', 'item_id', 'category_id', 'price');
+        },])->get();
             $response = [
-                'deal' => $deal->with('items')->get()
+                'deal' => $dealR
             ];
             return response()->json($response);
         }

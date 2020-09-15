@@ -87,9 +87,9 @@ Route::prefix('transaction')->group(function () {
    Route::post('set', 'TransactionsController@set')->middleware('auth:api');
 });
 Route::prefix('deals')->group(function () {
-   Route::post('save', 'DealssController@save')->middleware('auth:api');
-   Route::post('add_item', 'DealssController@add_item')->middleware('auth:api');
-   Route::get('all', 'DealssController@all')->middleware('auth:api');
+   Route::post('save', 'DealsController@save')->middleware('auth:api');
+   Route::post('add_item', 'DealsController@add_item')->middleware('auth:api');
+   Route::get('all', 'DealsController@all')->middleware('auth:api');
 });
 Route::prefix('city')->group(function () {
    Route::post('save', 'AreasController@save');

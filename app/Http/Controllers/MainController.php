@@ -32,7 +32,7 @@ class MainController extends Controller
         // Cache::flush();
         $d = Areas::find($request->id);
         $city = $d->states_id;
-        // Cache::tags(['pages_'.$city])->flush();
+        Cache::tags(['pages_'.$city])->flush();
         $value = Cache::tags(['pages_'.$city, $request->type])->remember('page_'.$request->id.'_'.$request->type, Carbon::now()->addMinutes(60 * 24), function () use ($request, $d) {
         $user = Auth::user();
         $user->area()->associate($d);

@@ -51,7 +51,7 @@ class DealsController extends Controller
             $area = Areas::find($request->area_id);
             $deal->name = $request->name;
             $deal->type = $request->type;
-            $deal->area()->save($area);
+            $deal->area()->associate($area);
             $deal->save();
         }
         $response = [

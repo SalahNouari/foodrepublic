@@ -16,10 +16,8 @@ class DealsController extends Controller
     public function add_item(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'type' => 'required',
-            'name' => 'required',
-            'areas_id' => 'required'
+            'deal_id' => 'required',
+            'item_id' => 'required',
         ]);
         if (!$validator) {
             return response(['errors' => $validator->errors()->all()], 422);
@@ -30,9 +28,10 @@ class DealsController extends Controller
         $deal->items()->attach($item, [
             'end_time' => $request->end_time, 
             'type'=> $request->type, 
+            'status'=> $request->status, 
             'qty' => $request->qty]);
             $response = [
-                'deal' => $deal->with('items')
+                'deal' => $deal->with('items')->get()
             ];
             return response()->json($response);
         }

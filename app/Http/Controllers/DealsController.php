@@ -53,7 +53,7 @@ class DealsController extends Controller
             $deal->end_time = $request->end_time;
             $deal->qty = $request->qty;
             $deal->type = $request->type;
-            $deal->areas()->associate($area);
+            $deal->area()->associate($area);
             $deal->save();
         }
         $response = [

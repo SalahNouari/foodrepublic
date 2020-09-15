@@ -8,7 +8,7 @@ class Deals extends Model
 {
     public function items()
     {
-        return $this->belongsToMany('App\Item');
+        return $this->belongsToMany('App\Item')->withPivot('qty', 'type', 'status', 'end_time');
     }
 
     public function area()

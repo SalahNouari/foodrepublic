@@ -35,6 +35,25 @@ class DealsController extends Controller
         }
         }
     
+    public function remove_item(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'deal_id' => 'required',
+            'item_id' => 'required',
+        ]);
+        if (!$validator) {
+            return response(['errors' => $validator->errors()->all()], 422);
+        } else {
+        $item = Item::find($request->item_id);
+        $deal = Deals::find($request->deal_id);
+
+        $deal->items()->detach($item);
+            $response = [
+                'deal' => $deal->with('items')->get()
+            ];
+            return response()->json($response);
+        }
+    }
     public function add_item(Request $request)
     {
         $validator = Validator::make($request->all(), [

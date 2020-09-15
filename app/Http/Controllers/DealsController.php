@@ -25,7 +25,7 @@ class DealsController extends Controller
         $area = Areas::find($request->area_id);
         $deal = $area->deals()->where('type', $request->type)
         ->with(['items'=> function ($query){
-            $query->select('name', 'image', 'vendor_name', 'id', 'category_id', 'price');
+            $query->select('name', 'image', 'vendor_name', 'item_id', 'category_id', 'price');
         },])->get();
 
             $response = [

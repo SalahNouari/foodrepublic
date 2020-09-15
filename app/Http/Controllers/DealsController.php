@@ -42,7 +42,6 @@ class DealsController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'type' => 'required',
-            'name' => 'required',
             'areas_id' => 'required'
         ]);
         if (!$validator) {

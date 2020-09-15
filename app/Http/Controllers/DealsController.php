@@ -44,10 +44,9 @@ class DealsController extends Controller
         if (!$validator) {
             return response(['errors' => $validator->errors()->all()], 422);
         } else {
-        $item = Item::find($request->item_id);
         $deal = Deals::find($request->deal_id);
 
-        $deal->items()->detach($item);
+        $deal->items()->detach($request->item_id);
             $response = [
                 'deal' => $deal->with('items')->get()
             ];

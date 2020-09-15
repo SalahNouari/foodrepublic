@@ -17,8 +17,8 @@ class CreateDealsTable extends Migration
             $table->id();
             $table->string('type');
             $table->string('name');
-            $table->unsignedBigInteger('areas_id');
-            $table->foreign('areas_id')->references('id')->on('areas')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('area_id');
+            $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();
         });

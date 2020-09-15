@@ -13,6 +13,25 @@ use Illuminate\Support\Facades\Validator;
 class DealsController extends Controller
 {
     
+    public function get_deals(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'area_id' => 'required',
+            'type' => 'required'
+        ]);
+        if (!$validator) {
+            return response(['errors' => $validator->errors()->all()], 422);
+        } else {
+        $area = Areas::find($request->area_id);
+        $deal = $area->deals()->where('type', $request->type)->with('items')->get();
+
+            $response = [
+                'deal' => $deal
+            ];
+            return response()->json($response);
+        }
+        }
+    
     public function add_item(Request $request)
     {
         $validator = Validator::make($request->all(), [

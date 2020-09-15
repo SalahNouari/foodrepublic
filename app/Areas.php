@@ -20,6 +20,10 @@ class Areas extends Model
     {
         return $this->belongsToMany('App\Delivery');
     }
+    public function deals()
+    {
+        return $this->hasMany('App\Deals');
+    }
     public function address()
     {
         return $this->hasMany('App\Address');

@@ -11,8 +11,8 @@ class Deals extends Model
         return $this->belongsToMany('App\Item');
     }
 
-    public function vendor()
+    public function area()
     {
-        return $this->belongsTo('App\Vendor');
+        return $this->belongsTo('App\Areas');
     }
 }

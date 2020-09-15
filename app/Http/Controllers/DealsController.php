@@ -23,7 +23,10 @@ class DealsController extends Controller
             return response(['errors' => $validator->errors()->all()], 422);
         } else {
         $area = Areas::find($request->area_id);
-        $deal = $area->deals()->where('type', $request->type)->with('items')->get();
+        $deal = $area->deals()->where('type', $request->type)
+        ->with(['items'=> function ($query){
+            $query->select('name', 'image', 'vendor_name', 'id', 'category_id', 'price');
+        },])->get();
 
             $response = [
                 'deal' => $deal

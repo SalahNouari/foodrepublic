@@ -15,6 +15,8 @@ class DealsController extends Controller
     
     public function get_deals(Request $request)
     {
+        $value = Cache::rememberForever('vendor_area_'.$request->id, function () use ($request) {
+
         $validator = Validator::make($request->all(), [
             'area_id' => 'required',
             'type' => 'required'
@@ -31,8 +33,11 @@ class DealsController extends Controller
             $response = [
                 'deal' => $deal
             ];
-            return response()->json($response);
+            return $response;
         }
+    });
+        return response()->json($value);
+    
         }
     
     public function remove_item(Request $request)

@@ -50,8 +50,6 @@ class DealsController extends Controller
             $deal = new Deals();
             $area = Areas::find($request->area_id);
             $deal->name = $request->name;
-            $deal->end_time = $request->end_time;
-            $deal->qty = $request->qty;
             $deal->type = $request->type;
             $deal->area()->associate($area);
             $deal->save();

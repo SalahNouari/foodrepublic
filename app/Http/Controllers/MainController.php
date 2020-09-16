@@ -30,9 +30,9 @@ class MainController extends Controller
     public function policy(Request $request)
     {
 
-        $setting = DB::select('select * from settings where type = :name', ['name' => $request->name]);
+        $policy = DB::select('select * from settings where type = :name', ['name' => $request->name]);
         $response = [
-            'policy' => $setting
+            'policy' => $policy
         ];
         return response()->json($response);
     }

@@ -27,6 +27,15 @@ class MainController extends Controller
         ];
         return response()->json($response);
     }
+    public function policy(Request $request)
+    {
+
+        $setting = DB::select('select * from settings where type = :name', ['name' => $request->name]);
+        $response = [
+            'policy' => $setting
+        ];
+        return response()->json($response);
+    }
     public function page(Request $request)
     {
         // Cache::flush();

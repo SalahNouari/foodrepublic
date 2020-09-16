@@ -23,7 +23,7 @@ Route::get('summary', 'VendorController@summary')->middleware('auth:api');
 Route::post('setfcm', 'UserController@setfcm')->middleware('auth:api');
 Route::post('login', 'UserController@login');
 Route::get('logout', 'UserController@logout')->middleware('auth:api');
-Route::get('policy', 'MainController@policy')->middleware('auth:api');
+Route::get('policy', 'MainController@policy');
 Route::get('settings', 'MainController@settings')->middleware('auth:api');
 Route::get('load', 'UserController@load')->middleware('auth:api');
 Route::get('load_favourites', 'UserController@load_favourites')->middleware('auth:api');

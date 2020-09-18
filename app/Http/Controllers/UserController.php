@@ -425,7 +425,10 @@ public function sendCode($userPhone, $user, $rand_code){
                 $query->select('item_id','order_id', 'price', 'name', 'image');
         }, 'vendor' => function($query){
             $query->select('name','id');
-    }, 'options', 'delivery', 'address.area', 'reviews'])->find($request->id);
+    }, 'options', 'delivery' => function ($query) {
+        $query->select('id', 'name', 'phone');
+
+}, 'address.area', 'reviews'])->find($request->id);
 
         $response = [
             'order' => $order

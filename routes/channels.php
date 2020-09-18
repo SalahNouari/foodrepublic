@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('user.*', function ($user) {
     return Auth::check();
     });
-Broadcast::channel('orders', function ($user) {
+Broadcast::channel('private-orders', function ($user) {
      return Auth::check();
 });
 // Broadcast::channel('App.User.{id}', function ($user, $id) {

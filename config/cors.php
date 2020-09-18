@@ -14,7 +14,7 @@ return [
    
     'supportsCredentials' => true,
     'allowed_origins' => ['*'],
-    'paths' => ['api','api/*', '/broadcasting/auth'],
+    'paths' => ['api','api/*', 'broadcasting/auth'],
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
     'allowed_methods' => ['*'],

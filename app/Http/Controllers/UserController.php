@@ -420,7 +420,7 @@ public function sendCode($userPhone, $user, $rand_code){
     public function orderfind(Request $request)
     {
         $order = Auth::user()->orders()->with(['user' => function ($query){
-            $query->select('id', 'first_name', 'phone', 'middle_name', 'surname', 'image');
+            $query->select('phone');
         }, 'items' => function($query){
                 $query->select('item_id','order_id', 'price', 'name', 'image');
         }, 'vendor' => function($query){

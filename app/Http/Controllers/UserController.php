@@ -106,9 +106,9 @@ public $successStatus = 200;
     public function login(){ 
         if(Auth::attempt(['phone' => request('phone'), 'password' => request('password')])){ 
             $user = Auth::user(); 
-            $success['token'] =  $user->createToken('MyApp')-> accessToken; 
+            $success['token'] =  $user->createToken('MyApp')->accessToken; 
             $success['user'] =  $user; 
-            return response()->json(['success' => $success], $this-> successStatus); 
+            return response()->json(['success' => $success], $this->successStatus); 
         }
         else{
             return response()->json(['error'=>'Invalid phone number or password.'], 400); 

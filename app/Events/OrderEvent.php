@@ -33,7 +33,7 @@ class OrderEvent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('private-orders');
+        return new PrivateChannel('orders');
         // return new PrivateChannel('channel-name');
     }
     public function broadcastAs()

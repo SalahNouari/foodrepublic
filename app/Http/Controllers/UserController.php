@@ -439,8 +439,17 @@ public function sendCode($userPhone, $user, $rand_code){
         $order = Auth::user()->orders()->find($request->id);
         $order->user_status = 1;
         $order->save();
+        $order1 = $order->with(['user' => function ($query){
+            $query->select('id', 'phone');
+        }, 'items' => function($query){
+                $query->select('item_id','order_id', 'price', 'name', 'image');
+        }, 'vendor' => function($query){
+            $query->select('name', 'type', 'id');
+    }, 'options', 'delivery' => function ($query) {
+        $query->select('id', 'phone', 'name', 'image');
+}, 'address.area', 'reviews'])->get();
         $response = [
-            'message' => 'read successful'
+            'order' => $order1
         ];
         return response()->json($response);
     }

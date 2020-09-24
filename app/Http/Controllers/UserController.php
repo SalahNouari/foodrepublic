@@ -447,7 +447,7 @@ public function sendCode($userPhone, $user, $rand_code){
             $query->select('name', 'type', 'id');
     }, 'options', 'delivery' => function ($query) {
         $query->select('id', 'phone', 'name', 'image');
-}, 'address.area', 'reviews'])->get();
+}, 'address.area', 'reviews'])->find($request->id);
         $response = [
             'order' => $order1
         ];

@@ -68,7 +68,7 @@ class AreasController extends Controller
     public function areas(Request $request)
     {
         $state = States::find($request->id);
-        if (Auth::user()) {
+        if(Auth::guard('api')->check()){
             # code...
             $user = Auth::user();
             $user->state()->associate($state);

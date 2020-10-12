@@ -205,6 +205,11 @@ class MainController extends Controller
         return 'success';
 
     }
+    public function support(Request $request)
+    {
+        return view('welcome');
+
+    }
     public function mainhome(Request $request)
     {
         return view('welcome');

@@ -11,6 +11,7 @@
 |
 */
 
+Route::get( '/support', 'MainController@support' );
 Route::get( '/', 'MainController@mainhome' );
 
 Route::get( '/loaderio-9c45e264530f0331a41f35745ceb669f', 'MainController@loader' );

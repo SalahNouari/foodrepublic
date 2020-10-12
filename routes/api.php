@@ -101,7 +101,7 @@ Route::prefix('city')->group(function () {
    Route::get('cities', 'AreasController@cities');
    Route::get('vendorarea', 'AreasController@vendorarea');
    Route::get('delivery', 'AreasController@delivery');
-   Route::get('areas', 'AreasController@areas')->middleware('auth:api');
+   Route::get('areas', 'AreasController@areas');
 });
 Route::prefix('vendor')->group(function () {
    Route::post('upload', 'VendorController@upload')->middleware('auth:api');

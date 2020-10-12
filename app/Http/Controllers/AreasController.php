@@ -68,9 +68,12 @@ class AreasController extends Controller
     public function areas(Request $request)
     {
         $state = States::find($request->id);
-        $user = Auth::user();
-        $user->state()->associate($state);
-        $user->save();
+        if (Auth::user()) {
+            # code...
+            $user = Auth::user();
+            $user->state()->associate($state);
+            $user->save();
+        }
         $value = Cache::rememberForever('areas_'.$request->id, function () use ($state){
 
         $areas = $state->areas()->orderBy('name')

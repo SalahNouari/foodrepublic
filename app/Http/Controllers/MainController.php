@@ -44,7 +44,7 @@ class MainController extends Controller
         Cache::tags(['pages_'.$city])->flush();
         $value = Cache::tags(['pages_'.$city, $request->type])->remember('page_'.$request->id.'_'.$request->type, Carbon::now()->addMinutes(60 * 24), function () use ($request, $d) {
         if(Auth::guard('api')->check()){
-            $user = Auth::user();
+            $user = Auth::guard('api')->user();
             $user->area()->associate($d);
             $user->save();
         }

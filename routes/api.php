@@ -40,7 +40,7 @@ Route::post('edituser', 'UserController@edituser')->middleware('auth:api');
 Route::post('resetpassword', 'UserController@resetpassword');
 Route::post('passcode', 'UserController@passcode');
 Route::get('home', 'MainController@home');
-Route::get('page', 'MainController@page')->middleware('auth:api');
+Route::get('page', 'MainController@page');
 Route::get('search', 'MainController@search');
 Route::get('searchVendor', 'MainController@searchVendor');
 Route::get('vendorpage', 'MainController@vendorpage');

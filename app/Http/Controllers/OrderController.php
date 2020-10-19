@@ -186,7 +186,7 @@ class OrderController extends Controller
     {
         $ordersList = json_decode($request->orders);
         $list = array();
-        $vendor = Auth::user();
+        $vendor = Auth::user()->vendor;
         foreach ($ordersList as $o) {
             array_push($list, $o->o);
             $items = $o->i;
@@ -223,9 +223,9 @@ class OrderController extends Controller
                 $order->user()->associate($user);
             } else{
                 $order->user()->associate($vendor);
-
+                
             }
-
+            
             $order->save();
         
             foreach ($items as $item) {

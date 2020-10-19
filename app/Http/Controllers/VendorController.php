@@ -35,7 +35,9 @@ class VendorController extends Controller
         public function get_offline_data(Request $request)
     {
         $items = Auth::user()->vendor()->first()->categories()
-        ->with(['items.main_option'])->get();
+        ->with(['items.main_option'])
+        ->withCount('items')
+        ->get();
         $response = [
             'items' => $items,
         ];

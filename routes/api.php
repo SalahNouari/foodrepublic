@@ -22,7 +22,7 @@ Route::post( 'notify', 'NotificationController@notify' )->middleware('auth:api')
 Route::get('get_real_time', 'OrderController@get_real_time');
 //admin routes============
 Route::post('del_user', 'Admin@del_user')->middleware('auth:api');
-Route::get('empty_wallet', 'Admin@empty_wallet')->middleware('auth:api');
+Route::post('empty_wallet', 'Admin@empty_wallet')->middleware('auth:api');
 Route::get('get_users', 'Admin@get_users')->middleware('auth:api');
 //==================
 Route::get('summary', 'VendorController@summary')->middleware('auth:api');

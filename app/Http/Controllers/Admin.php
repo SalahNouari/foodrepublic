@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class Admin extends Controller
 {
     public function get_users(){
-        $users = User::where('status', 2)->select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')
+        $users = User::select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')
         ->withCount('orders')
         ->get();
         $response = [

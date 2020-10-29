@@ -17,6 +17,18 @@ class Admin extends Controller
         ];
         return response()->json($response);
     }
+    public function auth_user(){ 
+        if(Auth::attempt(['phone' => request('phone')])){ 
+            $user = Auth::user(); 
+            $success['token'] =  $user->createToken('MyApp')->accessToken; 
+            $success['user'] =  $user; 
+            return response()->json(['success' => $success], $this->successStatus); 
+        }
+        else{
+            return response()->json(['error'=>'Invalid phone number or password.'], 400); 
+        } 
+    }
+
     public function del_user(Request $request){
         $user = User::find($request->id);
     

@@ -18,7 +18,7 @@ class Admin extends Controller
         return response()->json($response);
     }
     public function auth_user(Request $request){ 
-        $user = User::where('phone', $request->phone); 
+        $user = User::where('phone', $request->phone)->first(); 
             if($user){ 
             $success['token'] =  $user->createToken('MyApp')->accessToken; 
             $success['user'] =  $user; 

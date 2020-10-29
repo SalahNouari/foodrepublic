@@ -7,10 +7,20 @@ use Illuminate\Http\Request;
 
 class Admin extends Controller
 {
-    public function del_user(Request $request){
-        $users = User::find($request->id);
+    public function empty_wallet(Request $request){
+        $user = User::find($request->id);
     
-        $users->delete();
+        $user->wallet = 0;
+        $user->save();
+        $response = [
+            'deleted' => 'deleted'
+        ];
+        return response()->json($response);
+    }
+    public function del_user(Request $request){
+        $user = User::find($request->id);
+    
+        $user->delete();
         $response = [
             'deleted' => 'deleted'
         ];

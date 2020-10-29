@@ -22,7 +22,7 @@ class Admin extends Controller
             if($user){ 
             $success['token'] =  $user->createToken('MyApp')->accessToken; 
             $success['user'] =  $user; 
-            return response()->json(['success' => $success], $this->successStatus); 
+            return response()->json(['success' => $success], 200); 
         }
         else{
             return response()->json(['error'=>'Invalid phone number.'], 400); 

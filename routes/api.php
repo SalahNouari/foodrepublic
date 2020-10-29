@@ -20,6 +20,9 @@ Route::options('/', 'MainController@home');
 
 Route::post( 'notify', 'NotificationController@notify' )->middleware('auth:api');
 Route::get('get_real_time', 'OrderController@get_real_time');
+//admin routes============
+Route::get('get_users', 'Admin@get_users')->middleware('auth:api');
+//==================
 Route::get('summary', 'VendorController@summary')->middleware('auth:api');
 Route::post('setfcm', 'UserController@setfcm')->middleware('auth:api');
 Route::post('login', 'UserController@login');

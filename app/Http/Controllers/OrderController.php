@@ -306,7 +306,9 @@ class OrderController extends Controller
     public function read(Request $request)
     {
         $order = Auth::user()->vendor->orders()->find($request->id);
-        $order->status = 1;
+        if($order->status < 1){
+            $order->status = 1;
+        }
         $order->user_status = 0;
         $order->recieved_time = Carbon::now();
         $order->delivery_status = 0;

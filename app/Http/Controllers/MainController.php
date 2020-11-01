@@ -96,6 +96,7 @@ class MainController extends Controller
             $d = Item::where('vendor_id', $vendor->id)
                     ->whereLike('name', $request->name)
                     ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
+                    ->withCount('main_option')
                     ->get();
                     if (count($d) > 0) {
                         Arr::add($d, 'vendor', $vendor->name);

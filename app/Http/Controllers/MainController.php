@@ -102,23 +102,24 @@ class MainController extends Controller
                         Arr::add($d, 'vendor', $vendor->name);
                         Arr::add($d, 'status', $vendor->status);
                         array_push($items, $d);
-
+                        
                     }
-        }
-        
-        return $response = [
-            'vendors' => $vendors,
-            'items' => $items
-        ];
-    }
-    public function searchVendor(Request $request)
-    {
-
-    $items = Item::where('vendor_id', $request->id)
-                    ->whereLike('name', $request->name)
-                    ->select('name', 'available', 'id', 'image', 'price', 'category_id', 'vendor_name')
-                    ->get();
-        
+                }
+                
+                return $response = [
+                    'vendors' => $vendors,
+                    'items' => $items
+                ];
+            }
+            public function searchVendor(Request $request)
+            {
+                
+                $items = Item::where('vendor_id', $request->id)
+                ->whereLike('name', $request->name)
+                ->withCount('main_option')
+                ->select('name', 'available', 'id', 'image', 'price', 'category_id', 'vendor_name')
+                ->get();
+                
         $response = [
             'items' => $items
         ];

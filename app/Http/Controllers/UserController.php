@@ -401,7 +401,7 @@ public function sendCode($userPhone, $user, $rand_code){
 
     public function orderall(Request $request)
     {
-        $order = Auth::user()->orders()->select('id', 'tracking_id', 'grand_total', 'status', 'user_status')->latest()->paginate(12);
+        $order = Auth::user()->orders()->select('id', 'tracking_id', 'grand_total', 'status', 'user_status')->latest()->paginate(20);
         $response = [
             'orders' => $order
         ];

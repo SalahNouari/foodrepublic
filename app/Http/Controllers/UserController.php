@@ -289,15 +289,17 @@ public function sendCode($userPhone, $user, $rand_code){
             $validator = Validator::make($request->all(), [
             'phone' => 'required|string|unique:users|min:11|max:11',
             'first_name' => 'required|string',
-            'surname' => 'required|string',
+            'middle_name' => 'string',
+            'surname' => 'string',
             'email' => 'required|email',
-        ]);
+            ]);
         }else{
             $validator = Validator::make($request->all(), [
                 'phone' => 'required|string|min:11|max:11',
                 'first_name' => 'required|string',
-                'surname' => 'required|string',
-                'email' => 'required|email|unique:users',
+                'surname' => 'string',
+                'middle_name' => 'string',
+                'email' => 'email|unique:users',
             ]);
         }
  

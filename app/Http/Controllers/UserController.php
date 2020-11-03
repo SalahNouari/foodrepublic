@@ -10,6 +10,7 @@ use AfricasTalking\SDK\AfricasTalking;
 use App\Favourites;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller 
 {
@@ -367,16 +368,18 @@ public function sendCode($userPhone, $user, $rand_code){
     } 
     public function edituser(Request $request) 
     {
+        $user = Auth::user(); 
         $validator = Validator::make($request->all(), [
             'phone' => 'required|min:11|max:11',
             'first_name' => 'required|string',
             'surname' => 'string',
-            'email' => 'required|email|unique:users',
+            'email' => ['required','email',
+            Rule::unique('users')->ignore($user->id)
+            ]
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         } else {
-        $user = Auth::user(); 
         if ($user) {
             # code...
             $user->first_name = $request->first_name;

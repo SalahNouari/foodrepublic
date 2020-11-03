@@ -370,10 +370,12 @@ public function sendCode($userPhone, $user, $rand_code){
     {
         $user = Auth::user(); 
         $validator = Validator::make($request->all(), [
-            'phone' => 'required|min:11|max:11',
+            'phone' => ['required|min:11|max:11',
+            Rule::unique('users')->ignore($user->id)
+        ],
             'first_name' => 'required|string',
             'surname' => 'string',
-            'email' => ['required','email',
+            'email' => ['required|email',
             Rule::unique('users')->ignore($user->id)
             ]
         ]);

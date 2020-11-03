@@ -370,8 +370,8 @@ public function sendCode($userPhone, $user, $rand_code){
         $validator = Validator::make($request->all(), [
             'phone' => 'required|min:11|max:11',
             'first_name' => 'required|string',
-            'surname' => 'required|string',
-            'email' => 'required|email',
+            'surname' => 'string',
+            'email' => 'email',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);

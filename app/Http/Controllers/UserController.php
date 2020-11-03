@@ -371,7 +371,7 @@ public function sendCode($userPhone, $user, $rand_code){
             'phone' => 'required|min:11|max:11',
             'first_name' => 'required|string',
             'surname' => 'string',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);

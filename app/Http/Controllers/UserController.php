@@ -295,11 +295,11 @@ public function sendCode($userPhone, $user, $rand_code){
             ]);
         }else{
             $validator = Validator::make($request->all(), [
-                'phone' => 'required|string|min:11|max:11',
+                'phone' => 'required|string|min:10|max:12',
                 'first_name' => 'required|string',
                 'surname' => 'string',
                 'middle_name' => 'string',
-                'email' => 'email|unique:users',
+                'email' => 'required|email|unique:users',
             ]);
         }
  
@@ -371,7 +371,7 @@ public function sendCode($userPhone, $user, $rand_code){
             'phone' => 'required|min:11|max:11',
             'first_name' => 'required|string',
             'surname' => 'string',
-            'email' => 'email',
+            'email' => 'required|email',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);

@@ -86,6 +86,25 @@ class DealsController extends Controller
             return response()->json($response);
         }
     }
+    public function remove_deal(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'areas_id' => 'required'
+        ]);
+        if (!$validator) {
+            return response(['errors' => $validator->errors()->all()], 422);
+        } else {
+        $area = Areas::find($request->area_id);
+            $deal = Deals::find($request->id);
+            $deal->area()->dissociate($area);
+            $deal->save(); 
+            $response = [
+                'deal' => $deal
+            ];
+            return response()->json($response);
+        }
+    }
     public function save(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -108,4 +127,5 @@ class DealsController extends Controller
         ];
         return response()->json($response);
     }
+
 }

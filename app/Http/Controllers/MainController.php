@@ -89,7 +89,7 @@ class MainController extends Controller
             }
             ])
         ->withCount('reviews')
-        ->orderBy('verified')
+        ->orderBy('verified', 'desc')
         ->get();
         $deal = $d->deals()->where('type', $request->type)->
         select('id', 'name')

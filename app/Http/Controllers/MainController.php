@@ -50,6 +50,7 @@ class MainController extends Controller
                         'votes'=> DB::raw('votes+1'),
                         'updated_at' => Carbon::now()
                         ]);
+                
         $response = [
             'msg' => 'succcess'
         ];
@@ -88,6 +89,7 @@ class MainController extends Controller
             }
             ])
         ->withCount('reviews')
+        ->orderBy('verified')
         ->get();
         $deal = $d->deals()->where('type', $request->type)->
         select('id', 'name')

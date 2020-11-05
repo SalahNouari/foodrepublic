@@ -27,6 +27,33 @@ class MainController extends Controller
         ];
         return response()->json($response);
     }
+    public function remove_poll(Request $request)
+    {
+        Cache::tags(['poll', 'vendors'.$request->area_id])->flush();
+
+    }
+    public function add_poll(Request $request)
+    {
+
+    }
+    public function poll(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'poll' => 'required|string',
+            ]);
+            if (!$validator) {
+                return response(['errors' => $validator->errors()->all()], 422);
+            } else {
+                $polls = json_decode($request->poll);
+                Vendor::find($polls)->update([
+                        'votes'=> DB::raw('votes+1'),
+                        ]);
+        $response = [
+            'msg' => 'succcess'
+        ];
+        return response()->json($response);
+            }
+    }
     public function policy(Request $request)
     {
 

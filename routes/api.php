@@ -18,6 +18,7 @@ Route::get( '/', 'MainController@home' );
 Route::options('/', 'MainController@home');
 // Route::middleware('auth:api')->post('/broadcast/auth', 'Api\BroadcastAuthController@auth');
 
+Route::post( 'poll', 'MainController@poll' )->middleware('auth:api');
 Route::post( 'notify', 'NotificationController@notify' )->middleware('auth:api');
 Route::get('get_real_time', 'OrderController@get_real_time');
 //admin routes============

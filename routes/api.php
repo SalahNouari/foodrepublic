@@ -98,6 +98,7 @@ Route::prefix('transaction')->group(function () {
 Route::prefix('deals')->group(function () {
    Route::post('save', 'DealsController@save')->middleware('auth:api');
    Route::post('add_item', 'DealsController@add_item')->middleware('auth:api');
+   Route::get('remove_deal', 'DealsController@remove_deal')->middleware('auth:api');
    Route::get('remove_item', 'DealsController@remove_item')->middleware('auth:api');
    Route::get('all', 'DealsController@get_deals')->middleware('auth:api');
 });

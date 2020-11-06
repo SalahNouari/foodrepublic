@@ -52,7 +52,7 @@ class MainController extends Controller
                         'updated_at' => Carbon::now()
                         ]);
         $response = [
-            'poll' => $vendors
+            'poll' => $vendors->get();
     ];
         return response()->json($response);
             }

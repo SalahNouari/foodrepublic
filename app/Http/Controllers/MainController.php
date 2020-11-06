@@ -45,15 +45,15 @@ class MainController extends Controller
                 return response(['errors' => $validator->errors()->all()], 422);
             } else {
                 $polls = json_decode($request->poll);
-                DB::table('vendors')
-                    ->whereIn('id', $polls)->update([
+                $vendors = DB::table('vendors')
+                    ->whereIn('id', $polls);
+                    $vendors->update([
                         'votes'=> DB::raw('votes+1'),
                         'updated_at' => Carbon::now()
                         ]);
-                
         $response = [
-            'msg' => 'succcess'
-        ];
+            'poll' => $vendors
+    ];
         return response()->json($response);
             }
     }

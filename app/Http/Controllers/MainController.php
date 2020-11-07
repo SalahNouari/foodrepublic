@@ -113,7 +113,13 @@ class MainController extends Controller
     }
     public function search(Request $request)
     {
-
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'type' => 'required|string',
+            ]);
+            if (!$validator) {
+                return response(['errors' => $validator->errors()->all()], 422);
+            } else {
         $d = Areas::find($request->id);
         
         $vendors = $d->vendor()
@@ -143,9 +149,15 @@ class MainController extends Controller
                     'items' => $items
                 ];
             }
+            }
             public function searchVendor(Request $request)
             {
-                
+                $validator = Validator::make($request->all(), [
+                    'name' => 'required|string',
+                    ]);
+                    if (!$validator) {
+                        return response(['errors' => $validator->errors()->all()], 422);
+                    } else {
                 $items = Item::where('vendor_id', $request->id)
                 ->whereLike('description', $request->name)
                 ->whereLike('name', $request->name)
@@ -157,6 +169,7 @@ class MainController extends Controller
             'items' => $items
         ];
         return response()->json($response);
+    }
     }
     public function vendorpage(Request $request)
     {

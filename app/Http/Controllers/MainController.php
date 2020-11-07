@@ -132,11 +132,12 @@ class MainController extends Controller
                     $vend = $d->vendor()->where('type', $request->type)->select('vendor_id as id', 'name', 'status')->get();
                     foreach ($vend as $vendor) {
                         $d =  Item::where('vendor_id', $vendor->id)
-                        ->whereLike('name', $request->name)
-                        ->orWhere('description', 'like', '%' . $request->name . '%')
+                        ->where(function($query) use ($request){
+                            $query->where('name', 'LIKE', '%'.$request->name.'%');
+                            $query->orWhere('description', 'LIKE', '%'.$request->name.'%');
+                        })
                         ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
                         ->withCount('main_option')
-                        ->distinct()
                         ->get();
                         if (count($d) > 0) {
                             Arr::add($d, 'vendor', $vendor->name);

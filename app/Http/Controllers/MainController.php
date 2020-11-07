@@ -132,23 +132,23 @@ class MainController extends Controller
                     foreach ($vend as $vendor) {
                         $d = Item::where('vendor_id', $vendor->id)
                         ->whereLike('name', $request->name)
-                        ->whereLike('description', $request->name)
-                    ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
-                    ->withCount('main_option')
-                    ->get();
-                    if (count($d) > 0) {
-                        Arr::add($d, 'vendor', $vendor->name);
-                        Arr::add($d, 'status', $vendor->status);
-                        array_push($items, $d);
-                        
+                        ->where('description', 'like', '%' . $request->name . '%')
+                        ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
+                        ->withCount('main_option')
+                        ->get();
+                        if (count($d) > 0) {
+                            Arr::add($d, 'vendor', $vendor->name);
+                            Arr::add($d, 'status', $vendor->status);
+                            array_push($items, $d);
+                            
+                        }
                     }
+                    
+                    return $response = [
+                        'vendors' => $vendors,
+                        'items' => $items
+                    ];
                 }
-                
-                return $response = [
-                    'vendors' => $vendors,
-                    'items' => $items
-                ];
-            }
             }
             public function searchVendor(Request $request)
             {
@@ -158,11 +158,11 @@ class MainController extends Controller
                     if (!$validator) {
                         return response(['errors' => $validator->errors()->all()], 422);
                     } else {
-                $items = Item::where('vendor_id', $request->id)
-                ->whereLike('description', $request->name)
-                ->whereLike('name', $request->name)
-                ->withCount('main_option')
-                ->select('name', 'available', 'id', 'image', 'price', 'category_id', 'vendor_name')
+                        $items = Item::where('vendor_id', $request->id)
+                        ->whereLike('name', $request->name)
+                        ->where('description', 'like', '%' . $request->name . '%')
+                        ->withCount('main_option')
+                        ->select('name', 'available', 'id', 'image', 'price', 'category_id', 'vendor_name')
                 ->get();
                 
         $response = [

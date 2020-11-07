@@ -133,7 +133,7 @@ class MainController extends Controller
                     foreach ($vend as $vendor) {
                         $d =  $vendor->items()
                         ->whereLike('name', $request->name)
-                        ->where('description', 'like', '%' . $request->name . '%')
+                        ->orWhere('description', 'like', '%' . $request->name . '%')
                         ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
                         ->withCount('main_option')
                         ->distinct()
@@ -162,7 +162,7 @@ class MainController extends Controller
                     } else {
                         $items = Vendor::find($request->id)->items()
                         ->whereLike('name', $request->name)
-                        ->where('description', 'like', '%' . $request->name . '%')
+                        ->orWhere('description', 'like', '%' . $request->name . '%')
                         ->withCount('main_option')
                         ->select('name', 'available', 'id', 'image', 'price', 'category_id', 'vendor_name')
                         ->distinct()

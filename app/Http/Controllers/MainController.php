@@ -129,7 +129,7 @@ class MainController extends Controller
                     ->distinct()
                     ->get();
                     $items = array();
-                    $vend = $d->vendor()->where('type', $request->type)->select('vendor_id', 'name', 'status')->get();
+                    $vend = $d->vendor()->where('type', $request->type)->select('vendor_id as id', 'name', 'status')->get();
                     foreach ($vend as $vendor) {
                         $d =  $vendor->items()
                         ->whereLike('name', $request->name)

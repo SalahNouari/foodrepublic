@@ -119,14 +119,14 @@ class MainController extends Controller
         $vendors = $d->vendor()
                     ->where('type', $request->type)
                     ->where('name', 'like', '%' . $request->name . '%')
-                    ->where('description', 'like', '%' . $request->name . '%')
                     ->select('name', 'type', 'status', 'image')
                     ->get();
-        $items = array();
-        $vend = $d->vendor()->where('type', $request->type)->select('vendor_id as id', 'name', 'status')->get();
-        foreach ($vend as $vendor) {
-            $d = Item::where('vendor_id', $vendor->id)
-                    ->whereLike('name', $request->name)
+                    $items = array();
+                    $vend = $d->vendor()->where('type', $request->type)->select('vendor_id as id', 'name', 'status')->get();
+                    foreach ($vend as $vendor) {
+                        $d = Item::where('vendor_id', $vendor->id)
+                        ->whereLike('name', $request->name)
+                        ->whereLike('description', $request->name)
                     ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
                     ->withCount('main_option')
                     ->get();

@@ -160,7 +160,7 @@ class MainController extends Controller
                     if (!$validator) {
                         return response(['errors' => $validator->errors()->all()], 422);
                     } else {
-                        $items = Item::where('vendor_id', $request->id)->items()
+                        $items = Item::where('vendor_id', $request->id)
                         ->whereLike('name', $request->name)
                         ->orWhere('description', 'like', '%' . $request->name . '%')
                         ->withCount('main_option')

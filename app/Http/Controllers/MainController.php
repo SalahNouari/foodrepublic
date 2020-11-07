@@ -147,6 +147,7 @@ class MainController extends Controller
             {
                 
                 $items = Item::where('vendor_id', $request->id)
+                ->whereLike('description', $request->name)
                 ->whereLike('name', $request->name)
                 ->withCount('main_option')
                 ->select('name', 'available', 'id', 'image', 'price', 'category_id', 'vendor_name')

@@ -119,6 +119,7 @@ class MainController extends Controller
         $vendors = $d->vendor()
                     ->where('type', $request->type)
                     ->where('name', 'like', '%' . $request->name . '%')
+                    ->where('description', 'like', '%' . $request->name . '%')
                     ->select('name', 'type', 'status', 'image')
                     ->get();
         $items = array();

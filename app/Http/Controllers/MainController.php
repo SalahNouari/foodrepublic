@@ -126,6 +126,7 @@ class MainController extends Controller
                     ->where('type', $request->type)
                     ->where('name', 'like', '%' . $request->name . '%')
                     ->select('name', 'type', 'status', 'image')
+                    ->distinct()
                     ->get();
                     $items = array();
                     $vend = $d->vendor()->where('type', $request->type)->select('vendor_id as id', 'name', 'status')->get();
@@ -135,6 +136,7 @@ class MainController extends Controller
                         ->orWhere('description', 'like', '%' . $request->name . '%')
                         ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
                         ->withCount('main_option')
+                        ->distinct()
                         ->get();
                         if (count($d) > 0) {
                             Arr::add($d, 'vendor', $vendor->name);
@@ -163,7 +165,8 @@ class MainController extends Controller
                         ->orWhere('description', 'like', '%' . $request->name . '%')
                         ->withCount('main_option')
                         ->select('name', 'available', 'id', 'image', 'price', 'category_id', 'vendor_name')
-                ->get();
+                        ->distinct()
+                        ->get();
                 
         $response = [
             'items' => $items

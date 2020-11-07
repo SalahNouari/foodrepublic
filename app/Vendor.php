@@ -12,6 +12,10 @@ class Vendor extends Model
     {
         return $this->belongsToMany('App\Areas')->withPivot('fee', 'duration', 'distance');
     }
+    public function items()
+    {
+        return $this->hasMany('App\Item');
+    }
     public function reviews()
     {
         return $this->hasMany('App\Reviews');

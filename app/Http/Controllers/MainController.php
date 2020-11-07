@@ -131,7 +131,7 @@ class MainController extends Controller
                     $items = array();
                     $vend = $d->vendor()->where('type', $request->type)->select('vendor_id as id', 'name', 'status')->get();
                     foreach ($vend as $vendor) {
-                        $d =  $vendor->items()
+                        $d =  Item::where('vendor_id', $vendor->id)
                         ->whereLike('name', $request->name)
                         ->orWhere('description', 'like', '%' . $request->name . '%')
                         ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
@@ -160,7 +160,7 @@ class MainController extends Controller
                     if (!$validator) {
                         return response(['errors' => $validator->errors()->all()], 422);
                     } else {
-                        $items = Vendor::find($request->id)->items()
+                        $items = Item::where('vendor_id', $request->id)->items()
                         ->whereLike('name', $request->name)
                         ->orWhere('description', 'like', '%' . $request->name . '%')
                         ->withCount('main_option')

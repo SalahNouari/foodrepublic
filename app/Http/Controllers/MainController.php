@@ -131,8 +131,8 @@ class MainController extends Controller
                     $items = array();
                     $vend = $d->vendor()->where('type', $request->type)->select('vendor_id as id', 'name', 'status')->get();
                     foreach ($vend as $vendor) {
-                        $d =  Item::where('vendor_id', $vendor->id)
-                        ->where(function($query) use ($request){
+                        $d =  Item::where(function($query) use ($request, $vendor){
+                            $query->where('vendor_id', $vendor->id);
                             $query->where('name', 'LIKE', '%'.$request->name.'%');
                             $query->orWhere('description', 'LIKE', '%'.$request->name.'%');
                         })

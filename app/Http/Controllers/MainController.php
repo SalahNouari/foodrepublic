@@ -66,9 +66,15 @@ class MainController extends Controller
         ];
         return response()->json($response);
     }
+    public function flushCache(Request $request){
+        Cache::flush();
+        $response = [
+            'msg' => 'success'
+    ];
+        return response()->json($response);
+    }
     public function page(Request $request)
     {
-        // Cache::flush();
         $d = Areas::find($request->id);
         $city = $d->states_id;
         Cache::tags(['pages_'.$city])->flush();

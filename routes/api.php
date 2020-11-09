@@ -20,6 +20,7 @@ Route::options('/', 'MainController@home');
 
 Route::post( 'poll', 'MainController@poll' )->middleware('auth:api');
 Route::post( 'notify', 'NotificationController@notify' )->middleware('auth:api');
+Route::get('flushCache', 'MainController@flushCache')->middleware('auth:api');
 Route::get('get_real_time', 'OrderController@get_real_time');
 //admin routes============
 Route::post('auth_user', 'Admin@auth_user');

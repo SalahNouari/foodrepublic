@@ -72,14 +72,13 @@ class VendorController extends Controller
     public function upload(Request $request)
     {
         $files = $request->file('files');
-        request()->validate([
-            'files' => 'required',
-            'files.*' => 'image|mimes:JPEG,jpeg,png,JPG,jpg,gif,svg|max:10248'
-        ]);
+        // request()->validate([
+        //     'files' => 'required',
+        //     'files.*' => 'image|mimes:jpeg,png,JPG,jpg,gif,svg|max:4048'
+        // ]);
         $vendor = Auth::user()->vendor;
         foreach ($files as $file) {
             $image_name = $file->getRealPath();
-            return response()->json(['success' => $image_name], 200);
             Cloudder::upload($image_name, null, array("width" => 600, "height" => 600, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto"));
             $image_url = Cloudder::show(Cloudder::getPublicId(), ["width" => 600, "height" => 600]);
             $vendor->image = str_replace("http://", "https://", $image_url);

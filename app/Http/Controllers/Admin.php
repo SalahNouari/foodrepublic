@@ -42,7 +42,7 @@ class Admin extends Controller
     }
     public function get_vendors(){
         $amountSum = Order::selectRaw('sum(total)')
-->whereColumn('order_id', 'orders.id')
+->whereColumn('orders_id', 'orders.id')
 ->getQuery();
         $users = User::where('role', 'vendor')
         ->select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')

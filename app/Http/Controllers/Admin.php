@@ -48,6 +48,7 @@ class Admin extends Controller
                 ->withSum('total');
         }]);
             }])
+        ->withCount('orders')
         ->get();
         $response = [
             'users' => $users
@@ -57,14 +58,14 @@ class Admin extends Controller
     public function get_delivery_agents(){
         $users = User::where('role', 'delivery_agent')
         ->select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')
+        ->withCount('orders')
         ->with(['delivery_agent' => function ($query) {
             $query->select('delivery_agent_id', 'name')
             ->withCount(['orders' => function ($query) {
                 $query->where('status', 4)
                 ->withSum('total');
         }]);
-            }])
-        ->withCount('orders')
+        }])
         ->get();
         $response = [
             'users' => $users

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Order;
 use App\User; 
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Http\Request;
@@ -39,13 +41,15 @@ class Admin extends Controller
         return response()->json($response);
     }
     public function get_vendors(){
+        $amountSum = Order::selectRaw('sum(total)')
+->whereColumn('order_id', 'orders.id')
+->getQuery();
         $users = User::where('role', 'vendor')
         ->select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')
-        ->with(['vendor' => function ($query) {
-            $query->select('vendor_id', 'name')
+        ->with(['vendor' => function ($query) use ($amountSum) {
+            $query->selectSub($amountSum, 'name')
             ->withCount(['orders' => function ($query) {
-                $query->where('status', 4)
-                ->withSum('total');
+                $query->where('status', 4);
         }]);
             }])
         ->withCount('orders')
@@ -63,7 +67,6 @@ class Admin extends Controller
             $query->select('delivery_agent_id', 'name')
             ->withCount(['orders' => function ($query) {
                 $query->where('status', 4)
-                ->withSum('total');
         }]);
         }])
         ->get();

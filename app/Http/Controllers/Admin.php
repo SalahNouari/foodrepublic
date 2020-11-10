@@ -9,7 +9,7 @@ class Admin extends Controller
 {
     public function empty_wallet(Request $request){
         $user = User::find($request->id);
-    
+       
         $user->wallet = 0;
         $user->save();
         $response = [
@@ -41,7 +41,13 @@ class Admin extends Controller
     public function get_vendors(){
         $users = User::where('role', 'vendor')
         ->select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')
-        ->withCount('orders')
+        ->with(['vendor' => function ($query) {
+            $query->select('vendor_id', 'name')
+            ->withCount(['orders' => function ($query) {
+                $query->where('status', 4)
+                ->withSum('total');
+        }]);
+            }])
         ->get();
         $response = [
             'users' => $users
@@ -51,6 +57,13 @@ class Admin extends Controller
     public function get_delivery_agents(){
         $users = User::where('role', 'delivery_agent')
         ->select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')
+        ->with(['delivery_agent' => function ($query) {
+            $query->select('delivery_agent_id', 'name')
+            ->withCount(['orders' => function ($query) {
+                $query->where('status', 4)
+                ->withSum('total');
+        }]);
+            }])
         ->withCount('orders')
         ->get();
         $response = [

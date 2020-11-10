@@ -66,7 +66,7 @@ class Admin extends Controller
         ->with(['delivery_agent' => function ($query) {
             $query->select('delivery_agent_id', 'name')
             ->withCount(['orders' => function ($query) {
-                $query->where('status', 4)
+                $query->where('status', 4);
         }]);
         }])
         ->get();

@@ -192,6 +192,9 @@ class ItemController extends Controller
                 'files' => 'required',
                 'files.*' => 'image|mimes:jpeg,JPG,png,jpg,gif,svg|max:4048'
             ]);
+            Cache::tags(['page', $vendor->name])->flush();
+            Cache::tags(['category_items'])->flush('category_items_'.$request->cat_id);
+            
             foreach ($files as $file) {
                 $image_name = $file->getRealPath();
                 Cloudder::upload($image_name, null, array("width" => 400, "height" => 400, "crop" => "fit", "quality" => "auto", "fetch_format" => "auto"));
@@ -200,6 +203,7 @@ class ItemController extends Controller
                 $item->save();
             }
         }
+
         $response = [
             'message' => 'image edited successfully',
         ];

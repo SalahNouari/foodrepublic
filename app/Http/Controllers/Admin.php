@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Delivery;
 use App\Order;
-use App\User; 
+use App\User;
+use App\Vendor;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Admin extends Controller
 {
@@ -41,15 +44,14 @@ class Admin extends Controller
         return response()->json($response);
     }
     public function get_vendors(){
-        $amountSum = Order::selectRaw('sum(total)')
-->whereColumn('id', 'orders.id')
-->getQuery();
-        $users = User::where('role', 'vendor')
-        ->select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')
-        ->with(['vendor' => function ($query) use ($amountSum) {
-            $query->selectSub($amountSum, 'name');
-            }])
+        $users = Vendor::
+        select('id', 'name', 'phone', 'created_at', 'updated_at')
         ->withCount('orders')
+        ->withCount([
+            'orders AS orders_sum' => function ($query) {
+                        $query->select(DB::raw("SUM(total) as paidsum"))->where('status', 4);
+                    }
+                ])
         ->get();
         $response = [
             'users' => $users
@@ -57,15 +59,14 @@ class Admin extends Controller
         return response()->json($response);
     }
     public function get_delivery_agents(){
-        $users = User::where('role', 'delivery_agent')
-        ->with(['delivery_agent' => function ($query) {
-            $query->select('id', 'name')
-            ->withCount(['orders' => function ($query) {
-                $query->where('status', 4);
-        }]);
-                 }]) 
-        ->select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')
+        $users = Delivery::
+        select('id', 'name', 'phone', 'created_at', 'updated_at')
         ->withCount('orders')
+        ->withCount([
+            'orders AS orders_sum' => function ($query) {
+                        $query->select(DB::raw("SUM(total) as paidsum"))->where('status', 4);
+                    }
+                ])
         ->get();
         $response = [
             'users' => $users

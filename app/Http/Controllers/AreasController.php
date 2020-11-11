@@ -136,7 +136,7 @@ class AreasController extends Controller
             $city->areas()->save($area);
             $el = 'delivery_areas_'.$request->city_id;
             $el2 = 'vendor_area_'.$request->city_id;
-            $el2 = 'areas_'.$request->city_id;
+            $el3 = 'areas_'.$request->city_id;
             if (Cache::has($el)) {
                 Cache::forget($el);
             }

@@ -47,10 +47,7 @@ class Admin extends Controller
         $users = User::where('role', 'vendor')
         ->select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')
         ->with(['vendor' => function ($query) use ($amountSum) {
-            $query->selectSub($amountSum, 'name')
-            ->withCount(['orders' => function ($query) {
-                $query->where('status', 4);
-        }]);
+            $query->selectSub($amountSum, 'name');
             }])
         ->withCount('orders')
         ->get();
@@ -61,14 +58,14 @@ class Admin extends Controller
     }
     public function get_delivery_agents(){
         $users = User::where('role', 'delivery_agent')
-        ->select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')
-        ->withCount('orders')
         ->with(['delivery_agent' => function ($query) {
-            $query->select('delivery_agent_id', 'name')
+            $query->select('id', 'name')
             ->withCount(['orders' => function ($query) {
                 $query->where('status', 4);
         }]);
-        }])
+                 }]) 
+        ->select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')
+        ->withCount('orders')
         ->get();
         $response = [
             'users' => $users

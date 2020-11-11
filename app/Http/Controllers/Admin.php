@@ -45,7 +45,7 @@ class Admin extends Controller
     }
     public function get_vendors(){
         $users = Vendor::
-        with('user:id,name')
+        with('user:id,first_name')
         ->select('id', 'name', 'phone', 'created_at', 'updated_at')
         ->withCount('orders')
         ->withCount([

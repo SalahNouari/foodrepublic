@@ -150,6 +150,8 @@ class ItemController extends Controller
         $item->description = $request->description;
         $comp = json_decode($request->compulsory);
         $opt = json_decode($request->optional);
+        Cache::tags(['page', $vendor->name])->flush();
+        Cache::tags(['category_items'])->flush('category_items_'.$request->cat_id);
         if ($comp) {
             foreach ($comp as $compa) {
                 $item->main_option()->attach($compa, ['type' => 'compulsory']);

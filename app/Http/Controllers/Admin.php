@@ -47,10 +47,7 @@ class Admin extends Controller
         $users = Vendor::
         select('id', 'name', 'phone', 'created_at', 'updated_at')
         ->withCount('orders')
-        ->with(['user'=> function ($query) {
-            $query->select('user_id');
-        }
-    ])
+        ->with('user')
         ->withCount([
             'orders AS orders_sum' => function ($query) {
                         $query->select(DB::raw("SUM(total) as paidsum"))->where('status', 4);

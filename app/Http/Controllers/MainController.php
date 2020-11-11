@@ -46,11 +46,11 @@ class MainController extends Controller
             } else {
                 $polls = json_decode($request->poll);
                 $vendors = DB::table('vendors')
-                    ->whereIn('id', $polls);
-                    $vendors->update([
-                        'votes'=> DB::raw('votes+1'),
-                        'updated_at' => Carbon::now()
-                        ]);
+                ->whereIn('id', $polls);
+                $vendors->update([
+                    'votes'=> DB::raw('votes+1'),
+                    'updated_at' => Carbon::now()
+                    ]);
         $response = [
             'poll' => $vendors->get()
     ];

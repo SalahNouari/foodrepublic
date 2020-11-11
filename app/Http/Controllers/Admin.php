@@ -45,9 +45,9 @@ class Admin extends Controller
     }
     public function get_vendors(){
         $users = Vendor::
-        select('id', 'name', 'phone', 'created_at', 'updated_at')
+        with('user')
+        ->select('id', 'name', 'phone', 'created_at', 'updated_at')
         ->withCount('orders')
-        ->with('user')
         ->withCount([
             'orders AS orders_sum' => function ($query) {
                         $query->select(DB::raw("SUM(total) as paidsum"))->where('status', 4);

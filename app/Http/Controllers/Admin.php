@@ -38,6 +38,16 @@ class Admin extends Controller
         ];
         return response()->json($response);
     }
+    public function get_delivery_agents (){
+        $users = User::where('role', 'delivery_agent')
+        ->select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')
+        ->withCount('orders')
+        ->get();
+        $response = [
+            'users' => $users
+        ];
+        return response()->json($response);
+    }
     public function get_users(){
         $users = User::select('id', 'role', 'first_name', 'middle_name', 'surname', 'state_id', 'area_id', 'phone', 'created_at', 'updated_at', 'wallet')
         ->withCount('orders')

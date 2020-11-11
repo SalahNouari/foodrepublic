@@ -45,26 +45,27 @@ class Admin extends Controller
     }
     public function get_vendors(){
         $users = Vendor::
-        with('user:id,first_name')
+        with('user')
         ->select('id', 'name', 'phone', 'created_at', 'updated_at')
         ->withCount('orders')
         ->withCount([
             'orders AS orders_sum' => function ($query) {
-                        $query->select(DB::raw("SUM(total) as paidsum"))->where('status', 4);
-                    }
-                ])
-        ->get();
-        $response = [
-            'users' => $users
-        ];
-        return response()->json($response);
-    }
-    public function get_delivery_agents(){
-        $users = Delivery::
-        select('id', 'name', 'phone', 'created_at', 'updated_at')
-        ->withCount('orders')
-        ->withCount([
-            'orders AS orders_sum' => function ($query) {
+                $query->select(DB::raw("SUM(total) as paidsum"))->where('status', 4);
+            }
+            ])
+            ->get();
+            $response = [
+                'users' => $users
+            ];
+            return response()->json($response);
+        }
+        public function get_delivery_agents(){
+            $users = Delivery::
+            with('user')
+            ->select('id', 'name', 'phone', 'created_at', 'updated_at')
+            ->withCount('orders')
+            ->withCount([
+                'orders AS orders_sum' => function ($query) {
                         $query->select(DB::raw("SUM(total) as paidsum"))->where('status', 4);
                     }
                 ])

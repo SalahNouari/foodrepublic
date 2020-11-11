@@ -20,7 +20,6 @@ class Vendor extends Model
     {
         return $this->hasMany('App\Reviews');
     }
-  
     public function user()
     {
         return $this->belongsTo('App\User');

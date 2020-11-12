@@ -77,33 +77,34 @@ class MainController extends Controller
     {
         $d = Areas::find($request->id);
         $city = $d->states_id;
-        Cache::tags(['pages_'.$city])->flush();
-        $value = Cache::tags(['pages_'.$city, $request->type])->remember('page_'.$request->id.'_'.$request->type, Carbon::now()->addMinutes(60 * 24), function () use ($request, $d) {
         if(Auth::guard('api')->check()){
             $user = Auth::guard('api')->user();
             $user->area()->associate($d);
             $user->save();
         }
-        $vendor = $d->vendor()
-        ->where('type', $request->type)
-        ->with([
-             'tags' => function ($query){
-                $query->select('tag');
-            },
-             'area' => function ($query) use ($request) {
-                $query->where('areas_id', $request->id);
-            }
-            ])
-        ->withCount('reviews')
-        ->orderBy('verified', 'desc')
-        ->get();
-        $deal = $d->deals()->where('type', $request->type)->
-        select('id', 'name')
-        ->with(['items'=> function ($query){
-            $query->select('name', 'image', 'vendor_name', 'item_id', 'category_id', 'price')
-            ->withCount('main_option');
-        },])->get();
-
+        Cache::tags(['pages_'.$city])->flush();
+        $value = Cache::tags(['pages_'.$city, $request->type])->remember('page_'.$request->id.'_'.$request->type, Carbon::now()->addMinutes(60 * 24), function () use ($request, $d) {
+            $vendor = $d->vendor()
+            ->where('type', $request->type)
+            ->with([
+                'tags' => function ($query){
+                    $query->select('tag');
+                },
+                'area' => function ($query) use ($request) {
+                    $query->where('areas_id', $request->id);
+                }
+                ])
+                ->withCount('reviews')
+                ->orderBy('verified', 'desc')
+                ->get();
+                $deal = $d->deals()->where('type', $request->type)->
+                select('id', 'name')
+                ->with(['items'=> function ($query){
+                    $query->select('name', 'image', 'vendor_name', 'item_id', 'category_id', 'price')
+                    ->withCount('main_option');
+                },])->get();
+                
+           
         $vendor->makeHidden(['created_at', 'pos_charge', 'updated_at', 'place_id', 'account_number', 'address', 'phone', 'branch', 'type', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio', 'pos_charge']);
         $vendor->each(function ($i, $k){
             $t = $i->reviews()->avg('rating');

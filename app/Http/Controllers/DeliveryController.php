@@ -44,7 +44,6 @@ class DeliveryController extends Controller
         $rider = Auth::user();
         if($rider->role === "rideradmin"){ 
             $user = User::where('phone', $request->user_phone)->first(); 
-            $rider->delivery_agent()->increment('funds_collected', $request->amount);
             $user->increment('wallet', $request->amount);
             $user->save();
             return response()->json(['blocked' => false,
@@ -58,10 +57,11 @@ class DeliveryController extends Controller
     {
         $rider = Auth::user();
         
-
-        if(($rider->role === 'delivery_agent') && ($rider->password === Hash::make($request->rider_password))){ 
+        
+        if(($rider->role == 'delivery_agent') && Auth::attempt(['phone' => $rider->phone, 'password' => request('rider_password')])){ 
             $user = User::where('phone', $request->user_phone)->first();
-            $rider->increment('funds_collected', $request->amount);
+            $user->increment('wallet', $request->amount);
+            $rider->delivery_agent()->increment('funds_collected', $request->amount);
             $user->save();
             return response()->json(['blocked' => false,
             'token' => $user->token], 200);

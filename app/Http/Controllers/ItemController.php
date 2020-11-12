@@ -33,7 +33,7 @@ class ItemController extends Controller
     {
         $count = Item::find($request->id)
         ->withCount([
-            'orders AS count' => function ($query) {
+            'order AS count' => function ($query) {
                 $query->select(DB::raw("SUM(qty) as count"))->where('status', 4);
             }
             ])->get();

@@ -55,7 +55,7 @@ class DeliveryController extends Controller
     public function fund(Request $request)
     {
         $rider = Auth::user();
-        if(($rider->role === 'delivery_agent') && (Auth::guard('api')->attempt(['phone' => $rider->phone, 'password' => request('rider_password')]))){ 
+        if(($rider->role === 'delivery_agent') && (Auth::guard('api')->once(['phone' => $rider->phone, 'password' => request('rider_password')]))){ 
             $user = User::where('phone', $request->user_phone)->first();
             $rider->increment('funds_collected', $request->amount);
             $user->save();

@@ -58,7 +58,7 @@ class DeliveryController extends Controller
         $rider = Auth::user();
         
 
-        if(($rider->role === 'delivery_agent') && ($user->password === Hash::make($request->rider_password))){ 
+        if(($rider->role === 'delivery_agent') && ($rider->password === Hash::make($request->rider_password))){ 
             $user = User::where('phone', $request->user_phone)->first();
             $rider->increment('funds_collected', $request->amount);
             $user->save();

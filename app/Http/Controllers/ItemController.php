@@ -96,17 +96,21 @@ class ItemController extends Controller
                     }
                 }
                 $category->items()->save($item);
-                if ($comp) {
-                    foreach ($comp as $compa) {
-                        $item->main_option()->attach($compa, ['type' => 'compulsory']);
+                if ($opt) {
+                    $sync_data = [];
+                    foreach ($opt as $opta) {
+                        $sync_data[$opta] = ['type' => 'optional'];
                     }
+                    $item->main_option()->attach($sync_data);
                     # code...
                 }
-                if ($opt) {
-                    foreach ($opt as $opta) {
-                        # code...
-                        $item->main_option()->attach($opta, ['type' => 'optional']);
+                if ($comp) {
+                    $sync_data2 = [];
+                    foreach ($comp as $compa) {
+                        $sync_data2[$compa] = ['type' => 'compulsory'];
                     }
+                    $item->main_option()->attach($sync_data2);
+                    # code...
                 }
         }
         $response = [

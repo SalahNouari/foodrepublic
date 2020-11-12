@@ -40,12 +40,7 @@ class ItemController extends Controller
             ])
             ->get();
 
-        // $n = 0;
-        // foreach ($count as $value) {
-        //   $n +=  $value['items']->where('id', $request->id)->sum(function ($product) {
-        //         return $product['pivot']['qty'];
-        //     });
-        // }
+     
         $response = [
             'count' => $count[0]['count']
         ];
@@ -157,18 +152,28 @@ class ItemController extends Controller
         $opt = json_decode($request->optional);
         Cache::tags(['page', $vendor->name])->flush();
         Cache::tags(['category_items'])->flush('category_items_'.$request->cat_id);
-        if ($comp) {
-            foreach ($comp as $compa) {
-                $item->main_option()->attach($compa, ['type' => 'compulsory']);
+        if ($opt) {
+            $sync_data = [];
+            foreach ($opt as $opta) {
+                $sync_data[$opta] = ['type' => 'optional'];
             }
+            $item->main_option()->sync($sync_data);
             # code...
         }
-        if ($opt) {
-            foreach ($opt as $opta) {
-                # code...
-                $item->main_option()->attach($opta, ['type' => 'optional']);
+        if ($comp) {
+            $sync_data2 = [];
+            foreach ($comp as $compa) {
+                $sync_data2[$compa] = ['type' => 'compulsory'];
             }
+            $item->main_option()->sync($sync_data2);
+            # code...
         }
+        // if ($opt) {
+        //     foreach ($opt as $opta) {
+        //         # code...
+        //         $item->main_option()->attach($opta, ['type' => 'optional']);
+        //     }
+        // }
         $item->save();
         $response = [
             'message' => 'Edited successfully',

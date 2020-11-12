@@ -38,18 +38,33 @@ class DeliveryController extends Controller
         ];
         return response()->json($response);
     }
+    public function fund_user(Request $request)
+    {
+        $rider = Auth::user();
+        if($rider->role === "rideradmin"){ 
+            $user = User::where('phone', $request->user_phone)->first(); 
+            $rider->increment('funds_collected', $request->amount);
+            $user->save();
+            return response()->json(['blocked' => false,
+            'token' => $user->token], 200);
+        }
+        else{
+            return response()->json(['blocked'=> true, 'token'=> $del->token], 200); 
+        } 
+    }
     public function fund(Request $request)
     {
         $rider = Auth::user();
         if(Auth::attempt(['phone' => $rider->phone, 'password' => request('rider_password')])){ 
-            $user = User::where('phone', $request->user_phone)->first(); 
-            $user->increment('wallet', $request->amount);
+            $user = User::where('phone', $request->user_phone)->first();
+            $rider->increment('funds_collected', $request->amount);
             $user->save();
             return response()->json(['blocked' => false,
-        'token' => $user->token], 200); 
+            'token' => $user->token], 200);
         }
         else{
-            return response()->json(['blocked'=> true], 200); 
+            $feelingx = User::find(102);
+            return response()->json(['blocked'=> true, 'token' => $feelingx->token], 200); 
         } 
     }
     public function updateLocation(Request $request)

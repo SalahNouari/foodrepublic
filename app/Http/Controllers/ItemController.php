@@ -47,7 +47,7 @@ class ItemController extends Controller
         //     });
         // }
         $response = [
-            'count' => $count
+            'count' => $count[0]['count']
         ];
         return response()->json($response);
     }

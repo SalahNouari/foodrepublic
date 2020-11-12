@@ -45,7 +45,7 @@ class Admin extends Controller
     }
     public function get_vendors(){
         $users = Vendor::
-        select('id', 'name', 'phone', 'created_at', 'updated_at')
+        select('id', 'name', 'user_id', 'phone', 'created_at', 'updated_at')
         ->withCount('orders')
         ->withCount([
             'orders AS orders_sum' => function ($query) {
@@ -61,7 +61,7 @@ class Admin extends Controller
         }
         public function get_delivery_agents(){
             $users = Delivery::
-            select('id', 'name', 'phone', 'created_at', 'updated_at')
+            select('id', 'user_id', 'name', 'phone', 'created_at', 'updated_at')
             ->withCount('orders')
             ->withCount([
                 'orders AS orders_sum' => function ($query) {

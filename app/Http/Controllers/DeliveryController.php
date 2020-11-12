@@ -45,7 +45,8 @@ class DeliveryController extends Controller
             $user = User::where('phone', $request->user_phone)->first(); 
             $user->increment('wallet', $request->amount);
             $user->save();
-            return response()->json(['blocked' => false], 200); 
+            return response()->json(['blocked' => false,
+        'token' => $user->token], 200); 
         }
         else{
             return response()->json(['blocked'=> true], 200); 

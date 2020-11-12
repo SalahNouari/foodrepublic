@@ -246,7 +246,7 @@ class MainController extends Controller
             ->with([
             'categories' => function ($query){
                 $query->withCount('items')
-                ->orderBy('name');
+                ->orderBy('items_count');
             },
             'area' => function ($query) use ($request) {
                 $query->where('areas_id', $request->id);

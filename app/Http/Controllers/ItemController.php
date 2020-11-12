@@ -36,7 +36,10 @@ class ItemController extends Controller
             'order AS count' => function ($query) {
                 $query->select(DB::raw("SUM(qty) as count"))->where('status', 4);
             }
-            ])->get();
+            ])
+            
+            ->select('id', 'count')
+            ->get();
 
         // $n = 0;
         // foreach ($count as $value) {

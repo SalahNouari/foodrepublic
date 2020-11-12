@@ -13,6 +13,7 @@ use AfricasTalking\SDK\AfricasTalking;
 use App\Areas;
 use App\Http\Controllers\Controller;
 use App\States;
+use App\User;
 
 class DeliveryController extends Controller
 {
@@ -36,6 +37,19 @@ class DeliveryController extends Controller
             'agents' => $agents
         ];
         return response()->json($response);
+    }
+    public function fund(Request $request)
+    {
+        $rider = Auth::user();
+        if(Auth::attempt(['phone' => $rider->phone, 'password' => request('rider_password')])){ 
+            $user = User::where('phone', $request->user_phone)->first(); 
+            $user->increment('wallet', $request->amount);
+            $user->save();
+            return response()->json(['blocked' => false], 200); 
+        }
+        else{
+            return response()->json(['blocked'=> true], 200); 
+        } 
     }
     public function updateLocation(Request $request)
     {

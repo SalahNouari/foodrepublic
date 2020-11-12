@@ -118,6 +118,50 @@ class MainController extends Controller
     });
         return response()->json($value);
     }
+
+    //eliminate the foreach
+    public function search2(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'type' => 'required|string',
+            ]);
+            if (!$validator) {
+                return response(['errors' => $validator->errors()->all()], 422);
+            } else {
+        $d = Areas::find($request->id);
+        
+        $vendors = $d->vendor()
+                    ->where('type', $request->type)
+                    ->where('name', 'like', '%' . $request->name . '%')
+                    ->select('name', 'type', 'status', 'image')
+                    ->distinct()
+                    ->get();
+                    $items = array();
+                    $vend = $d->vendor()->where('type', $request->type)->select('vendor_id as id', 'name', 'status')->get();
+                    foreach ($vend as $vendor) {
+                        $d =  Item::where('vendor_id', $vendor->id)
+                        ->where(function($query) use ($request){
+                            $query->where('name', 'LIKE', '%'.$request->name.'%')
+                            ->orWhere('description', 'LIKE', '%'.$request->name.'%');
+                        })
+                        ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
+                        ->withCount('main_option')
+                        ->get();
+                        if (count($d) > 0) {
+                            Arr::add($d, 'vendor', $vendor->name);
+                            Arr::add($d, 'status', $vendor->status);
+                            array_push($items, $d);
+                            
+                        }
+                    }
+                    
+                    return $response = [
+                        'vendors' => $vendors,
+                        'items' => $items
+                    ];
+                }
+            }
     public function search(Request $request)
     {
         $validator = Validator::make($request->all(), [

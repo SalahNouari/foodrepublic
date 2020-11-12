@@ -131,7 +131,7 @@ Route::prefix('vendor')->group(function () {
 });
 Route::prefix('delivery')->group(function () {
    Route::post('changeStatus', 'DeliveryController@changeStatus')->middleware('auth:api');
-
+   Route::post( 'fund', 'DeliveryController@fund' )->middleware('auth:api');
    Route::post('upload', 'DeliveryController@upload')->middleware('auth:api');
    Route::get('load', 'DeliveryController@load')->middleware('auth:api');
    Route::get('agents', 'DeliveryController@agents')->middleware('auth:api');

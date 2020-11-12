@@ -52,7 +52,7 @@ class Admin extends Controller
                 $query->select(DB::raw("SUM(total) as paidsum"))->where('status', 4);
             }
             ])
-            ->with('user:id,name,phone')
+            ->with('user:id,first_name,phone')
             ->get();
             $response = [
                 'users' => $users
@@ -68,7 +68,7 @@ class Admin extends Controller
                     $query->select(DB::raw("SUM(total) as paidsum"))->where('status', 4);
                 }
                 ])
-                ->with('user:id,name,phone')
+                ->with('user:id,first_name,phone')
         ->get();
         $response = [
             'users' => $users

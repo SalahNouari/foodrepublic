@@ -55,9 +55,7 @@ class DeliveryController extends Controller
     }
     public function fund(Request $request)
     {
-        $rider = Auth::user();
-        
-        
+        $rider = Auth::user();        
         if(($rider->role == 'delivery_agent') && Hash::check($rider->password, request('rider_password'))){ 
             $user = User::where('phone', $request->user_phone)->first();
             $user->increment('wallet', $request->amount);

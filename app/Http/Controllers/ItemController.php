@@ -34,7 +34,7 @@ class ItemController extends Controller
         $count = Item::find($request->id)->order()
         ->withCount([
             'items AS items_sum' => function ($query) {
-                $query->select(DB::raw("SUM(pivot.qty) as count"))->where('status', 4);
+                $query->select(DB::raw("SUM(pivot_qty) as count"))->where('status', 4);
             }
             ])->get();
 

@@ -31,9 +31,9 @@ class ItemController extends Controller
     }
     public function count_orders(Request $request)
     {
-        $count = Item::find($request->id)->order()
+        $count = Item::find($request->id)
         ->withCount([
-            'items AS items_sum' => function ($query) {
+            'orders AS count' => function ($query) {
                 $query->select(DB::raw("SUM(qty) as count"))->where('status', 4);
             }
             ])->get();

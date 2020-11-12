@@ -157,7 +157,7 @@ class ItemController extends Controller
             foreach ($opt as $opta) {
                 $sync_data[$opta] = ['type' => 'optional'];
             }
-            $item->main_option()->sync($sync_data);
+            $item->main_option()->attach($sync_data);
             # code...
         }
         if ($comp) {
@@ -165,7 +165,7 @@ class ItemController extends Controller
             foreach ($comp as $compa) {
                 $sync_data2[$compa] = ['type' => 'compulsory'];
             }
-            $item->main_option()->sync($sync_data2);
+            $item->main_option()->attach($sync_data2);
             # code...
         }
         // if ($opt) {

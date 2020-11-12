@@ -59,7 +59,7 @@ class Admin extends Controller
             ];
             return response()->json($response);
         }
-        public function get_delivery_agents(){
+    public function get_delivery_agents(){
             $users = Delivery::
             select('id', 'user_id', 'name', 'phone', 'created_at', 'updated_at')
             ->withCount('orders')

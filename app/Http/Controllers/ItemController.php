@@ -10,6 +10,7 @@ use Validator;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
@@ -31,16 +32,20 @@ class ItemController extends Controller
     public function count_orders(Request $request)
     {
         $count = Item::find($request->id)->order()
-                    ->with('items')->where('status', 4)->get();
+        ->withCount([
+            'items AS items_sum' => function ($query) {
+                $query->select(DB::raw("SUM(pivot.qty) as count"))->where('status', 4);
+            }
+            ])->get();
 
-        $n = 0;
-        foreach ($count as $value) {
-          $n +=  $value['items']->where('id', $request->id)->sum(function ($product) {
-                return $product['pivot']['qty'];
-            });
-        }
+        // $n = 0;
+        // foreach ($count as $value) {
+        //   $n +=  $value['items']->where('id', $request->id)->sum(function ($product) {
+        //         return $product['pivot']['qty'];
+        //     });
+        // }
         $response = [
-            'count' => $n
+            'count' => $count
         ];
         return response()->json($response);
     }

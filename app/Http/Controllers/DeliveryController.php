@@ -44,7 +44,7 @@ class DeliveryController extends Controller
         $rider = Auth::user();
         if($rider->role === "rideradmin"){ 
             $user = User::where('phone', $request->user_phone)->first(); 
-            $rider->increment('funds_collected', $request->amount);
+            $rider->delivery_agent()->increment('funds_collected', $request->amount);
             $user->save();
             return response()->json(['blocked' => false,
             'token' => $user->token], 200);

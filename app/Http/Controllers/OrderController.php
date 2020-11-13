@@ -448,7 +448,10 @@ class OrderController extends Controller
         if(!$order->served_time){
             $order->served_time = Carbon::now();
         }
-        $order->delivered_time = Carbon::now();
+        if (($order->delivery_id != null)) {
+            $order->delivery()->increment('funds_collected', $order->grand_total);
+        }
+            $order->delivered_time = Carbon::now();
         
         $order->user()->increment('points', 10);
         $order->status = 4;

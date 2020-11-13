@@ -42,8 +42,8 @@ class DeliveryController extends Controller
     public function clear_funds_collected(Request $request)
     {
         $admin = Auth::user();
-        if($admin->role === "rider_admin"){ 
-            $rider = Delivery::where('id', $request->id)->first();
+        if($admin->role === 'rider_admin'){ 
+            $rider = Delivery::find($request->id);
             $rider->funds_collected = 0;
             $rider->save();
             return response()->json(['blocked' => false], 200);

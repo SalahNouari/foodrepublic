@@ -43,13 +43,13 @@ class DeliveryController extends Controller
     {
         $admin = Auth::user();
         if($admin->role === "rider_admin"){ 
-            $rider = Delivery::find($request->id); 
+            $rider = Delivery::where('id', $request->id)->get();
             $rider->funds_collected = 0;
             $rider->save();
             return response()->json(['blocked' => false], 200);
         }
         else{
-            return response()->json(['blocked'=> true], 200); 
+            return response()->json(['blocked'=> true], 200);
         }
     }
     public function fund_user(Request $request)

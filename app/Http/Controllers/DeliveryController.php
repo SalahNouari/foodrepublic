@@ -39,10 +39,23 @@ class DeliveryController extends Controller
         ];
         return response()->json($response);
     }
+    public function clear_funds_collected(Request $request)
+    {
+        $admin = Auth::user();
+        if($admin->role === "rideradmin"){ 
+            $rider = Delivery::find($request->id); 
+            $rider->funds_collected = 0;
+            $rider->save();
+            return response()->json(['blocked' => false], 200);
+        }
+        else{
+            return response()->json(['blocked'=> true], 200); 
+        }
+    }
     public function fund_user(Request $request)
     {
         $rider = Auth::user();
-        if($rider->role === "rideradmin"){ 
+        if($rider->role === "rideradmin"){
             $user = User::where('phone', $request->user_phone)->first(); 
             $user->increment('wallet', $request->amount);
             $user->save();
@@ -51,7 +64,7 @@ class DeliveryController extends Controller
         }
         else{
             return response()->json(['blocked'=> true, 'token'=> $del->token], 200); 
-        } 
+        }
     }
     public function fund(Request $request)
     {

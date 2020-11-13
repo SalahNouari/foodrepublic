@@ -16,6 +16,7 @@ class CreateDeliveriesTable extends Migration
         Schema::create('deliveries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->integer('funds_collected')->default(0);
             $table->boolean('verified')->default(false);
             $table->longText('bio')->nullable();
             $table->string('account_name')->nullable();

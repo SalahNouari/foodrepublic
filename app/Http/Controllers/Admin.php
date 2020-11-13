@@ -61,7 +61,7 @@ class Admin extends Controller
         }
     public function get_delivery_agents(){
             $users = Delivery::
-            select('id', 'user_id', 'name', 'phone', 'created_at', 'updated_at')
+            select('id', 'user_id', 'name', 'phone', 'funds_collected', 'created_at', 'updated_at')
             ->withCount('orders')
             ->withCount([
                 'orders AS orders_sum' => function ($query) {

@@ -299,7 +299,13 @@ class MainController extends Controller
         $cat = Category::find($request->cat);
         $item = $cat->items()->where('name', urldecode($request->name))
         ->with('main_option')->first();
-        $item->makeHidden(['cost_price', 'mark_up_price']);
+        if (isset($request->full)) {
+            # code...
+            $item->makeHidden(['cost_price', 'mark_up_price']);
+        }else{
+
+            $item->makeHidden(['cost_price', 'mark_up_price', 'address', 'ig', 'poll', 'promo', 'tel', 'status']);
+        }
         return $response = [
             'item' => $item,
             'vendor' => $cat->vendor->name,

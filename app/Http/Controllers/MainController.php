@@ -105,7 +105,7 @@ class MainController extends Controller
                 },])->get();
                 
            
-        $vendor->makeHidden(['created_at', 'pos_charge', 'updated_at', 'place_id', 'account_number', 'address', 'phone', 'branch', 'type', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio', 'pos_charge']);
+        $vendor->makeHidden(['created_at', 'token', 'verified', 'votes', 'user_id','city', 'pos_charge', 'updated_at', 'place_id', 'account_number', 'address', 'phone', 'branch', 'type', 'account_name', 'bank_name', 'instagram', 'twitter', 'bio', 'pos_charge']);
         $vendor->each(function ($i, $k){
             $t = $i->reviews()->avg('rating');
                 data_fill($i, 'rate', $t);

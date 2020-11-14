@@ -284,8 +284,12 @@ class MainController extends Controller
         $value = Cache::tags(['category_items'])->remember('category_items_'.$request->cat_id, Carbon::now()->addMinutes(60 * 24), function () use ($request) {
         $cat = Category::find($request->cat_id);
         $items = $cat->items()->orderBy('name')->with(['main_option'])->get();
-        $items->makeHidden(['cost_price', 'mark_up_price']);
-        return $response = [
+        if (isset($request->full)) {
+            # code...
+            $items->makeHidden(['cost_price', 'mark_up_price']);
+        }else{
+            $items->makeHidden(['cost_price', 'mark_up_price', 'address', 'ig', 'poll', 'promo', 'tel', 'reviews_count', 'sold', 'avg_rating', 'status']);
+        }        return $response = [
             'items' => $items,
         ];
     });
@@ -303,7 +307,6 @@ class MainController extends Controller
             # code...
             $item->makeHidden(['cost_price', 'mark_up_price']);
         }else{
-
             $item->makeHidden(['cost_price', 'mark_up_price', 'address', 'ig', 'poll', 'promo', 'tel', 'reviews_count', 'sold', 'avg_rating', 'status']);
         }
         return $response = [

@@ -93,6 +93,7 @@ class OrderController extends Controller
         $validator = Validator::make($request->all(), [
         'total' => 'required|integer',
         'items' => 'required',
+        'type' => 'required|string',
         'address' => 'required|string',
         'wallet' => 'required|boolean',
         'grand_total' => 'required|integer',
@@ -110,6 +111,7 @@ class OrderController extends Controller
             $order = new Order;
             $order->duration = $request->duration;
             $order->distance = $request->distance;
+            $order->type = $request->type;
             $order->tracking_id = $rand_code;
             $order->grand_total = $request->grand_total;
             $order->change_amount = $request->change_amount;

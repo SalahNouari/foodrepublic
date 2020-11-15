@@ -243,7 +243,7 @@ class MainController extends Controller
             $vendor = $d->vendor()
             ->where('type', $request->type)
             ->where('status', true)
-            ->with([
+            ->with(['tags',
             'categories' => function ($query){
                 $query->withCount('items')
                 ->orderBy('items_count', 'desc');

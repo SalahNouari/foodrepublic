@@ -92,6 +92,10 @@ class CategoryController extends Controller
         $vendor = Auth::user()->vendor;
         $category = $vendor->categories->find($request->id);
         $category->name = $request->content;
+        if (isset($request->tag)) {
+            # code...
+            $category->tag = $request->tag;
+        }
         $category->save();
         $response = [
             'category' => $category,

@@ -21,7 +21,7 @@ class AddressController extends Controller
     }
     public function all_address(Request $request)
     {
-        $address = Auth::user()->address()->with('area')->select('area_id', 'instruction', 'name', 'created_at', 'user_id', 'id')->get();
+        $address = Auth::user()->address()->select('name', 'user_id', 'id')->get();
         $response = [
             'address' => $address
         ];

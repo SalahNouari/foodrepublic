@@ -172,7 +172,7 @@ class MainController extends Controller
                 return response(['errors' => $validator->errors()->all()], 422);
             } else {
         $d = Areas::find($request->id);
-        
+    //Add city id and area id to items to make easier and more cacheable
         $vendors = $d->vendor()
                     ->where('type', $request->type)
                     ->where('name', 'like', '%' . $request->name . '%')
@@ -180,14 +180,14 @@ class MainController extends Controller
                     ->distinct()
                     ->get();
                     $items = array();
-                    $vend = $d->vendor()->where('type', $request->type)->select('vendor_id as id', 'name', 'status')->get();
+                    $vend = $d->vendor()->where('type', $request->type)->select('vendor_id as id', 'name', 'status')->orderBy('verified', 'desc')->get();
                     foreach ($vend as $vendor) {
                         $d =  Item::where('vendor_id', $vendor->id)
                         ->where(function($query) use ($request){
                             $query->where('name', 'LIKE', '%'.$request->name.'%')
                             ->orWhere('description', 'LIKE', '%'.$request->name.'%');
                         })
-                        ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id')
+                        ->select('name', 'available', 'id', 'image', 'price', 'vendor_name', 'category_id', 'category_name')
                         ->withCount('main_option')
                         ->get();
                         if (count($d) > 0) {

@@ -19,6 +19,14 @@ class AddressController extends Controller
         ];
         return response()->json($response);
     }
+    public function all_address(Request $request)
+    {
+        $address = Auth::user()->address()->with('area')->select('area_id', 'instruction', 'name', 'created_at', 'user_id', 'id')->get();
+        $response = [
+            'address' => $address
+        ];
+        return response()->json($response);
+    }
     public function all(Request $request)
     {
         $address = Auth::user()->address()->with('area')->where('area_id', $request->area_id)->select('area_id', 'instruction', 'name', 'created_at', 'user_id', 'id')->get();

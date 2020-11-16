@@ -60,6 +60,7 @@ Route::get('vendoritem', 'MainController@vendoritem');
 Route::prefix('address')->group(function () {
    Route::post('save', 'AddressController@save')->middleware('auth:api');
    Route::post('edit', 'AddressController@edit')->middleware('auth:api');
+   Route::get('all_address', 'AddressController@all_address')->middleware('auth:api');
    Route::get('all', 'AddressController@all')->middleware('auth:api');
    Route::get('find', 'AddressController@find')->middleware('auth:api');
    Route::get('delete', 'AddressController@delete')->middleware('auth:api');

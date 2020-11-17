@@ -288,7 +288,7 @@ class MainController extends Controller
             # code...
             $items->makeHidden(['cost_price', 'mark_up_price']);
         }else{
-            $items->makeHidden(['cost_price', 'mark_up_price', 'address', 'ig', 'poll', 'promo', 'tel', 'reviews_count', 'sold', 'avg_rating', 'status']);
+            $items->makeHidden(['cost_price', 'mark_up_price', 'address', 'ig', 'poll', 'promo', 'tel', 'reviews_count', 'sold', 'avg_rating']);
         }        return $response = [
             'items' => $items,
         ];

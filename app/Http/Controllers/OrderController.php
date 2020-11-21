@@ -345,16 +345,15 @@ class OrderController extends Controller
         $order->served_time = Carbon::now();
         $order->delivery_status = 0;
         $order->user_status = 0;
-        $user = $order->user;
         $agent = Delivery::find($request->delivery_agent_id);
         $order->save();
         $this->getOrder_find($order->id);
-        $response = [
-            'message' => 'Your order has been accepted'
-        ];
         event(new OrderEvent($order));
         event(new userOrderNotification($order, "Your order has been accepted"));
         event(new OrderAcceptedDeliveryEvent($order, $agent->token, "New Order from " .$order->vendor->name."!!!"));
+        $response = [
+            'message' => 'Your order has been accepted'
+        ];
         return response()->json($response);
     // } else {
     //     return response('error', 400);
@@ -368,7 +367,6 @@ class OrderController extends Controller
             $order->status = 3;
             $order->user_status = 0;
             $order->reject_reason = '';
-            $user = $order->user;
             $order->delivery_status = 0;
             $order->transit_time = Carbon::now();
     
@@ -377,7 +375,6 @@ class OrderController extends Controller
             $vendor = $order->vendor;
             $d_id = $request->delivery_agent_id;
             $vendorId = $vendor->id;
-            $vendorToken = $vendor->token;
             $area = $order->address->area->id;
             $order->save();
             event(new OrderEvent($order));
@@ -488,7 +485,6 @@ class OrderController extends Controller
         $order->status = 5;
         $order->user_status = 0;
         $order->rejected_time = Carbon::now();
-        $user = $order->user;
         $order->delivery_status = 0;
         $order->reject_reason = $request->reason;
         if($request->delivery_agent_id != null){

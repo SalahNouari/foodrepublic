@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Libraries\Firebase;
 use App\Libraries\Push;
-class NotificationListener
+class NotificationListener implements ShouldQueue
 {
   
     /**

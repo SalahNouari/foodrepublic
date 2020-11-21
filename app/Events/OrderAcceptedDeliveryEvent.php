@@ -20,10 +20,10 @@ class OrderAcceptedDeliveryEvent
      *
      * @return void
      */
-    public function __construct($order)
+    public function __construct($order, $token)
     {
         $this->notification = [
-            'receiver_user'=> $order->delivery->token,
+            'receiver_user'=> $token,
             'message' => "New Order from " .$order->vendor->name."!!!",
             'push_type' => 'individual',
             'payload' => ['url' => '/delivery', 'id' => $order->id, 'status' => $order->status],

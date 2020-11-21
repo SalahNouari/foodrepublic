@@ -360,7 +360,7 @@ class OrderController extends Controller
         ];
         event(new OrderEvent($order));
         event(new OrderAcceptedEvent($order));
-        event(new OrderAcceptedDeliveryEvent($order));
+        event(new OrderAcceptedDeliveryEvent($order, $agent->token));
         return response()->json($response);
     // } else {
     //     return response('error', 400);

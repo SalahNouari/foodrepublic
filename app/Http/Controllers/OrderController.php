@@ -347,10 +347,10 @@ class OrderController extends Controller
         $order->user_status = 0;
         $agent = Delivery::find($request->delivery_agent_id);
         $order->save();
-        $this->getOrder_find($order->id);
         event(new OrderEvent($order));
         event(new userOrderNotification($order, "Your order has been accepted"));
         event(new OrderAcceptedDeliveryEvent($order, $agent->token, "New Order from " .$order->vendor->name."!!!"));
+        $this->getOrder_find($order->id);
         $response = [
             'message' => 'Your order has been accepted'
         ];

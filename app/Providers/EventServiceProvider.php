@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Events\deliveryNotification;
 use App\Events\vendorOrderNotification;
 use App\Events\OrderAcceptedDeliveryEvent;
-use App\Events\OrderAcceptedEvent;
+use App\Events\userOrderNotification;
 use App\Listeners\NotificationListener;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;

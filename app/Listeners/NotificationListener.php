@@ -8,16 +8,7 @@ use App\Libraries\Firebase;
 use App\Libraries\Push;
 class NotificationListener
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
+  
     /**
      * Handle the event.
      *

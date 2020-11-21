@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Address;
 use App\Delivery;
-use App\Events\NewOrderDeliveryEvent;
-use App\Events\NewOrderEvent;
+use App\Events\deliveryNotification;
+use App\Events\vendorOrderNotification;
 use App\Events\OrderAcceptedDeliveryEvent;
-use App\Events\OrderAcceptedEvent;
+use App\Events\userOrderNotification;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Events\VendorEvent;
@@ -145,7 +145,7 @@ class OrderController extends Controller
             $order->vendor()->associate($vendor);
             $order->user()->associate($user);
             $order->save();
-            event(new NewOrderEvent($order));
+            event(new vendorOrderNotification($order, 'New Order! click to open.' , $order->vendor->name. ' New Order!!'));
             
             
             if ($request->discount && isset($request->d_id)) {
@@ -158,7 +158,7 @@ class OrderController extends Controller
                 $order->served_time = $time;
                 $order->transit_time = $time;
                 $order->save();
-                event(new NewOrderDeliveryEvent($order));
+                event(new deliveryNotification($order, 'New Order! click to open.', 'New Order!!'));
             }
             foreach ($items as $item) {
                 $digits = 8;
@@ -173,12 +173,12 @@ class OrderController extends Controller
                 foreach ($comp as $compa) {
                     $sync_data[$compa['id']] =  ['type' => $compa['type'], 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
                 }
-                $order->options()->attach($sync_data);
-                $sync_data2 = [];
+                // $order->options()->attach($sync_data);
+                // $sync_data2 = [];
                 foreach ($opt as $opta) {
-                    $sync_data2[$opta['id']] =  ['type' => $opta['type'], 'qty' => $opta['qty'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
+                    $sync_data[$opta['id']] =  ['type' => $opta['type'], 'qty' => $opta['qty'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
                 }
-                $order->options()->attach($sync_data2);
+                $order->options()->attach($sync_data);
                 // foreach ($opt as $opta) {
                 //     # code...
                 //     $order->options()->attach($opta['id'], ['type' =>  $opta['type'], 'qty' => $opta['qty'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
@@ -354,13 +354,11 @@ class OrderController extends Controller
         $order->save();
         $this->getOrder_find($order->id);
         $response = [
-            'message' => 'Your order has been accepted',
-            'token' => $user->token,
-            'agentsToken' => $agent->token
+            'message' => 'Your order has been accepted'
         ];
         event(new OrderEvent($order));
-        event(new OrderAcceptedEvent($order));
-        event(new OrderAcceptedDeliveryEvent($order, $agent->token));
+        event(new userOrderNotification($order, "Your order has been accepted"));
+        event(new OrderAcceptedDeliveryEvent($order, $agent->token, "New Order from " .$order->vendor->name."!!!"));
         return response()->json($response);
     // } else {
     //     return response('error', 400);
@@ -387,6 +385,9 @@ class OrderController extends Controller
             $area = $order->address->area->id;
             $order->save();
             event(new OrderEvent($order));
+            event(new userOrderNotification($order, "Your order is on the way"));
+            event(new vendorOrderNotification($order, 'Prepare this order, delivery agent is on the way' ,'Order Update'));
+
             if (Cache::has('order_find_'.$order->id)) {
                 # code...
                 Cache::forget('order_find_'.$order->id);
@@ -395,10 +396,7 @@ class OrderController extends Controller
                   $this->Start_timer($vendorId, $vendor, $area, $d_id);
                 }
             $response = [
-                'message' => 'Your order is on the way',
-                'message2' => 'Prepare this order, delivery agent is on the way',
-                'token' => $user->token,
-                "vendorToken" => $vendorToken,
+                'message' => 'success',
             ];
             return response()->json($response);
         // } else {
@@ -473,16 +471,13 @@ class OrderController extends Controller
         $order->status = 4;
         $order->user_status = 0;
         $order->paid = 1;
-        $user = $order->user;
         $order->delivery_status = 0;
-        $vendorToken = $order->vendor->token;
-        
+        event(new userOrderNotification($order, "Your order has been delivered."));
+        event(new vendorOrderNotification($order, 'Order has been delivered' ,'Order Update'));
+
         $order->save();
         $response = [
-            'message' => 'Your order has been delivered.',
-            'message2' => 'Order Delivered',
-            'token' => $user->token,
-            "vendorToken" => $vendorToken ];
+            'message' => 'success'];
         return response()->json($response);
     } else {
         return response('error', 400);
@@ -508,9 +503,10 @@ class OrderController extends Controller
             $order->user()->increment('wallet', $order->grand_total);
         }
         $order->save();
+        event(new userOrderNotification($order, 'Your order has been canceled'));
+
         $response = [
-            'message' => 'Your order has been canceled',
-            'token' => $user->token
+            'message' => 'success'
         ];
         return response()->json($response);
     } else {

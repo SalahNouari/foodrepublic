@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderAcceptedEvent
+class userOrderNotification
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,11 +20,11 @@ class OrderAcceptedEvent
      *
      * @return void
      */
-   public function __construct($order)
+   public function __construct($order, $message)
     {
         $this->notification = [
         'receiver_user'=> $order->user->token,
-        'message' => "Your order has been accepted",
+        'message' => $message,
         'push_type' => 'individual',
         'payload' => ['url' => '/cart', 'id' => $order->id, 'status' => $order->status],
         'title'  => 'Order Update'

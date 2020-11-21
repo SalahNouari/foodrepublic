@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Events\NewOrderDeliveryEvent;
-use App\Events\NewOrderEvent;
+use App\Events\deliveryNotification;
+use App\Events\vendorOrderNotification;
 use App\Events\OrderAcceptedDeliveryEvent;
 use App\Events\OrderAcceptedEvent;
 use App\Listeners\NotificationListener;
@@ -23,16 +23,16 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        NewOrderEvent::class => [
+        vendorOrderNotification::class => [
             NotificationListener::class,
         ],
-        NewOrderDeliveryEvent::class => [
+        deliveryNotification::class => [
             NotificationListener::class,
         ],
         OrderAcceptedDeliveryEvent::class => [
             NotificationListener::class,
         ],
-        OrderAcceptedEvent::class => [
+        userOrderNotification::class => [
             NotificationListener::class,
         ],
 

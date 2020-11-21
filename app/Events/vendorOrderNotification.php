@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewOrderEvent
+class vendorOrderNotification
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     
@@ -21,14 +21,14 @@ class NewOrderEvent
      * @return void
      */
  
-    public function __construct($order)
+    public function __construct($order, $message, $title)
     {
         $this->notification = [
         'receiver_user'=> $order->vendor->token,
-		'message' => 'New Order! click to open.',
+		'message' => $message,
 		'push_type' => 'individual',
 		'payload' => ['url' => '/adminorder', 'id' => $order->id],
-        'title'  => $order->vendor->name. ' New Order!!'
+        'title'  => $title
         ];
     }
 }

@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewOrderDeliveryEvent
+class deliveryNotification
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -22,14 +22,14 @@ class NewOrderDeliveryEvent
      * @return void
      */
  
-    public function __construct($order)
+    public function __construct($order, $message, $title)
     {
         $this->notification = [
         'receiver_user'=> $order->delivery->token,
-		'message' => 'New Order! click to open.',
+		'message' => $message,
 		'push_type' => 'individual',
 		'payload' => ['url' => '/delivery', 'id' => $order->id, 'status' => $order->status],
-        'title'  => 'New Order!!'
+        'title'  => $title
         ];
     }
 }

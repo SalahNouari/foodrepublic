@@ -126,15 +126,18 @@ class OrderController extends Controller
             $order->payment_method = $request->payment_method;
             $order->total = $request->total;
             $payM = $request->payment_method;
+            if(isset($request->token)){
+                $user->token = $request->token;
+            }
             if(($payM != 4) && ($order->wallet === true) && ($order->paid === true)){
                 if ($user->wallet >= $request->grand_total) {
                     $user->decrement('wallet', $request->grand_total);
-                    $user->save();
                 } else{
                     return response(['message' => 'Insufficient funds in wallet'], 422);
                 }
                 
             }
+            $user->save();
             if(isset($request->table_no)){
                 $order->table_no = $request->table_no;
             }

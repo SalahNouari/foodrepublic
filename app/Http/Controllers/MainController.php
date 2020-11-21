@@ -217,9 +217,9 @@ class MainController extends Controller
                             $query->where('name', 'LIKE', '%'.$request->name.'%')
                             ->orWhere('description', 'LIKE', '%'.$request->name.'%');
                         })
-                        ->withCount('main_option')
                         ->select('name', 'available', 'id', 'image', 'price', 'category_id', 'vendor_name')
                         ->distinct()
+                        ->withCount('main_option')
                         ->get();
                 
         $response = [

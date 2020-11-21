@@ -6,6 +6,7 @@ use App\Events\NewOrderDeliveryEvent;
 use App\Events\NewOrderEvent;
 use App\Events\OrderAcceptedDeliveryEvent;
 use App\Events\OrderAcceptedEvent;
+use App\Listeners\NotificationListener;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;

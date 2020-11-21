@@ -21,10 +21,10 @@ class NotificationListener
 		// $datas = json_decode( $event->notification->payload );
 
 		$receiver               = $event->notification['receiver_user'];
-		$notification_payload   = $event->notification->payload;
-		$notification_title     = $event->notification->title;
-		$notification_message   = $event->notification->message;
-		$notification_push_type = $event->notification->push_type;
+		$notification_payload   = $event->notification['payload'];
+		$notification_title     = $event->notification['title'];
+		$notification_message   = $event->notification['message'];
+		$notification_push_type = $event->notification['push_type'];
 
 		try {
 

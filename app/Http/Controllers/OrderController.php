@@ -164,22 +164,20 @@ class OrderController extends Controller
                 $digits = 8;
                 $random_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
                 
-                $comp = $item['compulsory'];
-                $opt = $item['optional'];
+                $compulsory_items = $item['compulsory'];
+                $optional_items = $item['optional'];
                 $itm = $item['item'][0];
                 
                 $order->items()->attach($itm['id'], ['qty' => $itm['qty'], 'total' => $item['total'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
-                $sync_data = [];
-                foreach ($comp as $compa) {
-                    $sync_data[$compa['id']] =  ['type' => $compa['type'], 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
+                $options_array = [];
+                foreach ($compulsory_items as $compa) {
+                    $options_array[$compa['id']] =  ['type' => $compa['type'], 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
                 }
-                // $order->options()->attach($sync_data);
-                // $sync_data2 = [];
-                foreach ($opt as $opta) {
-                    $sync_data[$opta['id']] =  ['type' => $opta['type'], 'qty' => $opta['qty'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
+                foreach ($optional_items as $opta) {
+                    $options_array[$opta['id']] =  ['type' => $opta['type'], 'qty' => $opta['qty'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
                 }
-                $order->options()->attach($sync_data);
-                // foreach ($opt as $opta) {
+                $order->options()->attach($options_array);
+                // foreach ($optional_items as $opta) {
                 //     # code...
                 //     $order->options()->attach($opta['id'], ['type' =>  $opta['type'], 'qty' => $opta['qty'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
                 // }
@@ -243,22 +241,20 @@ class OrderController extends Controller
                 $digits = 8;
                 $random_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
         
-                $comp = $item->options->compulsory;
-                $opt = $item->options->optional;
+                $compulsory_items = $item->options->compulsory;
+                $optional_items = $item->options->optional;
                 $itm = $item;
 
                 $order->items()->attach($itm->id, ['qty' => $itm->qty, 'total' => ($item->qty * $item->price), 'tracking_id' => $random_code, 'vendor_id' => $vendor->id]);
   
-                $sync_data = [];
-                foreach ($comp as $compa) {
-                    $sync_data[$compa->id] =  ['type' => $compa->type, 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
+                $options_array = [];
+                foreach ($compulsory_items as $compa) {
+                    $options_array[$compa->id] =  ['type' => $compa->type, 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
                 }
-                $order->options()->attach($sync_data);
-                $sync_data2 = [];
-                foreach ($opt as $opta) {
-                    $sync_data2[$opta->id] =  ['type' => $opta->type, 'qty' => $opta->qty, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
+                foreach ($optional_items as $opta) {
+                    $options_array[$opta->id] =  ['type' => $opta->type, 'qty' => $opta->qty, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
                 }
-                $order->options()->attach($sync_data2);
+                $order->options()->attach($options_array);
             }
             
             

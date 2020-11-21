@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Address;
 use App\Delivery;
+use App\Events\NewOrderDeliveryEvent;
+use App\Events\NewOrderEvent;
+use App\Events\OrderAcceptedDeliveryEvent;
+use App\Events\OrderAcceptedEvent;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Events\VendorEvent;
@@ -140,8 +144,10 @@ class OrderController extends Controller
             }
             $order->vendor()->associate($vendor);
             $order->user()->associate($user);
+            $order->save();
+            event(new NewOrderEvent($order));
             
-          
+            
             if ($request->discount && isset($request->d_id)) {
                 $delivery_agent = Delivery::find($request->d_id);
                 $order->delivery()->associate($delivery_agent);
@@ -151,11 +157,9 @@ class OrderController extends Controller
                 $order->recieved_time = $time;
                 $order->served_time = $time;
                 $order->transit_time = $time;
-
-
+                $order->save();
+                event(new NewOrderDeliveryEvent($order));
             }
-            $order->save();
-            
             foreach ($items as $item) {
                 $digits = 8;
                 $random_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
@@ -165,15 +169,20 @@ class OrderController extends Controller
                 $itm = $item['item'][0];
                 
                 $order->items()->attach($itm['id'], ['qty' => $itm['qty'], 'total' => $item['total'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
-                
+                $sync_data = [];
                 foreach ($comp as $compa) {
-                    $order->options()->attach($compa['id'], ['type' => $compa['type'], 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
+                    $sync_data[$compa['id']] =  ['type' => $compa['type'], 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
                 }
-                
+                $order->options()->attach($sync_data);
+                $sync_data2 = [];
                 foreach ($opt as $opta) {
-                    # code...
-                    $order->options()->attach($opta['id'], ['type' =>  $opta['type'], 'qty' => $opta['qty'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
+                    $sync_data2[$opta['id']] =  ['type' => $opta['type'], 'qty' => $opta['qty'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
                 }
+                $order->options()->attach($sync_data2);
+                // foreach ($opt as $opta) {
+                //     # code...
+                //     $order->options()->attach($opta['id'], ['type' =>  $opta['type'], 'qty' => $opta['qty'], 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id]);
+                // }
             }
             
             $response = [
@@ -240,14 +249,16 @@ class OrderController extends Controller
 
                 $order->items()->attach($itm->id, ['qty' => $itm->qty, 'total' => ($item->qty * $item->price), 'tracking_id' => $random_code, 'vendor_id' => $vendor->id]);
   
+                $sync_data = [];
                 foreach ($comp as $compa) {
-                    $order->options()->attach($compa->id, ['type' => 'compulsory', 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $vendor->id]);
+                    $sync_data[$compa->id] =  ['type' => $compa->type, 'qty' => 1, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
                 }
-            
+                $order->options()->attach($sync_data);
+                $sync_data2 = [];
                 foreach ($opt as $opta) {
-                    # code...
-                    $order->options()->attach($opta->id, ['type' =>  'optional', 'qty' => $opta->qty, 'tracking_id' => $random_code, 'vendor_id' => $vendor->id]);
+                    $sync_data2[$opta->id] =  ['type' => $opta->type, 'qty' => $opta->qty, 'tracking_id' => $random_code, 'vendor_id' => $request->vendor_id];
                 }
+                $order->options()->attach($sync_data2);
             }
             
             
@@ -348,6 +359,8 @@ class OrderController extends Controller
             'agentsToken' => $agent->token
         ];
         event(new OrderEvent($order));
+        event(new OrderAcceptedEvent($order));
+        event(new OrderAcceptedDeliveryEvent($order));
         return response()->json($response);
     // } else {
     //     return response('error', 400);
@@ -378,7 +391,7 @@ class OrderController extends Controller
                 # code...
                 Cache::forget('order_find_'.$order->id);
             }
-            if (!Cache::has('vendor_timer_'.$vendorId)) {
+            if (!Cache::has('vendor_timer_'.$vendorId) && $vendor->type === 'Food') {
                   $this->Start_timer($vendorId, $vendor, $area, $d_id);
                 }
             $response = [

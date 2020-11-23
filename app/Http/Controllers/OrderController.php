@@ -392,7 +392,7 @@ class OrderController extends Controller
                 # code...
                 Cache::forget('order_find_'.$order->id);
             }
-            if (!Cache::has('vendor_timer_'.$vendorId) && $vendor->type === 'Food') {
+            if ((!Cache::has('vendor_timer_'.$vendorId)) && $vendor->type === 'Food') {
                   $this->Start_timer($vendorId, $vendor, $area, $d_id);
                 }
             $response = [

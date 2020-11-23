@@ -16,7 +16,7 @@ class VendorEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $vendor, $time, $area;
+    public $vendor, $time, $area, $d_id;
     /**
      * Create a new event instance.
      *

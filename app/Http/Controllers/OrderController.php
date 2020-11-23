@@ -153,7 +153,6 @@ class OrderController extends Controller
             $order->user()->associate($user);
             $order->save();
             event(new vendorOrderNotification($order, 'New Order! click to open.' , $order->vendor->name. ' New Order!!'));
-            event(new AdminNotification($vendor->id, $vendor->name. ' GOT A NEW ORDER!!', $city->supportToken,'Click to login as '. $vendor->name));
             
             
             if ($request->discount && isset($request->d_id)) {
@@ -168,6 +167,7 @@ class OrderController extends Controller
                 $order->save();
                 event(new deliveryNotification($order, 'New Order! click to open.', 'New Order!!'));
             }
+            event(new AdminNotification($vendor->id, $vendor->name. ' GOT A NEW ORDER!!', $city->supportToken,'Click to login as '. $vendor->name));
             foreach ($items as $item) {
                 $digits = 8;
                 $random_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);

@@ -111,7 +111,7 @@ class OrderController extends Controller
             } else {
             $user = Auth::user();
             $vendor = Vendor::find($request->vendor_id);
-            $token = States::find($vendor->city)->supportToken;
+            $city = States::first($vendor->city);
             $items = $request->items;
             $digits = 6;
             $rand_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);
@@ -153,7 +153,7 @@ class OrderController extends Controller
             $order->user()->associate($user);
             $order->save();
             event(new vendorOrderNotification($order, 'New Order! click to open.' , $order->vendor->name. ' New Order!!'));
-            event(new AdminNotification($vendor->id, $vendor->name. ' GOT A NEW ORDER!!', $token ,'Click to login as '. $vendor->name));
+            event(new AdminNotification($vendor->id, $vendor->name. ' GOT A NEW ORDER!!', $city->token ,'Click to login as '. $vendor->name));
             
             
             if ($request->discount && isset($request->d_id)) {

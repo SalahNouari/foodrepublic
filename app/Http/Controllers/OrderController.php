@@ -380,7 +380,7 @@ class OrderController extends Controller
             $agent = Delivery::find($request->delivery_agent_id);
             $order->delivery()->associate($agent);
             $vendor = $order->vendor;
-            $d_id = $request->delivery_agent_id;
+            $d_id = $agent->id;
             $vendorId = $vendor->id;
             $area = $order->address->area->id;
             $order->save();

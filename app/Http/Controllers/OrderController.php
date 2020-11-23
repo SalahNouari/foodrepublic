@@ -385,7 +385,13 @@ class OrderController extends Controller
             $area = $order->address->area->id;
             $order->save();
             event(new OrderEvent($order));
-            event(new userOrderNotification($order, "Your order is on the way"));
+            if ($vendor->type === 'Food') {
+                $msg = "Your order is on the way";
+            }   else{
+                $msg = "Rider is on the way fto pick up your laundry";
+
+            }
+            event(new userOrderNotification($order, $msg));
             event(new vendorOrderNotification($order, 'Prepare this order, delivery agent is on the way' ,'Order Update'));
 
             if (Cache::has('order_find_'.$order->id)) {

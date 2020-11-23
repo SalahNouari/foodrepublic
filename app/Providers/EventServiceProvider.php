@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\AdminNotification;
 use App\Events\deliveryNotification;
 use App\Events\vendorOrderNotification;
 use App\Events\OrderAcceptedDeliveryEvent;
@@ -22,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        AdminNotification::class => [
+            NotificationListener::class,
         ],
         vendorOrderNotification::class => [
             NotificationListener::class,

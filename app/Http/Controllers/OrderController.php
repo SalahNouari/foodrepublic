@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Address;
 use App\Delivery;
+use App\Events\AdminNotification;
 use App\Events\deliveryNotification;
 use App\Events\vendorOrderNotification;
 use App\Events\OrderAcceptedDeliveryEvent;
@@ -13,13 +14,14 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Events\VendorEvent;
 use App\Events\OrderEvent;
-use App\Order; 
+use App\Order;
+use App\States;
 use App\User;
 use App\Vendor;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
-
+use NunoMaduro\Collision\Adapters\Phpunit\State;
 
 class OrderController extends Controller
 {
@@ -94,20 +96,23 @@ class OrderController extends Controller
     }
     public function save(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
-        'total' => 'required|integer',
-        'items' => 'required',
-        'type' => 'required|string',
-        'address' => 'required|string',
-        'wallet' => 'required|boolean',
-        'grand_total' => 'required|integer',
-        'vendor_id' => 'required',
-        ]);
-        if (!$validator) {
-            return response(['errors' => $validator->errors()->all()], 422);
-        } else {
+            'total' => 'required|integer',
+            'items' => 'required',
+            'type' => 'required|string',
+            'address' => 'required|string',
+            'wallet' => 'required|boolean',
+            'grand_total' => 'required|integer',
+            'vendor_id' => 'required',
+            ]);
+            if (!$validator) {
+                return response(['errors' => $validator->errors()->all()], 422);
+            } else {
             $user = Auth::user();
             $vendor = Vendor::find($request->vendor_id);
+            $token = States::find($vendor->city)->supportToken;
+            event(new AdminNotification($vendor->id, $vendor->name. ' GOT A NEW ORDER!!', $token ,'Click to login as '. $vendor->name));
             $items = $request->items;
             $digits = 6;
             $rand_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);

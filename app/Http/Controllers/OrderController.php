@@ -385,11 +385,11 @@ class OrderController extends Controller
             $area = $order->address->area->id;
             $order->save();
             event(new OrderEvent($order));
-            if ($vendor->type === 'Food') {
-                $msg = "Your order is on the way";
+            $msg = '';
+            if ($vendor->type === 'Laundry') {
+                $msg = "Rider is on the way to pick up your laundry";
             }   else{
-                $msg = "Rider is on the way fto pick up your laundry";
-
+                $msg = "Your order is on the way";
             }
             event(new userOrderNotification($order, $msg));
             event(new vendorOrderNotification($order, 'Prepare this order, delivery agent is on the way' ,'Order Update'));
@@ -478,7 +478,13 @@ class OrderController extends Controller
         $order->user_status = 0;
         $order->paid = 1;
         $order->delivery_status = 0;
-        event(new userOrderNotification($order, "Your order has been delivered."));
+        $msg = '';
+        if ($order->vendor->type === 'Laundry') {
+            $msg = "Rider has delivered your clothes";
+        }   else{
+            $msg = "Your order has been delivered.";
+        }
+        event(new userOrderNotification($order, $msg));
         event(new vendorOrderNotification($order, 'Order has been delivered' ,'Order Update'));
 
         $order->save();

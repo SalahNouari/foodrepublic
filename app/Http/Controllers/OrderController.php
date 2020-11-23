@@ -488,7 +488,7 @@ class OrderController extends Controller
         $order->delivery_status = 0;
         $msg = '';
         if ($order->vendor->type === 'Laundry') {
-            $msg = "Rider has delivered your clothes";
+            $msg = "Rider has delivered your laundry";
         }   else{
             $msg = "Your order has been delivered.";
         }

@@ -11,6 +11,7 @@ use JD\Cloudder\Facades\Cloudder;
 use Illuminate\Support\Facades\Auth;
 use AfricasTalking\SDK\AfricasTalking;
 use App\Areas;
+use App\Events\deliveryNotification;
 use App\Http\Controllers\Controller;
 use App\States;
 use App\User;
@@ -45,6 +46,11 @@ class DeliveryController extends Controller
         if($admin->role === 'rider_admin'){ 
             $rider = Delivery::find($request->id);
             $rider->blocked = !$rider->blocked;
+            if ($rider->blocked) {
+                # code...
+                event(new deliveryNotification($rider->token, 'Your account has been blocked', 'ACCOUNT BLOCKED!!'));
+            }
+
             $rider->save();
             return response()->json(['blocked' => false], 200);
         }

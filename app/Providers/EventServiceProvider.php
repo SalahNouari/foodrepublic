@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\AdminNotification;
+use App\Events\DeliveryManNotification;
 use App\Events\deliveryNotification;
 use App\Events\vendorOrderNotification;
 use App\Events\OrderAcceptedDeliveryEvent;
@@ -31,6 +32,9 @@ class EventServiceProvider extends ServiceProvider
             NotificationListener::class,
         ],
         deliveryNotification::class => [
+            NotificationListener::class,
+        ],
+        DeliveryManNotification::class => [
             NotificationListener::class,
         ],
         OrderAcceptedDeliveryEvent::class => [

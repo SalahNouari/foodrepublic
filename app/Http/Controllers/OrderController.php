@@ -152,10 +152,9 @@ class OrderController extends Controller
             $order->vendor()->associate($vendor);
             $order->user()->associate($user);
             $order->save();
-            event(new vendorOrderNotification($order, 'New Order! click to open.' , $order->vendor->name. ' New Order!!'));
+            event(new vendorOrderNotification($order, 'New Order! click to open.' , $vendor->name. ' New Order!!'));
             event(new AdminNotification($city->supportToken, 'Click to login as '. $vendor->name, $vendor->id, $vendor->name. ' GOT A NEW ORDER!!'));
-            
-            
+            $city = null;
             if ($request->discount && isset($request->d_id)) {
                 $delivery_agent = Delivery::find($request->d_id);
                 $order->delivery()->associate($delivery_agent);

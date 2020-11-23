@@ -19,7 +19,7 @@ class AdminNotification
      *
      * @return void
      */
-    public function __construct($vendor, $title, $token, $message)
+    public function __construct( $token, $message, $vendor, $title)
     {
         $this->notification = [
             'receiver_user'=> $token,

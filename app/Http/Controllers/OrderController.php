@@ -328,6 +328,7 @@ class OrderController extends Controller
         }
         $order->user_status = 0;
         $order->delivery_status = 0;
+
         $order->save();
         $response = [
             'message' => 'read successful'
@@ -355,7 +356,14 @@ class OrderController extends Controller
         $agent = Delivery::find($request->delivery_agent_id);
         $order->save();
         event(new OrderEvent($order));
-        event(new userOrderNotification($order, "Your order has been accepted"));
+        $msg = '';
+        if ($order->vendor->type === 'Laundry') {
+            $msg = "Your laundry request has been accepted, you will be notified for pickup.";
+        }   else{
+            $msg = "Your order has been accepted";
+        }
+        event(new userOrderNotification($order, $msg));
+        event(new userOrderNotification($order, $msg));
         event(new OrderAcceptedDeliveryEvent($order, $agent->token, "New Order from " .$order->vendor->name."!!!"));
         $this->getOrder_find($order->id);
         $response = [

@@ -46,16 +46,11 @@ class VendorEvent implements ShouldBroadcast
     }
     public function broadcastWith()
     {
-        $id = $this->vendor->id;
-        $img = $this->vendor->image;
-        $d_id = $this->d_id;
-        $name = $this->vendor->name;
-       
         return [
-            'id' => $id,
-            'image' => $img,
-            'name' => $name,
-            'd_id' => $d_id,
+            'id' => $this->vendor->id,
+            'image' => $this->vendor->image,
+            'name' => $this->vendor->name,
+            'd_id' => $this->d_id,
             'end_time' => $this->time
         ];
     }

@@ -111,7 +111,7 @@ class OrderController extends Controller
             } else {
             $user = Auth::user();
             $vendor = Vendor::find($request->vendor_id);
-            $city = States::first($vendor->city);
+            $city = States::find($vendor->city);
             $items = $request->items;
             $digits = 6;
             $rand_code = rand(pow(10, $digits - 1), pow(10, $digits) - 1);

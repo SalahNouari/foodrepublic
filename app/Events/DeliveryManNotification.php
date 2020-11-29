@@ -25,7 +25,7 @@ class DeliveryManNotification
     public function __construct($token, $message, $title)
     {
         $this->notification = [
-        'receiver_user'=> $token,
+        'receiver_user' => $token,
 		'message' => $message,
 		'push_type' => 'individual',
 		'payload' => ['url' => '/delivery'],

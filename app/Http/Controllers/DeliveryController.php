@@ -30,6 +30,25 @@ class DeliveryController extends Controller
         ];
         return response()->json($response);
     }
+    public function close_agents(Request $request)
+    {
+        //when we have many agents and they are assigned to different areas
+        // $agents = Delivery::where("current_area_id", $request->id)->select("name", "id", "lat", "lng")->latest()->get();
+        $agents = Delivery::where('city', $request->city)->select("name", "id", "lat", "lng")->latest()->get();
+        $agents = Delivery::where([
+            ['busy', false],
+            ['area', $request->area],
+            ['city', $request->city],
+            ])->selectRaw('*, ( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) ) AS distance', [$request->lat, $request->long, $request->lat])
+        // ->having('distance', '<', 30)
+        ->orderBy('distance', 'asc')
+        ->first();
+        
+        $response = [
+            'agents' => $agents
+        ];
+        return response()->json($response);
+    }
     public function agents(Request $request)
     {
         //when we have many agents and they are assigned to different areas

@@ -363,7 +363,6 @@ class OrderController extends Controller
             $msg = "Your order has been accepted";
         }
         event(new userOrderNotification($order, $msg));
-        event(new userOrderNotification($order, $msg));
         event(new OrderAcceptedDeliveryEvent($order, $agent->token, "New Order from " .$order->vendor->name."!!!"));
         $this->getOrder_find($order->id);
         $response = [

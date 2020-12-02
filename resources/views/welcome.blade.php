@@ -107,7 +107,7 @@
     .column.btns{
       width: fit-content!important;
     }
-.carousel {width: 100%;transform:translateY(-314px);height: 765px!important;}/*.carousel-item {
+.carousel {width: 100%;transform:translateY(-225px);height: 765px!important;}/*.carousel-item {
 transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) translateZ(0px)}
 */
 .txt{
@@ -195,7 +195,7 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
    <img width="141" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1590915293/app-store-google.png" alt="">
 </button></div>
   <div class="column btns">
-<button onclick="window.location.href = 'https://play.google.com/store/apps/details?id=com.edeyapp.edey';" class="ui huge black button">
+<button onclick="window.location.href = 'https://apps.apple.com/us/app/e-dey-app/id1533515887';" class="ui huge black button">
   <img width="141" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1590915293/app-store-apple.png" alt="">
 </button> </div>  
  </div>

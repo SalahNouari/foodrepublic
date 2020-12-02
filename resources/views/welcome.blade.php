@@ -99,7 +99,7 @@
     transform: translate(10px, -263px);
 }*/
 .carousel .carousel-item {
-    width: 229px;
+    width: 235px;
     }
     .column.btns{
       width: fit-content!important;
@@ -203,28 +203,28 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
   <div class="carousel">
   <div class="carousel-item" onclick="pressed(1)">
     <!-- <h2 style="margin-bottom: 1em;font-weight: 700" >Discover</h2> -->
-  <img style="width: 229px;border-radius: 22px;
+  <img style="width: 235px;border-radius: 22px;
     box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1606894255/Unique_experience_2048X2732_iPhone.jpg" alt="">
   </div>   <div class="carousel-item" onclick="pressed(2)">
     <!-- <h2 style="margin-bottom: 1em;font-weight: 700" >Get Deals</h2> -->
-  <img style="width: 229px;border-radius: 22px;
+  <img style="width: 235px;border-radius: 22px;
     box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1606894227/Save_time_2048X2732_iPhone.jpg" alt="">
   </div>  
  <div class="carousel-item" onclick="pressed(3)">
     <!-- <h2 style="margin-bottom: 1em;font-weight: 700" >Track Order</h2> -->
-  <img style="width: 229px;border-radius: 22px;
+  <img style="width: 235px;border-radius: 22px;
     box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1606894270/Clean_ui_2048X2732_iPhone.jpg" alt="">
   </div>  <div class="carousel-item"  onclick="pressed(4)">
     <!-- <h2 style="margin-bottom: 1em;font-weight: 700" >Offline Companion</h2> -->
-  <img style="width: 229px;border-radius: 22px;
+  <img style="width: 235px;border-radius: 22px;
     box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1606894251/Track_ur_Act_2048X2732_iPhone.jpg" alt="">
   </div> <div class="carousel-item"  onclick="pressed(5)">
     <!-- <h2 style="margin-bottom: 1em;font-weight: 700" >Save and scan</h2> -->
-  <img style="width: 229px;border-radius: 22px;
+  <img style="width: 235px;border-radius: 22px;
     box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1606894221/Follow_package_2048X2732_iPhone.jpg" alt="">
   </div>
   </div>
-  <h3 style="color: grey;">&copy;Copyright E Dey App Online Services Limited. </h3>
+  <h3 style="color: grey;">&copy; E Dey App Online Services Limited. </h3>
   <!-- <h3 style="color: grey;" class="txt"></h3> -->
 </div>
 </div>

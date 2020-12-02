@@ -47,9 +47,7 @@
       margin-left: 0.5em;
     }
     .masthead h1.ui.header {
-      margin-top: 3em;
-      margin-bottom: 0em;
-      margin-bottom: 3em;
+      margin: 90px 0;
       font-size: 4em;
       font-weight: normal;
     }

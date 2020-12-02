@@ -185,7 +185,7 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
     <div style="" class="ui  container">
       <div class="ui stackable mainer two column grid">
   <div class="column" style="padding: 0 1em!important;z-index: 2">  <h1 class="ui  header">
-        That thing wey you dey find, <span style="color: #e65100; font-weight: 700;   text-shadow: -4px 1px 4px #c4c4c4;">e dey app.</span>
+        That thing wey you dey find, <br> <span style="color: #e65100; font-weight: 700;   text-shadow: -4px 1px 4px #c4c4c4;"> e dey app.</span>
       </h1>
       <h2 style="font-weight: 400;">Buy wetin you need, get am sharp sharp.</h2>
  <div class="ui stackable two column grid">
@@ -204,34 +204,29 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
 
   <div class="carousel">
   <div class="carousel-item" onclick="pressed(1)">
-    <h2 style="margin-bottom: 1em;font-weight: 700" >Discover</h2>
+    <!-- <h2 style="margin-bottom: 1em;font-weight: 700" >Discover</h2> -->
   <img style="width: 229px;border-radius: 22px;
-    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/q_auto:best/v1589975584/Screenshot_20200520-115447.jpg" alt="">
+    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1606894255/Unique_experience_2048X2732_iPhone.jpg" alt="">
   </div>   <div class="carousel-item" onclick="pressed(2)">
-    <h2 style="margin-bottom: 1em;font-weight: 700" >Get Deals</h2>
+    <!-- <h2 style="margin-bottom: 1em;font-weight: 700" >Get Deals</h2> -->
   <img style="width: 229px;border-radius: 22px;
-    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1590140540/Screenshot_20200522-102959.jpg" alt="">
+    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1606894227/Save_time_2048X2732_iPhone.jpg" alt="">
   </div>  
  <div class="carousel-item" onclick="pressed(3)">
-    <h2 style="margin-bottom: 1em;font-weight: 700" >Track Order</h2>
+    <!-- <h2 style="margin-bottom: 1em;font-weight: 700" >Track Order</h2> -->
   <img style="width: 229px;border-radius: 22px;
-    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1590140541/Screenshot_20200522-102846.jpg" alt="">
+    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1606894270/Clean_ui_2048X2732_iPhone.jpg" alt="">
   </div>  <div class="carousel-item"  onclick="pressed(4)">
-    <h2 style="margin-bottom: 1em;font-weight: 700" >Offline Companion</h2>
+    <!-- <h2 style="margin-bottom: 1em;font-weight: 700" >Offline Companion</h2> -->
   <img style="width: 229px;border-radius: 22px;
-    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1590140543/Screenshot_20200522-102505.jpg" alt="">
+    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1606894251/Track_ur_Act_2048X2732_iPhone.jpg" alt="">
   </div> <div class="carousel-item"  onclick="pressed(5)">
-    <h2 style="margin-bottom: 1em;font-weight: 700" >Save and scan</h2>
+    <!-- <h2 style="margin-bottom: 1em;font-weight: 700" >Save and scan</h2> -->
   <img style="width: 229px;border-radius: 22px;
-    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1590140542/Screenshot_20200522-102604.jpg" alt="">
+    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1606894221/Follow_package_2048X2732_iPhone.jpg" alt="">
   </div>
-    <div class="carousel-item" onclick="pressed(6)">
-    <h2 style="margin-bottom: 1em;font-weight: 700" >Get Notified</h2>
-  <img style="width: 229px;border-radius: 22px;
-    box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/q_auto:best/v1589975584/Screenshot_20200520-115447.jpg" alt="">
-  </div> 
   </div>
-  <h3 style="color: grey;" class="txt"></h3>
+  <!-- <h3 style="color: grey;" class="txt"></h3> -->
 </div>
 </div>
 
@@ -243,17 +238,17 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js" integrity="sha256-6DDZX77BrYnAmK9a3N3tvNPtyTIk1q1w9iW+UBtot3Y=" crossorigin="anonymous"></script>
 <script>
 
-       $('.txt').html('Your favourite vendors in your hands anytime of the day.');
-  function pressed(x){
-       $('.txt').html(
-        x === 1 ? 'Your favourite vendors in your hands anytime of the day.':
-         x === 2 ? 'Get real-time deals and promos from vendors in your area.' :
-         x === 3 ? 'Keep track of your order, until it gets to you.' :
-         x === 4 ? 'Access your favourite vendors offline and browse their menu.' :
-         x === 5 ? "Select the items you need, save the order and scan at your vendor's, all these can be done offline." :
-         x === 6 ? 'Get notifications of everything from deals, order update, promos and discount deliveries to your area.' :
-          'Your favourite vendors in your hands anytime of the day.') 
-    } 
+  //      $('.txt').html('Your favourite vendors in your hands anytime of the day.');
+  // function pressed(x){
+  //      $('.txt').html(
+  //       x === 1 ? 'Your favourite vendors in your hands anytime of the day.':
+  //        x === 2 ? 'Get real-time deals and promos from vendors in your area.' :
+  //        x === 3 ? 'Keep track of your order, until it gets to you.' :
+  //        x === 4 ? 'Access your favourite vendors offline and browse their menu.' :
+  //        x === 5 ? "Select the items you need, save the order and scan at your vendor's, all these can be done offline." :
+  //        x === 6 ? 'Get notifications of everything from deals, order update, promos and discount deliveries to your area.' :
+  //         'Your favourite vendors in your hands anytime of the day.') 
+  //   } 
    $(document).ready(function(){
   
     const elems = document.querySelectorAll('.carousel');

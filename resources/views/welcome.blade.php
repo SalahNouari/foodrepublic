@@ -186,7 +186,7 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
   <div class="column" style="padding: 0 1em!important;z-index: 2">  <h1 class="ui  header">
         That thing wey you dey find, <br> <span style="color: #000000; font-weight: 900;   text-shadow: -4px 1px 4px #c4c4c4;"> e dey app.</span>
       </h1>
-      <h2 style="font-weight: 400;">Order wetin you need, get am sharp sharp.</h2>
+      <!-- <h2 style="font-weight: 400;">Order wetin you need, get am sharp sharp.</h2> -->
  <div class="ui stackable two column grid">
     
   <div class="column btns">

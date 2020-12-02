@@ -49,13 +49,13 @@
     .masthead h1.ui.header {
       margin-top: 2em;
       margin-bottom: 0em;
+      margin-bottom: 3em;
       font-size: 4em;
       font-weight: normal;
     }
     .masthead h2 {
       font-size: 1.7em;
       font-weight: normal;
-      margin-bottom: 3em;
     }
 
     .ui.vertical.stripe {
@@ -156,9 +156,9 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
       .masthead h1.ui.header {
         font-size: 3em;
         margin-top: 22px;
+        margin-bottom: 1.5em;
       }
       .masthead h2 {
-        margin-bottom: 1.5em;
         margin-top: 1.5em;
         font-size: 1.5em;
       }

@@ -117,11 +117,14 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
 .ui.container.imager {
         padding-top:60px;
       }
-    @media only screen and (max-width: 700px) {
-        .ui.container.imager {
-        padding-top:22px;
-      }
-      .txt{
+  @media only screen and (max-width: 700px) {
+  .masthead h3 {
+    bottom: -470px;  
+    }
+  .ui.container.imager {
+    padding-top:22px;
+  }
+  .txt{
       position: absolute;
     padding: 0 2em;
     top: 544px;
@@ -226,11 +229,13 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
   </div>
   <!-- <h3 style="color: grey;" class="txt"></h3> -->
 </div>
-<h3 style="margin-top: 97px;text-align: center;
-color: grey;">&copy; E Dey App Online Services Limited. </h3>
 </div>
 
   </div>
+<h3 style="text-align: center;
+color: grey;
+    margin: 97px auto 0;
+    position: relative;">&copy; E Dey App Online Services Limited. </h3>
 </div>
 
 

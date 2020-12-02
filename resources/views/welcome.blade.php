@@ -199,7 +199,8 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
 </button> </div>  
  </div>
 </div>
-<div class=" column" style="text-align: center;z-index: 1">
+<div class=" column" style="text-align: center;z-index: 1;    z-index: 1;
+    height: 9px;">
 
   <div class="carousel">
   <div class="carousel-item" onclick="pressed(1)">

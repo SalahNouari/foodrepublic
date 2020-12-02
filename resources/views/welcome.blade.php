@@ -47,7 +47,7 @@
       margin-left: 0.5em;
     }
     .masthead h1.ui.header {
-      margin-top: 2em;
+      margin-top: 3em;
       margin-bottom: 0em;
       margin-bottom: 3em;
       font-size: 4em;
@@ -155,7 +155,7 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
       }
       .masthead h1.ui.header {
         font-size: 3em;
-        margin-top: 22px;
+        margin-top: 1.5em;
         margin-bottom: 1.5em;
       }
       .masthead h2 {

@@ -224,9 +224,10 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
     box-shadow: -2px 0px 19px -10px black;" class="heroimage" src="https://res.cloudinary.com/dnqw7x4bp/image/upload/v1606894221/Follow_package_2048X2732_iPhone.jpg" alt="">
   </div>
   </div>
-  <h3 style="color: grey;">&copy; E Dey App Online Services Limited. </h3>
   <!-- <h3 style="color: grey;" class="txt"></h3> -->
 </div>
+<h3 style="margin-top: 97px;text-align: center;
+color: grey;">&copy; E Dey App Online Services Limited. </h3>
 </div>
 
   </div>

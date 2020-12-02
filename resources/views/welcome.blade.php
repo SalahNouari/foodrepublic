@@ -155,7 +155,7 @@ transform: translateX(0px) translateY(7px) translateX(0px) translateX(0px) trans
       }
       .masthead h1.ui.header {
         font-size: 3em;
-        margin-top: 1.5em;
+        margin-top: 1.3em;
         margin-bottom: 1.5em;
       }
       .masthead h2 {
